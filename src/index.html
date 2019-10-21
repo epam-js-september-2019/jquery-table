@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, height=device-height, initial-scale=1.0"
+    />
+    <title>Minerals shop</title>
+  </head>
+  <body>
+    
+    <!-- Search and controls -->
+    <header>
+      <form>
+        <input name="search" placeholder="Enter product name.." />
+        <button type="submit">Search</button>
+      </form>
+      <button type="button">Add new</button>
+    </header>
+
+    <main>
+      <!-- Products -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span>Antarcticite</span>
+              <span>5</span>
+            </td>
+            <td>&dollar;1,115.03</td>
+            <td>
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Brookite</span>
+              <span>72</span>
+            </td>
+            <td>&dollar;780.65</td>
+            <td>
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Chrysocolla</span>
+              <span>1</span>
+            </td>
+            <td>&dollar;2,115.12</td>
+            <td>
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Heulandite</span>
+              <span>38</span>
+            </td>
+            <td>&dollar;640.88</td>
+            <td>
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Pyroxene</span>
+              <span>166</span>
+            </td>
+            <td>&dollar;3,080.34</td>
+            <td>
+              <button type="button">Edit</button>
+              <button type="button">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <!-- Modals -->
+    <div>
+
+      <!-- Product form -->
+      <div>
+        <h2>Chrysocolla</h2>
+        <form>
+          <label>
+            <h3>Name*:</h3>
+            <input name="name" type="text" />
+          </label>
+          <label>
+            <h3>Supplier mail*:</h3>
+            <input name="name" type="text" />
+          </label>
+          <label>
+            <h3>Count*:</h3>
+            <input name="name" type="text" />
+          </label>
+          <label>
+            <h3>Price*:</h3>
+            <input name="name" type="text" />
+          </label>
+          <div>
+            <h3>Delivery:</h3>
+            <div>
+              <select name="country">
+                <option value="russia">Russia</option>
+                <option value="belarus">Belarus</option>
+                <option value="usa">USA</option>
+              </select>
+              <div>
+                <label>
+                  <input name="selectall" type="checkbox">
+                  <span>Select all</span>
+                </label>
+                <label>
+                  <input name="saratov" type="checkbox">
+                  <span>Saratov</span>
+                </label>
+                <label>
+                  <input name="moskow" type="checkbox">
+                  <span>Moskow</span>
+                </label>
+                <label>
+                  <input name="saintpetersburg" type="checkbox">
+                  <span>Saint-Petersburg</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button type="submit">Save changes</button>
+            <button type="cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Confirm deletion -->
+      <div>
+        <h2>Are you sure?</h2>
+        <p>Are you sure you want to delete <em>Antarcticite</em>?</p>
+        <div>
+          <button type="button">Yes</button>
+          <button type="button">No</button>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
