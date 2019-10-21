@@ -21,6 +21,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_ROOT, "index.html")
     })
