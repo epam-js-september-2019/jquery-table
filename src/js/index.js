@@ -1,1 +1,2 @@
-import "../styles/index.css";
+import "bootstrap";
+import "../styles/index.scss";
