@@ -11,78 +11,122 @@
   <body>
     
     <!-- Search and controls -->
-    <header>
-      <form>
-        <input name="search" placeholder="Enter product name.." />
-        <button type="submit">Search</button>
-      </form>
-      <button type="button">Add new</button>
+    <header class="b-header container mb-3 mt-5">
+      <div class="row justify-content-between">
+        <form class="d-flex justify-content-between">
+          <input name="search" class="form-control form-control-lg mr-3" placeholder="Enter product name.." />
+          <button type="submit" class="btn btn-success btn-lg px-5">Search</button>
+        </form>
+        <div>
+          <button type="button" class="btn btn-primary btn-lg px-5">Add new</button>
+        </div>
+      </div>
     </header>
 
-    <main>
+    <main class="b-block container">
       <!-- Products -->
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
+            <th class="w-50" scope="col">Name</th>
             <th scope="col">Price</th>
-            <th scope="col">Actions</th>
+            <th scope="col" class="text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <span>Antarcticite</span>
-              <span>5</span>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <span>Antarcticite</span>
+                <span class="badge badge-pill badge-secondary px-3 py-2">5</span>
+              </div>
             </td>
-            <td>&dollar;1,115.03</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                &dollar;1,115.03
+              </div>
             </td>
-          </tr>
-          <tr>
-            <td>
-              <span>Brookite</span>
-              <span>72</span>
-            </td>
-            <td>&dollar;780.65</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="btn btn-warning mr-1">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
-              <span>Chrysocolla</span>
-              <span>1</span>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <span>Brookite</span>
+                <span class="badge badge-pill badge-secondary px-3 py-2">72</span>
+              </div>
             </td>
-            <td>&dollar;2,115.12</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                &dollar;780.65
+              </div>
             </td>
-          </tr>
-          <tr>
-            <td>
-              <span>Heulandite</span>
-              <span>38</span>
-            </td>
-            <td>&dollar;640.88</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="btn btn-warning mr-1">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
-              <span>Pyroxene</span>
-              <span>166</span>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <span>Chrysocolla</span>
+                <span class="badge badge-pill badge-secondary px-3 py-2">5</span>
+              </div>
             </td>
-            <td>&dollar;3,080.34</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                &dollar;1,115.03
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="btn btn-warning mr-1">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <span>Heulandite</span>
+                <span class="badge badge-pill badge-secondary px-3 py-2">72</span>
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                &dollar;780.65
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="btn btn-warning mr-1">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <span>Pyroxene</span>
+                <span class="badge badge-pill badge-secondary px-3 py-2">72</span>
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                &dollar;780.65
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="btn btn-warning mr-1">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -90,10 +134,10 @@
     </main>
 
     <!-- Modals -->
-    <div>
+    <div class="b-modals">
 
       <!-- Product form -->
-      <div>
+      <div id="product" class="b-modal">
         <h2>Chrysocolla</h2>
         <form>
           <label>
@@ -148,7 +192,7 @@
       </div>
 
       <!-- Confirm deletion -->
-      <div>
+      <div id="confirm" class="b-modal">
         <h2>Are you sure?</h2>
         <p>Are you sure you want to delete <em>Antarcticite</em>?</p>
         <div>
