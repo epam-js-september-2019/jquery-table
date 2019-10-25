@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-4 text-right">
-                <button class="btn btn-outline-dark" type="button">Add new</button>
+                <button class="btn btn-outline-dark" type="button" data-toggle="modal" data-target="#addModal">Add new</button>
             </div>
         </div>
     </section>
@@ -63,7 +63,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                        <h5 class="modal-title">Are you sure?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -81,10 +81,53 @@
     </section>
     <section>
         <!--modal edit/add-->
+        <div class="modal" tabindex="-1" role="dialog" id="addModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Product Name</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Name:</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <h4>Supplier email:</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <h4>Count:</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <h4>Price:</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <h4>Delivery:</h4>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-boundary="">Dropdown</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Save changes</button>
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 <script src="scripts/jquery.min.js"></script>
 <script src="scripts/bootstrap.min.js"></script>
-<script src="scripts/custom.js"></script>
 <script src="scripts/fontawesome-all.min.js"></script>
+<script src="scripts/custom.js"></script>
 </body>
 </html>
