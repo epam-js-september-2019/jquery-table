@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap&subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="container product-list">
+        <h1 class="visually-hidden">Список продуктов</h1>
+        <div class="container product-list__form">
+            <input class="col-4 product-list__search" type="search" aria-label="Enter product name">
+            <button class="col-2 product-list__search-button btn btn-primary" type="button">Search</button>
+            <button class="col-2 product-list__add-button btn btn-success" type="button">Add new</button>
+        </div>
+        <table class="product-list__table">
+            <tr>
+                <th>Name</th>
+                <th>Sort</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td><a href="#">Some products</a></td>
+                <td>4</td>
+                <td>$1.234.56</td>
+                <td>
+                    <button class="btn btn-primary" type="button">Edit</button>
+                    <button class="btn btn-danger" type="button">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#">Product name</a></td>
+                <td>9</td>
+                <td>$7.91</td>
+                <td>
+                    <button class="btn btn-primary" type="button">Edit</button>
+                    <button class="btn btn-danger" type="button">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#">Another product</a></td>
+                <td>2</td>
+                <td>$77.88</td>
+                <td>
+                    <button class="btn btn-primary" type="button">Edit</button>
+                    <button class="btn btn-danger" type="button">Delete</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+    <div class="popup">
+        <p class="popup__header">Are you sure?</p>
+        <p>are you sure want to delete this product?</p>
+        <button class="popup__yes-button btn btn-success" type="button">Yes</button>
+        <button class="popup__no-button btn btn-danger" type="button">No</button>
+    </div>
+    <form class="product-form">
+        <p class="product-form__title">Product Name</p>
+        <label class="row" for="name">Name:*
+            <input type="text" id="name" required>
+        </label>
+        <label class="row" for="email">Email:*</label>
+        <input type="text" id="email" required>
+        <label class="row" for="count">Count:*</label>
+        <input type="number" id="count" required>
+        <label class="row" for="price">Price:*</label>
+        <input type="number" id="price" required>
+        <select>
+            <option>Russia</option>
+            <option>Belarus</option>
+            <option>USA</option>
+        </select>
+        <button class="product-form__save" type="submit">Save changes</button>
+        <button class="product-form__cancel" type="button">Cancel</button>
+    </form>
+</body>
+</html>

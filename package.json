@@ -1,0 +1,23 @@
+{
+  "name": "jquery-table",
+  "version": "1.0.0",
+  "description": "homework epam",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KoshcheevPA/jquery-table.git"
+  },
+  "author": "Koshcheev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KoshcheevPA/jquery-table/issues"
+  },
+  "homepage": "https://github.com/KoshcheevPA/jquery-table#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1"
+  }
+}
