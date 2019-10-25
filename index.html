@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/custom.css" rel="stylesheet">
+</head>
+<body>
+    <section class="container head-menu">
+        <div class="row">
+            <!--search block-->
+            <div class="col-md-4 input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter product name..." aria-label="Recipient's username">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-dark" type="button">Search</button>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-outline-dark" type="button">Add new</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <!--table-->
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col" class="text-center"><i class="fas fa-caret-down"></i></th>
+                <!--<i class="fas fa-caret-up"></i>-->
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Some product</th>
+                <th><span class="badge badge-secondary">5</span></th>
+                <td>$1234.56</td>
+                <td>
+                    <button class="btn btn-outline-info" type="button">Edit</button>
+                    <button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Product name</th>
+                <th><span class="badge badge-secondary text-center">10</span></th>
+                <td>$7.91</td>
+                <td>
+                    <button class="btn btn-outline-info" type="button">Edit</button>
+                    <button class="btn btn-outline-danger" type="button">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <!--modal delete-->
+        <div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete %product_name%?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-outline-primary">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <!--modal edit/add-->
+    </section>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/custom.js"></script>
+<script src="scripts/fontawesome-all.min.js"></script>
+</body>
+</html>
