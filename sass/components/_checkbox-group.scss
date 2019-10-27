@@ -1,0 +1,8 @@
+.checkbox-group{
+  border: 1px solid grey;
+  padding: 1rem;
+}
+
+.checkbox-group :first-child{
+  border-bottom: 1px solid grey;
+}
