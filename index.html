@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <title>Jquery-table</title>
+</head>
+
+<body>
+    <main class="section-main d-flex">
+        <div class="container w-75 d-flex flex-column justify-content-center align-items-center">
+            <div class="row w-100">
+                <div class="col d-flex align-items-center mb-3 px-0">
+                    <input type="search">
+                    <button class="btn btn-light px-5 ml-3">Search</button>
+                </div>
+                <div class="col d-flex justify-content-end mb-3 px-0">
+                    <button class="btn btn-light px-5">Add new</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <th scope="col">
+                            <div class="d-flex justify-content-between">
+                                <span>Name</span>
+                                <span><i class="fas fa-caret-down"></i></span>
+                            </div>
+                        </th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="align-middle">
+                                <div class="d-flex justify-content-between">
+                                    <span>Test Product</span>
+                                    <span>7</span>
+                                </div>
+                            </td>
+                            <td class="align-middle">$1232131</td>
+                            <td class="d-flex justify-content-center">
+                                <button class="btn btn-light px-4">Edit</button>
+                                <button class="btn btn-light ml-3">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="custom-modal">
+            <div class="custom-modal-content">
+                <h2 class="custom-modal-heading">Product Name</h2>
+                <label for="product-name" class="d-block">
+                    Name:
+                    <input type="text" id="product-name" class="d-block">
+                </label>
+                <label for="email" class="d-block">
+                    Supplier email:
+                    <input type="text" id="email" class="d-block">
+                </label>
+                <label for="count" class="d-block">
+                    Count:
+                    <input type="text" id="count" class="d-block">
+                </label>
+                <label for="price" class="d-block">
+                    Price:
+                    <input type="text" id="price" class="d-block">
+                </label>
+                <div class="delivery-box mb-3">
+                    <div class="w-50 float-left">
+                        <label for="delivery-select" class="d-block">
+                            Delivery:
+                        </label>
+                        <select name="" id="delivery-select" class="d-block mr-3 px-4">
+                            <option value="russia">Russia</option>
+                            <option value="usa">USA</option>
+                            <option value="belorus">Belorus</option>
+                        </select>
+                    </div>
+                    <div class="w-50 checkbox-group float-left">
+                        <label for="select-all" class="d-block">
+                            <input type="checkbox" id="select-all">
+                            Select All
+                        </label>
+                        <label for="" class="d-block"><input type="checkbox">Saratov</label>
+                        <label for="" class="d-block"><input type="checkbox">Saratov</label>
+                        <label for="" class="d-block"><input type="checkbox">Saratov</label>
+                    </div>
+                </div>
+                <button class="btn btn-light mr-3">Save changes</button>
+                <button class="btn btn-light">Cancel</button>
+            </div>
+        </div>
+        <div class="custom-modal">
+            <div class="custom-modal-content text-center">
+                <h2 class="custom-modal-heading mb-4">Are you sure?</h2>
+                <p class="modal-1__text mb-4">Are you sure you want to delete /product_name/?</p>
+                <button class="btn btn-light px-5 mr-5">Yes</button>
+                <button class="btn btn-light px-5">No</button>
+            </div>
+        </div>
+    </main>
+    <script src="https://kit.fontawesome.com/9162f3a4e2.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
