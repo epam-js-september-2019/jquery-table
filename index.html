@@ -8,43 +8,53 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section class="container product-list">
+    <section class="d-flex flex-column justify-content-center container product-list mt-5">
         <h1 class="visually-hidden">Список продуктов</h1>
-        <div class="container product-list__form">
-            <input class="col-4 product-list__search" type="search" aria-label="Enter product name">
-            <button class="col-2 product-list__search-button btn btn-primary" type="button">Search</button>
-            <button class="col-2 product-list__add-button btn btn-success" type="button">Add new</button>
+        <div class="d-flex container form-group product-list__form p-0 col-10 mx-auto">
+            <input class="col-4 form-control product-list__search" type="search" aria-label="Enter product name">
+            <button class="col-2 product-list__search-button btn btn-primary ml-2" type="button">Search</button>
+            <button class="col-2 product-list__add-button btn btn-success ml-auto" type="button">Add new</button>
         </div>
-        <table class="product-list__table">
+        <table class="table table-bordered product-list__table col-10 mx-auto">
+            <thead class="thead-light">
+                <tr class="flex-fill">
+                    <th>
+                        <a href="#">Name</a>
+                        <span class="float-right">^</span>
+                    </th>
+                    <th class="flex-fill">Price</th>
+                    <th class="flex-fill">Actions</th>
+                </tr>
+            </thead>
             <tr>
-                <th>Name</th>
-                <th>Sort</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <td><a href="#">Some products</a></td>
-                <td>4</td>
-                <td>$1.234.56</td>
-                <td>
+                <td class="align-middle">
+                    <a href="#">Some products</a>
+                    <span class="float-right">N</span>
+                </td>
+                <td class="align-middle">$1.234.56</td>
+                <td class="align-middle">
                     <button class="btn btn-primary" type="button">Edit</button>
                     <button class="btn btn-danger" type="button">Delete</button>
                 </td>
             </tr>
             <tr>
-                <td><a href="#">Product name</a></td>
-                <td>9</td>
-                <td>$7.91</td>
-                <td>
+                <td class="align-middle">
+                    <a href="#">Product name</a>
+                    <span class="float-right">N</span>
+                </td>
+                <td class="align-middle">$7.91</td>
+                <td class="align-middle">
                     <button class="btn btn-primary" type="button">Edit</button>
                     <button class="btn btn-danger" type="button">Delete</button>
                 </td>
             </tr>
             <tr>
-                <td><a href="#">Another product</a></td>
-                <td>2</td>
-                <td>$77.88</td>
-                <td>
+                <td class="align-middle">
+                    <a href="#">Another product</a>
+                    <span class="float-right">N</span>
+                </td>
+                <td class="align-middle">$77.88</td>
+                <td class="align-middle">
                     <button class="btn btn-primary" type="button">Edit</button>
                     <button class="btn btn-danger" type="button">Delete</button>
                 </td>
@@ -53,28 +63,55 @@
     </section>
     <div class="popup">
         <p class="popup__header">Are you sure?</p>
-        <p>are you sure want to delete this product?</p>
-        <button class="popup__yes-button btn btn-success" type="button">Yes</button>
-        <button class="popup__no-button btn btn-danger" type="button">No</button>
+        <p class="popup__text">Are you sure want to delete this product?</p>
+        <div class="popup__button-container">
+            <button class="popup__button popup__button--yes" type="button">Yes</button>
+            <button class="popup__button popup__button--no" type="button">No</button>
+        </div>
     </div>
-    <form class="product-form">
-        <p class="product-form__title">Product Name</p>
-        <label class="row" for="name">Name:*
-            <input type="text" id="name" required>
+    <form class="product-form col-5 my-5 d-flex flex-column container border border-primary px-5 py-4 shadow-lg">
+        <h3 class="product-form__title border-bottom border-primary">Product Name</h3>
+        <label class="py-1 w-50" for="name">Name:*
+            <input class="form-control" type="text" id="name" required>
         </label>
-        <label class="row" for="email">Email:*</label>
-        <input type="text" id="email" required>
-        <label class="row" for="count">Count:*</label>
-        <input type="number" id="count" required>
-        <label class="row" for="price">Price:*</label>
-        <input type="number" id="price" required>
-        <select>
-            <option>Russia</option>
-            <option>Belarus</option>
-            <option>USA</option>
-        </select>
-        <button class="product-form__save" type="submit">Save changes</button>
-        <button class="product-form__cancel" type="button">Cancel</button>
+        <label class="py-1 w-50" for="email">Email:*
+            <input class="form-control" type="text" id="email" required>
+        </label>
+        <label class="py-1 w-25" for="count">Count:*
+            <input class="form-control" type="number" id="count" required>
+        </label>
+        <label class="py-1 w-50" for="price">Price:*
+            <input class="form-control" type="number" id="price" required>
+        </label>
+        <label class="w-25 mr-5">Delivery</label>
+        <div class="m-0 d-flex">
+            <select class="form-control mr-5 w-25">
+                <option>Russia</option>
+                <option>Belarus</option>
+                <option>USA</option>
+            </select>
+            <div class="form-check d-flex flex-column flex-shrink-1 border pl-5 py-2 w-50">
+                <label class="form-check-label product-form__select-all" for="selectAll">
+                    <input class="form-check-input" type="checkbox" value="" id="selectAll">Select All
+                </label>
+                <label class="form-check-label" for="saratov">
+                    <input class="form-check-input" type="checkbox" value="" id="saratov">
+                    Saratov
+                </label>
+                <label class="form-check-label" for="moscow">
+                    <input class="form-check-input" type="checkbox" value="" id="moscow">
+                    Moscow
+                </label>
+                <label class="form-check-label" for="petersburg">
+                    <input class="form-check-input" type="checkbox" value="" id="petersburg">
+                    St. Petersburg
+                </label>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="product-form__save btn btn-success mr-4" type="submit">Save changes</button>
+            <button class="product-form__cancel btn btn-primary" type="button">Cancel</button>
+        </div>
     </form>
 </body>
 </html>
