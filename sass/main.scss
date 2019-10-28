@@ -1,6 +1,8 @@
 @import "abstracts/variables";
+@import "abstracts/mixins";
 
-@import "components/modal";
+@import "components/modal-1";
+@import "components/modal-2";
 
 @import "base/base";
 @import "base/typography";

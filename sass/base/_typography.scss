@@ -1,5 +1,7 @@
-.custom-modal-heading{
+.custom-modal-1 , .custom-modal-2 {
+  &__heading {
     font-size: 1.4rem;
     border-bottom: 1px solid grey;
     padding: 0.8rem 0;
   }
+}

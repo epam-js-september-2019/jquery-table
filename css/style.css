@@ -1,4 +1,4 @@
-.custom-modal {
+.custom-modal-1 {
   display: none;
   width: 100%;
   height: 100%;
@@ -7,17 +7,74 @@
   top: 0;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.5); }
+  .custom-modal-1 label {
+    display: block; }
+  .custom-modal-1--block-input {
+    display: block;
+    width: 100%; }
+  .custom-modal-1__content {
+    border-radius: 5px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    width: 20rem;
+    background-color: white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); }
+    .custom-modal-1__content .btn:not(:last-child) {
+      margin-right: 1rem; }
+    .custom-modal-1__content .btn:last-child {
+      padding-left: 2em;
+      padding-right: 2rem;
+      float: right; }
+  .custom-modal-1__checkbox-group {
+    border: 1px solid grey;
+    padding: 1rem;
+    width: 49%;
+    float: right; }
+  .custom-modal-1__select {
+    padding: 0 1rem;
+    margin-right: 1rem;
+    float: left; }
+  .custom-modal-1__checkbox-group :first-child {
+    border-bottom: 1px solid grey; }
+  .custom-modal-1__delivery-box {
+    margin-bottom: 1rem; }
+  .custom-modal-1__delivery-box::after {
+    content: "";
+    display: block;
+    clear: both; }
 
-.custom-modal-content {
-  border-radius: 5px;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
-  padding: 30px;
-  width: 25rem;
-  background-color: white;
-  position: relative;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%); }
+.custom-modal-2 {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .custom-modal-2__content {
+    border-radius: 5px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    width: 20rem;
+    background-color: white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; }
+    .custom-modal-2__content .btn {
+      padding-left: 2rem;
+      padding-right: 2rem; }
+    .custom-modal-2__content .btn:not(:last-child) {
+      margin-right: 2rem; }
+  .custom-modal-2__heading {
+    margin-bottom: 1rem; }
+  .custom-modal-2__text {
+    margin-bottom: 1rem; }
 
 *,
 *::before,
@@ -31,7 +88,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #777; }
 
-.custom-modal-heading {
+.custom-modal-1__heading, .custom-modal-2__heading {
   font-size: 1.4rem;
   border-bottom: 1px solid grey;
   padding: 0.8rem 0; }
