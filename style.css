@@ -8,16 +8,21 @@ body {
 
 
 .popup {
-    display: flex;
+    display: none;
+    position: absolute;
     margin: auto;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     max-width: 450px;
-    padding: 15px;
+    padding: 25px;
+    top: calc(50% - 125px);
+    left: calc(50% - 164px);
     font-family: Roboto;
-    border: 2px solid gray;
+    background-color: white;
+    border: 1px solid cornflowerblue;
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 10;
 }
 
 .popup__header {
@@ -78,5 +83,31 @@ body {
     width: 100%;
     padding-bottom: 10px;
     text-align: center;
-    border-bottom: 2px solid gray;
+    border-bottom: 1px solid cornflowerblue;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #000;
+    opacity: .3;
+    z-index: 5;
+}
+
+.product-form {
+    display: none;
+    top: calc(50% - 356px);
+    left: calc(50% - 286px);
+    z-index: 15;
+}
+
+.overlay--show {
+    display: block;
+}
+
+.product-form--show {
+    display: flex;
 }

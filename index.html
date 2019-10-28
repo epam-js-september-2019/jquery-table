@@ -61,15 +61,15 @@
             </tr>
         </table>
     </section>
-    <div class="popup">
-        <p class="popup__header">Are you sure?</p>
-        <p class="popup__text">Are you sure want to delete this product?</p>
-        <div class="popup__button-container">
-            <button class="popup__button popup__button--yes" type="button">Yes</button>
-            <button class="popup__button popup__button--no" type="button">No</button>
+        <div class="popup">
+            <p class="popup__header">Are you sure?</p>
+            <p class="popup__text">Are you sure want to delete this product?</p>
+            <div class="popup__button-container">
+                <button class="popup__button popup__button--yes" type="button">Yes</button>
+                <button class="popup__button popup__button--no" type="button">No</button>
+            </div>
         </div>
-    </div>
-    <form class="product-form col-5 my-5 d-flex flex-column container border border-primary px-5 py-4 shadow-lg">
+    <form class="product-form col-5 my-5 flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white">
         <h3 class="product-form__title border-bottom border-primary">Product Name</h3>
         <label class="py-1 w-50" for="name">Name:*
             <input class="form-control" type="text" id="name" required>
@@ -113,5 +113,6 @@
             <button class="product-form__cancel btn btn-primary" type="button">Cancel</button>
         </div>
     </form>
+    <div class="overlay"></div>
 </body>
 </html>
