@@ -18,10 +18,10 @@
             <div class="row w-100">
                 <div class="col d-flex align-items-center mb-3 px-0">
                     <input type="search">
-                    <button class="btn btn-secondary px-5 ml-3">Search</button>
+                    <button data-buttonId="search" class="btn btn-secondary px-5 ml-3">Search</button>
                 </div>
                 <div class="col d-flex justify-content-end mb-3 px-0">
-                    <button class="btn btn-secondary px-5">Add new</button>
+                    <button data-buttonId="add" class="btn btn-secondary px-5">Add new</button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -46,8 +46,8 @@
                             </td>
                             <td class="align-middle">$1232131</td>
                             <td class="text-center">
-                                <button class="btn btn-secondary px-4">Edit</button>
-                                <button class="btn btn-secondary ml-3">Delete</button>
+                                <button data-buttonId="" class="btn btn-secondary px-4">Edit</button>
+                                <button data-buttonId="" class="btn btn-secondary ml-3">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -79,7 +79,7 @@
                     </label>
                     <div class="custom-modal-1__delivery-group">
                         <select name="delivery-select" id="delivery-select" class="custom-modal-1__select">
-                            <option value="russia">Russia</option>
+                            <option value="russia" selected>Russia</option>
                             <option value="usa">USA</option>
                             <option value="belorus">Belorus</option>
                         </select>
@@ -103,8 +103,8 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-secondary">Save changes</button>
-                <button class="btn btn-secondary">Cancel</button>
+                <button data-buttonId="save" class="btn btn-secondary">Save changes</button>
+                <button data-buttonId="cancel" class="btn btn-secondary">Cancel</button>
             </div>
         </div>
         <div class="custom-modal-2">
