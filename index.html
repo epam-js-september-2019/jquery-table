@@ -18,10 +18,10 @@
             <div class="row w-100">
                 <div class="col d-flex align-items-center mb-3 px-0">
                     <input type="search">
-                    <button data-buttonId="search" class="btn btn-secondary px-5 ml-3">Search</button>
+                    <button id="search" class="btn btn-secondary px-5 ml-3">Search</button>
                 </div>
                 <div class="col d-flex justify-content-end mb-3 px-0">
-                    <button data-buttonId="add" class="btn btn-secondary px-5">Add new</button>
+                    <button id="addItem" class="btn btn-secondary px-5">Add new</button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -59,29 +59,29 @@
                 <h2 class="custom-modal-1__heading">Product Name</h2>
                 <label for="product-name">
                     Name:
-                    <input type="text" id="product-name" class="custom-modal-1--block-input">
+                    <input type="text" id="productName" class="custom-modal-1--block-input">
                 </label>
                 <label for="email">
                     Supplier email:
-                    <input type="text" id="email" class="custom-modal-1--block-input">
+                    <input type="text" id="supplierEmail" class="custom-modal-1--block-input">
                 </label>
                 <label for="count">
                     Count:
-                    <input type="text" id="count" class="custom-modal-1--block-input">
+                    <input type="text" id="productCount" class="custom-modal-1--block-input">
                 </label>
                 <label for="price">
                     Price:
-                    <input type="text" id="price" class="custom-modal-1--block-input">
+                    <input type="text" id="productPrice" class="custom-modal-1--block-input">
                 </label>
                 <div class="custom-modal-1__delivery-box">
-                    <label for="delivery-select">
+                    <label for="deliverySelect">
                         Delivery:
                     </label>
                     <div class="custom-modal-1__delivery-group">
-                        <select name="delivery-select" id="delivery-select" class="custom-modal-1__select">
-                            <option value="russia" selected>Russia</option>
-                            <option value="usa">USA</option>
-                            <option value="belorus">Belorus</option>
+                        <select name="delivery-select" id="deliverySelect" class="custom-modal-1__select">
+                            <option value="Russia" selected>Russia</option>
+                            <option value="USA">USA</option>
+                            <option value="Belorus">Belorus</option>
                         </select>
                         <div class="custom-modal-1__checkbox-group">
                             <label for="select-all">
@@ -103,8 +103,8 @@
                         </div>
                     </div>
                 </div>
-                <button data-buttonId="save" class="btn btn-secondary">Save changes</button>
-                <button data-buttonId="cancel" class="btn btn-secondary">Cancel</button>
+                <button id="save" class="btn btn-secondary">Save changes</button>
+                <button id="cancel" class="btn btn-secondary">Cancel</button>
             </div>
         </div>
         <div class="custom-modal-2">
