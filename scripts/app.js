@@ -52,7 +52,7 @@ class ValidationResult {
   //VALIDATION BLOCK
 
   //Check if it is a valid string
-  function isValidString(str) {
+  isValidString = str => {
     if (
       str == "" ||
       str == undefined ||
@@ -61,10 +61,10 @@ class ValidationResult {
     )
       return false;
     return true;
-  }
+  };
 
   //Check if name string is correct
-  function validateName(name) {
+  validateName = name => {
     const validation = new ValidationResult();
     if (name.length < 5) {
       validation.message = "Name min length is 5 characters.";
@@ -76,10 +76,10 @@ class ValidationResult {
       validation.value = true;
     }
     return validation;
-  }
+  };
 
   //Check if email string is correct
-  function validateSupplierEmail(supplier) {
+  validateSupplierEmail = supplier => {
     const regex = new RegExp(
       "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
     );
@@ -92,42 +92,67 @@ class ValidationResult {
       validation.value = true;
     }
     return validation;
-  }
+  };
 
   //Check if count string is correct???????????????
-  function validateCount(count) {}
+  validateCount = count => {};
+
+  //Check for currency format
+  validateCurrency = string => {};
 
   //Check if price string is coorect
-  function validatePrice(price) {
+  validatePrice = price => {
     const validation = new ValidationResult();
-    if (isNaN(price)) {
+    if (!isValidString(price)) {
+      validation.message = "Not a valid string";
+    } else if (isNaN(price)) {
       validation.message = "Not a number.";
-    } else if (parseFloat(price) < 0 || isNaN(parseFloat(price))) {
+    } else if (parseFloat(price) < 0) {
       validation.message = "Negative price.";
     } else {
       validation.value = true;
     }
     return validation;
-  }
+  };
+
+  //Transform valid price to currency format
+  formatPrice = field => {
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2
+    });
+    field.val(formatter.format(field.val()));
+  };
 
   //Display validation result and message
-  function displayError(field, validation) {
+  displayError = (field, validation) => {
     const error = field.next();
     if (validation.value == false) {
-      field.focus().css("outlineColor", "red");
+      field.css("outlineColor", "red");
       if (error.length !== 0) error.remove();
       $(`<p class="error-message">${validation.message}</p>`).insertAfter(
         field
       );
       return false;
     }
-    field.focus().css("outlineColor", "");
+    field.css("outlineColor", "");
     error.remove();
     return true;
-  }
+  };
+
+  //Validate modal-1
+  validateForm = (name, supplier, count, price) => {
+    let validationPassed = false;
+    displayError(name, validateName(name.val()));
+    displayError(supplier, validateSupplierEmail(supplier.val()));
+    // displayError(count, validateCount(count.val()));
+    // displayError(price, validateCurrency(price.val()));
+    return validationPassed;
+  };
 
   //Load cities list for each country
-  (function() {
+  (() => {
     countriesDelivery.set(
       "Russia",
       new Country("Russia", ["Saratov", "Moskow", "St.Petersburg"])
@@ -151,16 +176,16 @@ class ValidationResult {
     loadCheckboxes();
 
     //Clean modal-1 $inputs and reset checkboxes
-    function cleanModal1() {
+    cleanModal1 = () => {
       let $inputs = $modal1.find("input");
       let $select = $modal1.find("select");
       $inputs.val("").prop("checked", false);
       $select.val("Russia");
       loadCheckboxes();
-    }
+    };
 
     //Load checkboxes for currently selected country
-    function loadCheckboxes() {
+    loadCheckboxes = () => {
       const $select = $("#deliverySelect");
       const $checkboxGrp = $select.next();
       const country = countriesDelivery.get($select.val());
@@ -173,7 +198,7 @@ class ValidationResult {
         </label>
         `);
       });
-    }
+    };
 
     //Open modal-1 on Add new button click
     $("#addItem").on("click", () => {
@@ -187,7 +212,7 @@ class ValidationResult {
     });
 
     //Hide and reset modal on grey area click
-    $(window).on("click", function(event) {
+    $(window).on("click", event => {
       if (
         $(event.target)[0] == $modal1[0] ||
         $(event.target)[0] == $modal2[0]
@@ -197,29 +222,20 @@ class ValidationResult {
       }
     });
 
-    function formatPrice(field) {
-      const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2
-      });
-      field.val(formatter.format(field.val()));
-    }
-
-    //Add or Update product on save changes click
-    //need to remake for DRY!!!!!!!!!!!!!!!!!!!!!!!!!!
-    $("#save").on("click", () => {
-      const $name = $modal1.find("#productName");
-      if (!displayError($name, validateName($name.val()))) return;
-      const $supplier = $modal1.find("#supplierEmail");
-      if (!displayError($supplier, validateSupplierEmail($supplier.val())))
-        return;
-      const $count = $modal1.find("#productCount");
-      //if ((!displayError($count, validateCount($count.val())))) return;
+    $("#productPrice").on("blur", () => {
       const $price = $modal1.find("#productPrice");
       if (!displayError($price, validatePrice($price.val()))) return;
-      else formatPrice($price);
+      formatPrice($price);
+    });
+
+    //Add or Update product on save changes click
+    $("#save").on("click", () => {
+      const $name = $modal1.find("#productName");
+      const $supplier = $modal1.find("#supplierEmail");
+      const $count = $modal1.find("#productCount");
+      const $price = $modal1.find("#productPrice");
       const $country = $modal1.find("#deliverySelect");
+      if (!validateForm($name, $supplier, $count, $price)) return;
       const product = new Product(
         $name.val(),
         $supplier.val(),
