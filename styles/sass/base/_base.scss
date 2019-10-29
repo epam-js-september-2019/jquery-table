@@ -1,13 +1,26 @@
 *,
 *::before,
-*::after{
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: $color-text-primary;
+}
+
+body label {
+  margin-bottom: 0.25rem;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 0rem;
+}
+
+.outline-red{
+  outline-color: red;
 }

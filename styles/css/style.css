@@ -16,7 +16,7 @@
     border-radius: 5px;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
     padding: 2rem;
-    width: 20rem;
+    width: 22rem;
     background-color: white;
     position: relative;
     left: 50%;
@@ -31,11 +31,10 @@
   .custom-modal-1__checkbox-group {
     border: 1px solid grey;
     padding: 1rem;
-    width: 49%;
+    width: 60%;
     float: right; }
   .custom-modal-1__select {
     padding: 0 1rem;
-    margin-right: 1rem;
     float: left; }
   .custom-modal-1__checkbox-group :first-child {
     border-bottom: 1px solid grey; }
@@ -59,7 +58,7 @@
     border-radius: 5px;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
     padding: 2rem;
-    width: 20rem;
+    width: 22rem;
     background-color: white;
     position: relative;
     left: 50%;
@@ -85,8 +84,18 @@
 
 body {
   min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #777; }
+
+body label {
+  margin-bottom: 0.25rem; }
+
+.error-message {
+  color: red;
+  margin-bottom: 0rem; }
+
+.outline-red {
+  outline-color: red; }
 
 .custom-modal-1__heading, .custom-modal-2__heading {
   font-size: 1.4rem;
