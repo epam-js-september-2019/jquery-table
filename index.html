@@ -12,7 +12,7 @@
             <!--search block-->
             <div class="col-md-4 input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter product name..." aria-label="Recipient's username">
-                <div class="input-group-append">
+                <div>
                     <button class="btn btn-outline-dark" type="button">Search</button>
                 </div>
             </div>
@@ -25,11 +25,11 @@
 
     <section class="container">
         <!--table-->
-        <table class="table">
-            <thead>
+        <table class="table table-bordered">
+            <thead class="border">
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col" class="text-center"><i class="fas fa-caret-down"></i></th>
+                <th scope="col">Name <i class="fas fa-caret-down float-right"></i></th>
+
                 <!--<i class="fas fa-caret-up"></i>-->
                 <th scope="col">Price</th>
                 <th scope="col">Actions</th>
@@ -37,8 +37,7 @@
             </thead>
             <tbody>
             <tr>
-                <th scope="row">Some product</th>
-                <th><span class="badge badge-secondary">5</span></th>
+                <th scope="row">Some product <span class="badge badge-secondary float-right">5</span></th>
                 <td>$1234.56</td>
                 <td>
                     <button class="btn btn-outline-info" type="button">Edit</button>
@@ -46,8 +45,7 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row">Product name</th>
-                <th><span class="badge badge-secondary text-center">10</span></th>
+                <th scope="row">Product name <span class="badge badge-secondary float-right">10</span></th>
                 <td>$7.91</td>
                 <td>
                     <button class="btn btn-outline-info" type="button">Edit</button>
@@ -92,32 +90,77 @@
                     </div>
                     <div class="modal-body">
                         <h4>Name:</h4>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <h4>Supplier email:</h4>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <h4>Count:</h4>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <h4>Price:</h4>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <h4>Delivery:</h4>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-boundary="">Dropdown</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="input-group mb-3 row">
+                            <div class="col-8">
+                                <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                         </div>
+                        <h4>Supplier email:</h4>
+                        <div class="input-group mb-3 row">
+                            <div class="col-8">
+                                <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <h4>Count:</h4>
+                        <div class="input-group mb-3 row">
+                            <div class="col-4">
+                                <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <h4>Price:</h4>
+                        <div class="input-group mb-3 row">
+                            <div class="col-8">
+                                <input type="text" class="form-control" placeholder="Some product name" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <h4>Delivery:</h4>
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="formSelect">
+                                            <select class="form-control" id="formSelect">
+                                                <option>Russia</option>
+                                                <option>Belarus</option>
+                                                <option>USA</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck0">
+                                            <label class="form-check-label" for="defaultCheck0">
+                                                Select all
+                                            </label>
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Saratov
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Moscow
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
+                                            <label class="form-check-label" for="defaultCheck3">
+                                                St. Petersburg
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer justify-content-start">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Save changes</button>
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
                     </div>
