@@ -51,8 +51,8 @@ class ValidationResult {
 
   //VALIDATION BLOCK
 
-  //Check if it is a valid string
-  isValidString = str => {
+  // //Check if it is a valid string
+  const isValidString = str => {
     if (
       str == "" ||
       str == undefined ||
@@ -64,7 +64,7 @@ class ValidationResult {
   };
 
   //Check if name string is correct
-  validateName = name => {
+  const validateName = name => {
     const validation = new ValidationResult();
     if (name.length < 5) {
       validation.message = "Name min length is 5 characters.";
@@ -79,7 +79,7 @@ class ValidationResult {
   };
 
   //Check if email string is correct
-  validateSupplierEmail = supplier => {
+  const validateSupplierEmail = supplier => {
     const regex = new RegExp(
       "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
     );
@@ -95,13 +95,13 @@ class ValidationResult {
   };
 
   //Check if count string is correct???????????????
-  validateCount = count => {};
+  const validateCount = count => {};
 
   //Check for currency format
-  validateCurrency = string => {};
+  const validateCurrency = string => {};
 
   //Check if price string is coorect
-  validatePrice = price => {
+  const validatePrice = price => {
     const validation = new ValidationResult();
     if (!isValidString(price)) {
       validation.message = "Not a valid string";
@@ -116,7 +116,7 @@ class ValidationResult {
   };
 
   //Transform valid price to currency format
-  formatPrice = field => {
+  const formatPrice = field => {
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -126,7 +126,7 @@ class ValidationResult {
   };
 
   //Display validation result and message
-  displayError = (field, validation) => {
+  const displayError = (field, validation) => {
     const error = field.next();
     if (validation.value == false) {
       field.css("outlineColor", "red");
@@ -142,7 +142,7 @@ class ValidationResult {
   };
 
   //Validate modal-1
-  validateForm = (name, supplier, count, price) => {
+  const validateForm = (name, supplier, count, price) => {
     let validationPassed = false;
     displayError(name, validateName(name.val()));
     displayError(supplier, validateSupplierEmail(supplier.val()));
@@ -172,11 +172,8 @@ class ValidationResult {
     const $modal1 = $(".custom-modal-1");
     const $modal2 = $(".custom-modal-2");
 
-    //load checkboxes for the default country
-    loadCheckboxes();
-
     //Clean modal-1 $inputs and reset checkboxes
-    cleanModal1 = () => {
+    const cleanModal1 = () => {
       let $inputs = $modal1.find("input");
       let $select = $modal1.find("select");
       $inputs.val("").prop("checked", false);
@@ -185,7 +182,7 @@ class ValidationResult {
     };
 
     //Load checkboxes for currently selected country
-    loadCheckboxes = () => {
+    const loadCheckboxes = () => {
       const $select = $("#deliverySelect");
       const $checkboxGrp = $select.next();
       const country = countriesDelivery.get($select.val());
@@ -199,6 +196,9 @@ class ValidationResult {
         `);
       });
     };
+
+    //load checkboxes for the default country
+    loadCheckboxes();
 
     //Open modal-1 on Add new button click
     $("#addItem").on("click", () => {
