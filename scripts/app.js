@@ -45,9 +45,31 @@ class ValidationResult {
 
 //START SCRIPT EXECUTION
 (function($) {
-  //$ local scoped
+  //$ is local scoped
   const countriesDelivery = new Map();
   const productsList = [];
+  const errorsList = [];
+
+  //Load cities list for each country and errors list
+  (() => {
+    countriesDelivery.set(
+      "Russia",
+      new Country("Russia", [{"city":"Saratov" , "value": false}, "Moskow", "St.Petersburg"])
+    );
+    countriesDelivery.set(
+      "USA",
+      new Country("USA", ["Los Angeles", "California", "Texas"])
+    );
+    countriesDelivery.set(
+      "Belorus",
+      new Country("Belorus", ["Minsk", "Gomel", "Mozyr"])
+    );
+    errorsList.push("Not a valid string.");
+    errorsList.push("Name min length is 5 characters.");
+    errorsList.push("Name max length 15 characters.");
+    errorsList.push("Wrong email format.");
+    errorsList.push("Wrong currency format");
+  })();
 
   //VALIDATION BLOCK
 
@@ -67,11 +89,11 @@ class ValidationResult {
   const validateName = name => {
     const validation = new ValidationResult();
     if (name.length < 5) {
-      validation.message = "Name min length is 5 characters.";
+      validation.message = errorsList[1];
     } else if (name.length > 15) {
-      validation.message = "Name max length 15 characters.";
+      validation.message = errorsList[2];
     } else if (!isValidString(name)) {
-      validation.message = "Not a valid string.";
+      validation.message = errorsList[0];
     } else {
       validation.value = true;
     }
@@ -85,30 +107,20 @@ class ValidationResult {
     );
     const validation = new ValidationResult();
     if (!isValidString(supplier)) {
-      validation.message = "Not a valid string.";
+      validation.message = errorsList[0];
     } else if (!regex.test(supplier)) {
-      validation.message = "Wrong email format.";
+      validation.message = errorsList[3];
     } else {
       validation.value = true;
     }
     return validation;
   };
 
-  //Check if count string is correct???????????????
-  const validateCount = count => {};
-
   //Check for currency format
-  const validateCurrency = string => {};
-
-  //Check if price string is coorect
-  const validatePrice = price => {
+  const validateCurrency = string => {
     const validation = new ValidationResult();
-    if (!isValidString(price)) {
-      validation.message = "Not a valid string";
-    } else if (isNaN(price)) {
-      validation.message = "Not a number.";
-    } else if (parseFloat(price) < 0) {
-      validation.message = "Negative price.";
+    if (!/^\$?(([1-9]\d{0,2}(,\d{3})*)|0)?\.\d{1,2}$/.test(string)) {
+      validation.message = errorsList[4];
     } else {
       validation.value = true;
     }
@@ -127,45 +139,44 @@ class ValidationResult {
 
   //Display validation result and message
   const displayError = (field, validation) => {
-    const error = field.next();
+    const error = field.parent().find("p");
     if (validation.value == false) {
-      field.css("outlineColor", "red");
-      if (error.length !== 0) error.remove();
-      $(`<p class="error-message">${validation.message}</p>`).insertAfter(
+      if (error.length == 0) {
+        field.css("outlineColor", "red").css("border", "1px solid red");
         field
-      );
+          .parent()
+          .append(`<p class="error-message">${validation.message}</p>`);
+      } else if (error[0].innerText != validation.message) {
+        error.remove();
+        field
+          .parent()
+          .append(`<p class="error-message">${validation.message}</p>`);
+      }
       return false;
     }
-    field.css("outlineColor", "");
     error.remove();
+    field.css("outlineColor", "").css("border", "");
     return true;
   };
 
   //Validate modal-1
-  const validateForm = (name, supplier, count, price) => {
+  const validateForm = obj => {
     let validationPassed = false;
-    displayError(name, validateName(name.val()));
-    displayError(supplier, validateSupplierEmail(supplier.val()));
-    // displayError(count, validateCount(count.val()));
-    // displayError(price, validateCurrency(price.val()));
+    displayError(obj.name, validateName(obj.name.val()));
+    displayError(obj.supplier, validateSupplierEmail(obj.supplier.val()));
+    displayError(
+      obj.count,
+      new ValidationResult(isValidString(obj.count.val()), errorsList[0])
+    );
+    displayError(obj.price, validateCurrency(obj.price.val()));
+    for (let element in obj) {
+      if (obj[element].parent().find("p").length !== 0) {
+        obj[element].focus();
+        break;
+      }
+    }
     return validationPassed;
   };
-
-  //Load cities list for each country
-  (() => {
-    countriesDelivery.set(
-      "Russia",
-      new Country("Russia", ["Saratov", "Moskow", "St.Petersburg"])
-    );
-    countriesDelivery.set(
-      "USA",
-      new Country("USA", ["Los Angeles", "California", "Texas"])
-    );
-    countriesDelivery.set(
-      "Belorus",
-      new Country("Belorus", ["Minsk", "Gomel", "Mozyr"])
-    );
-  })();
 
   //Dom is ready
   $(function() {
@@ -176,7 +187,14 @@ class ValidationResult {
     const cleanModal1 = () => {
       let $inputs = $modal1.find("input");
       let $select = $modal1.find("select");
-      $inputs.val("").prop("checked", false);
+      $inputs
+        .val("")
+        .prop("checked", false)
+        .css("outlineColor", "")
+        .css("border", "")
+        .parent()
+        .find("p")
+        .remove();
       $select.val("Russia");
       loadCheckboxes();
     };
@@ -224,7 +242,7 @@ class ValidationResult {
 
     $("#productPrice").on("blur", () => {
       const $price = $modal1.find("#productPrice");
-      if (!displayError($price, validatePrice($price.val()))) return;
+      //if (!displayError($price, validatePrice($price.val()))) return;
       formatPrice($price);
     });
 
@@ -235,7 +253,19 @@ class ValidationResult {
       const $count = $modal1.find("#productCount");
       const $price = $modal1.find("#productPrice");
       const $country = $modal1.find("#deliverySelect");
-      if (!validateForm($name, $supplier, $count, $price)) return;
+      //have to pack in the object bec cant loop through
+      //arguments array in validateForm function
+      //with jquery objects passed as args
+      //like validateForm($name,$supplier ... etc)
+      if (
+        !validateForm({
+          name: $name,
+          supplier: $supplier,
+          count: $count,
+          price: $price
+        })
+      )
+        return;
       const product = new Product(
         $name.val(),
         $supplier.val(),
@@ -261,5 +291,17 @@ class ValidationResult {
 
     //Change checkbox group when picked country
     $("#deliverySelect").on("change", loadCheckboxes);
+
+    //Prevent input in count field for non-numeric values
+    $("#productCount").on(
+      "input keydown keyup mousedown mouseup select contextmenu drop",
+      function(e) {
+        if (/^\d*$/.test(this.value)) {
+          this.oldValue = this.value;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+        }
+      }
+    );
   });
 })(jQuery);
