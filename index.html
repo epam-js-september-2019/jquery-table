@@ -26,37 +26,37 @@
                     <th class="flex-fill">Actions</th>
                 </tr>
             </thead>
-            <tr>
+            <tr class="table-row">
                 <td class="align-middle">
                     <a href="#">Some products</a>
                     <span class="float-right">N</span>
                 </td>
                 <td class="align-middle">$1.234.56</td>
                 <td class="align-middle">
-                    <button class="btn btn-primary" type="button">Edit</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <button class="btn btn-primary button-edit" type="button">Edit</button>
+                    <button class="btn btn-danger button-delete" type="button">Delete</button>
                 </td>
             </tr>
-            <tr>
+            <tr class="table-row">
                 <td class="align-middle">
                     <a href="#">Product name</a>
                     <span class="float-right">N</span>
                 </td>
                 <td class="align-middle">$7.91</td>
                 <td class="align-middle">
-                    <button class="btn btn-primary" type="button">Edit</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <button class="btn btn-primary button-edit" type="button">Edit</button>
+                    <button class="btn btn-danger button-delete" type="button">Delete</button>
                 </td>
             </tr>
-            <tr>
+            <tr class="table-row">
                 <td class="align-middle">
                     <a href="#">Another product</a>
                     <span class="float-right">N</span>
                 </td>
                 <td class="align-middle">$77.88</td>
                 <td class="align-middle">
-                    <button class="btn btn-primary" type="button">Edit</button>
-                    <button class="btn btn-danger" type="button">Delete</button>
+                    <button class="btn btn-primary button-edit" type="button">Edit</button>
+                    <button class="btn btn-danger button-delete" type="button">Delete</button>
                 </td>
             </tr>
         </table>
@@ -72,16 +72,16 @@
     <form class="product-form col-5 my-5 flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white">
         <h3 class="product-form__title border-bottom border-primary">Product Name</h3>
         <label class="py-1 w-50" for="name">Name:*
-            <input class="form-control" type="text" id="name" required>
+            <input class="form-control form-required" type="text" id="name">
         </label>
         <label class="py-1 w-50" for="email">Email:*
-            <input class="form-control" type="text" id="email" required>
+            <input class="form-control form-required" type="text" id="email">
         </label>
         <label class="py-1 w-25" for="count">Count:*
-            <input class="form-control" type="number" id="count" required>
+            <input class="form-control form-required" type="number" id="count">
         </label>
         <label class="py-1 w-50" for="price">Price:*
-            <input class="form-control" type="number" id="price" required>
+            <input class="form-control form-required" type="number" id="price">
         </label>
         <label class="w-25 mr-5">Delivery</label>
         <div class="m-0 d-flex">
@@ -109,10 +109,12 @@
             </div>
         </div>
         <div class="mt-4">
-            <button class="product-form__save btn btn-success mr-4" type="submit">Save changes</button>
+            <button class="product-form__save btn btn-success mr-4" type="button">Save changes</button>
             <button class="product-form__cancel btn btn-primary" type="button">Cancel</button>
         </div>
     </form>
     <div class="overlay"></div>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
