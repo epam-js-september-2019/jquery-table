@@ -332,7 +332,7 @@ class ValidationResult {
 
     $("#productPrice").on("blur", () => {
       price = $price.val();
-     // console.log("price:" + price);
+      // console.log("price:" + price);
       formatPrice(price);
     });
 
@@ -433,26 +433,24 @@ class ValidationResult {
       }
     });
 
-    //Sort table by price REDOOOOO
+    //Sort table by price
     $("#priceCol").click(function() {
       let clicks = $(this).data("price-clicks");
+      let icon = $(this)
+        .find("span")
+        .last();
+      if (icon.find("i").length !== 0) icon.find("i").remove();
       if (clicks) {
-        filterTable(
-          productsList.sort((a, b) =>
-            a.price - b.price
-          )
-        );
+        filterTable(productsList.sort((a, b) => a.price - b.price));
+        icon.append(`<i class="fas fa-caret-up"></i>`);
       } else {
-        filterTable(
-          productsList.sort((a, b) =>
-           b.price - a.price
-          )
-        );
+        filterTable(productsList.sort((a, b) => b.price - a.price));
+        icon.append(`<i class="fas fa-caret-down"></i>`);
       }
       $(this).data("price-clicks", !clicks);
     });
 
-    //Sort table by name DO MORE
+    //Sort table by name
     $("#nameCol").on("click", function() {
       let clicks = $(this).data("name-clicks");
       let icon = $(this)
