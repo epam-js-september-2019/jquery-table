@@ -8,10 +8,10 @@ class Country {
 }
 
 class Product {
-  constructor(name, supplier, amount, price, country) {
+  constructor(name, supplier, count, price, country) {
     this.name = name;
     this.supplier = supplier;
-    this.amount = amount;
+    this.count = count;
     this.price = price;
     this.country = country;
   }
@@ -52,24 +52,66 @@ class ValidationResult {
 
   //Load cities list for each country and errors list
   (() => {
-    countriesDelivery.set(
-      "Russia",
-      new Country("Russia", [{"city":"Saratov" , "value": false}, "Moskow", "St.Petersburg"])
-    );
-    countriesDelivery.set(
-      "USA",
-      new Country("USA", ["Los Angeles", "California", "Texas"])
-    );
-    countriesDelivery.set(
-      "Belorus",
-      new Country("Belorus", ["Minsk", "Gomel", "Mozyr"])
-    );
+    countriesDelivery.set("Russia", ["Saratov", "Moskow", "St.Petersburg"]);
+    countriesDelivery.set("USA", ["Los Angeles", "California", "Texas"]);
+    countriesDelivery.set("Belorus", ["Minsk", "Gomel", "Mozyr"]);
     errorsList.push("Not a valid string.");
     errorsList.push("Name min length is 5 characters.");
     errorsList.push("Name max length 15 characters.");
     errorsList.push("Wrong email format.");
     errorsList.push("Wrong currency format");
+    productsList.push(
+      new Product(
+        "ddddd",
+        "dd@dd",
+        "123",
+        "$0.00",
+        new Country("Russia", [
+          { name: "Saratov", value: false },
+          { name: "Moskow", value: true },
+          { name: "St.Petersburg", value: false }
+        ])
+      )
+    );
+    productsList.push(
+      new Product(
+        "aaaaa",
+        "dd@dd",
+        "123",
+        "$0.00",
+        new Country("Russia", [
+          { name: "Saratov", value: false },
+          { name: "Moskow", value: true },
+          { name: "St.Petersburg", value: false }
+        ])
+      )
+    );
+    productsList.push(
+      new Product(
+        "bbbbb",
+        "dd@dd",
+        "123",
+        "$0.00",
+        new Country("Russia", [
+          { name: "Saratov", value: false },
+          { name: "Moskow", value: true },
+          { name: "St.Petersburg", value: false }
+        ])
+      )
+    );
   })();
+
+  //UTILITIES BLOCK
+
+  //Find product index by name
+  const findWithAttr = (arr, attr, value) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][attr] === value) {
+        return i;
+      }
+    }
+    return -1;
+  };
 
   //VALIDATION BLOCK
 
@@ -161,27 +203,84 @@ class ValidationResult {
 
   //Validate modal-1
   const validateForm = obj => {
-    let validationPassed = false;
-    displayError(obj.name, validateName(obj.name.val()));
-    displayError(obj.supplier, validateSupplierEmail(obj.supplier.val()));
-    displayError(
+    let val1 = displayError(obj.name, validateName(obj.name.val()));
+    let val2 = displayError(
+      obj.supplier,
+      validateSupplierEmail(obj.supplier.val())
+    );
+    let val3 = displayError(
       obj.count,
       new ValidationResult(isValidString(obj.count.val()), errorsList[0])
     );
-    displayError(obj.price, validateCurrency(obj.price.val()));
+    let val4 = displayError(obj.price, validateCurrency(obj.price.val()));
     for (let element in obj) {
       if (obj[element].parent().find("p").length !== 0) {
         obj[element].focus();
         break;
       }
     }
-    return validationPassed;
+    return val1 && val2 && val3 && val4;
   };
 
   //Dom is ready
   $(function() {
     const $modal1 = $(".custom-modal-1");
     const $modal2 = $(".custom-modal-2");
+
+    //Re render table
+    const renderTable = arr => {
+      const $tBody = $(".table-responsive tbody");
+      $tBody.find("tr").remove();
+      arr.forEach(element => {
+        $tBody.append(
+          `
+       <tr>
+          <td class="align-middle">
+            <div class="d-flex justify-content-between">
+                <span>${element.name}</span>
+                <span>${element.count}</span>
+            </div>
+          </td>
+          <td class="align-middle">${element.price}</td>
+          <td class="text-center">
+              <button id="edit" class="btn btn-secondary px-4">Edit</button>
+              <button class="delete btn btn-secondary ml-3">Delete</button>
+          </td>
+      </tr>
+       `
+        );
+      });
+
+      //Add listeners on all delete button open modal-2
+      $tBody.find(".delete").on("click", function() {
+        let productName = $(this)
+          .parent()
+          .parent()
+          .find(".d-flex span:first-child")[0].innerText;
+        $modal2.find(
+          ".custom-modal-2__text"
+        )[0].innerText = `Are you sure you want to delete /${productName}/?`;
+        $modal2.show();
+      });
+    };
+
+    renderTable(productsList);
+
+    //Delete item by name on YES click
+    $("#yes").on("click" , () => {
+        const pText = $modal2.find('.custom-modal-2__text')[0].innerText;
+        let productName = pText.substring(pText.indexOf("/")+1, pText.lastIndexOf("/"));
+        let productIndex = findWithAttr(productsList,"name",productName);
+        productsList.splice(productIndex,1);
+        $modal2.hide();
+        renderTable(productsList);
+    });
+
+    //Close modal-2 on NO click
+    $("#no").on("click" , () => {
+      $modal2.hide();
+    });
+
 
     //Clean modal-1 $inputs and reset checkboxes
     const cleanModal1 = () => {
@@ -205,7 +304,7 @@ class ValidationResult {
       const $checkboxGrp = $select.next();
       const country = countriesDelivery.get($select.val());
       $checkboxGrp.find("label:not(:first-child)").remove();
-      country.cities.forEach((element, index) => {
+      country.forEach((element, index) => {
         $checkboxGrp.append(`
         <label for="city${index}">
           <input id="city${index}" type="checkbox">
@@ -253,10 +352,16 @@ class ValidationResult {
       const $count = $modal1.find("#productCount");
       const $price = $modal1.find("#productPrice");
       const $country = $modal1.find("#deliverySelect");
-      //have to pack in the object bec cant loop through
-      //arguments array in validateForm function
-      //with jquery objects passed as args
-      //like validateForm($name,$supplier ... etc)
+      const delivery = new Country($country.val());
+      const $cities = $country.next().find("label:not(:first-child)");
+      $.each($cities, (index, value) => {
+        delivery.cities.push({
+          name: value.innerText,
+          value: $(value)
+            .find("input")
+            .prop("checked")
+        });
+      });
       if (
         !validateForm({
           name: $name,
@@ -271,11 +376,17 @@ class ValidationResult {
         $supplier.val(),
         $count.val(),
         $price.val(),
-        countriesDelivery.get($country.val())
+        delivery
       );
-      //console.log(productsList.includes(product));
-      if (!productsList.includes(product)) productsList.push(product);
-      //console.log(productsList);
+
+      let isInArr = findWithAttr(productsList, "name", $name.val());
+      if (isInArr >= 0) {
+        productsList[isInArr] = product;
+      } else {
+        productsList.push(product);
+      }
+      renderTable(productsList);
+      $modal1.hide();
     });
 
     //Select all checkbox functionality
