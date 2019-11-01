@@ -1,9 +1,10 @@
 $(function() {
-    let formBox = $( 'form.product-form' );
-    let overlay = $( 'div.overlay' );
-    let productTable = $( 'table.table' );
+    let formBox = $('form.product-form');
+    let overlay = $('div.overlay');
+    let productTable = $('table.table');
     let popup = $('div.popup');
     let reqInput = $('input.form-required');
+    let nameInput = $('#name');
     $( "button.product-list__add-button" ).on( "click", function( event ) {
         formBox.addClass('product-form--show');
         overlay.show();
@@ -13,13 +14,39 @@ $(function() {
         overlay.hide();
     });
 
+    let warningShow = (element, message) => {
+        element.css('box-shadow', '0 0 5px red');
+        message.show();
+    };
+
+    let warningHide = (element, message) => {
+        element.css('box-shadow', 'none');
+        message.hide();
+    };
+
+    let formValuesCheck = () => {
+        if(nameInput.val().length < 5 || nameInput.val().length > 15 || nameInput.val().length === nameInput.val().match(/ /g).length) {
+            warningShow(nameInput, $('p.warning-message--name'));
+            return false;
+        } else {
+            warningHide(nameInput, $('p.warning-message--name'));
+        }
+        return true;
+    };
+
+
+
     $('button.product-form__save').on('click', function () {
         if(!reqInput.val()) {
             return false;
         }
+        if(!formValuesCheck()) {
+            return false;
+        }
+        // if($('#name').length >=5 && $('#name').length <= 15)
         productTable.append(`<tr class="table-row">
                 <td class="align-middle">
-                    <a href="#">${$('#name').val()}</a>
+                    <a href="#">${nameInput.val()}</a>
                     <span class="float-right">N</span>
                 </td>
                 <td class="align-middle">$${$('#price').val()}</td>

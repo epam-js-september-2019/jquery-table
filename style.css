@@ -111,3 +111,8 @@ body {
 .product-form--show {
     display: flex;
 }
+
+.warning-message {
+    display: none;
+    color: red;
+}
