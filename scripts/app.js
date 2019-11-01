@@ -60,45 +60,6 @@ class ValidationResult {
     errorsList.push("Name max length 15 characters.");
     errorsList.push("Wrong email format.");
     errorsList.push("Wrong currency format");
-    productsList.push(
-      new Product(
-        "ddddd",
-        "dd@dd",
-        "123",
-        "$0.00",
-        new Country("Russia", [
-          { name: "Saratov", value: false },
-          { name: "Moskow", value: true },
-          { name: "St.Petersburg", value: false }
-        ])
-      )
-    );
-    productsList.push(
-      new Product(
-        "aaaaa",
-        "dd@dd",
-        "123",
-        "$0.00",
-        new Country("Belorus", [
-          { name: "Minsk", value: false },
-          { name: "Gomel", value: true },
-          { name: "Mozyr", value: true }
-        ])
-      )
-    );
-    productsList.push(
-      new Product(
-        "bbbbb",
-        "dd@dd",
-        "123",
-        "$0.00",
-        new Country("Russia", [
-          { name: "Saratov", value: false },
-          { name: "Moskow", value: true },
-          { name: "St.Petersburg", value: false }
-        ])
-      )
-    );
   })();
 
   //UTILITIES BLOCK
@@ -169,16 +130,6 @@ class ValidationResult {
     return validation;
   };
 
-  //Transform valid price to currency format
-  const formatPrice = field => {
-    const formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2
-    });
-    field.val(formatter.format(field.val()));
-  };
-
   //Display validation result and message
   const displayError = (field, validation) => {
     const error = field.parent().find("p");
@@ -231,6 +182,19 @@ class ValidationResult {
     const $count = $modal1.find("#productCount");
     const $price = $modal1.find("#productPrice");
     const $country = $modal1.find("#deliverySelect");
+    let price = 0;
+
+    //Transform valid price to currency format
+    const formatPrice = price => {
+      const formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2
+      });
+      let formatedPrice = formatter.format(price);
+      $price.val(formatedPrice);
+      return formatedPrice;
+    };
 
     //Re render table
     const renderTable = arr => {
@@ -246,7 +210,7 @@ class ValidationResult {
                 <span>${element.count}</span>
             </div>
           </td>
-          <td class="align-middle">${element.price}</td>
+          <td class="align-middle">${formatPrice(element.price)}</td>
           <td class="text-center">
               <button class="edit btn btn-secondary px-4">Edit</button>
               <button class="delete btn btn-secondary ml-3">Delete</button>
@@ -255,7 +219,7 @@ class ValidationResult {
        `
         );
       });
-
+      //${formatPrice(element.price)}
       //Add listeners on all delete buttons and open modal-2
       $tBody.find(".delete").on("click", function() {
         let productName = $(this)
@@ -367,7 +331,9 @@ class ValidationResult {
     });
 
     $("#productPrice").on("blur", () => {
-      formatPrice($price);
+      price = $price.val();
+     // console.log("price:" + price);
+      formatPrice(price);
     });
 
     //Add or Update product on save changes click
@@ -395,7 +361,7 @@ class ValidationResult {
         $name.val(),
         $supplier.val(),
         $count.val(),
-        $price.val(),
+        +price,
         delivery
       );
 
@@ -405,8 +371,13 @@ class ValidationResult {
       } else {
         productsList.push(product);
       }
-      renderTable(productsList.sort((a,b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+      renderTable(
+        productsList.sort((a, b) =>
+          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        )
+      );
       $modal1.hide();
+      cleanModal1();
     });
 
     //Select all checkbox functionality
@@ -442,7 +413,11 @@ class ValidationResult {
       } else {
         renderTable(
           productsList.filter(element =>
-            element.name.includes($("#searchBox").val())
+            element.name.toLowerCase().includes(
+              $("#searchBox")
+                .val()
+                .toLowerCase()
+            )
           )
         );
       }
@@ -458,36 +433,47 @@ class ValidationResult {
       }
     });
 
-    function sortColumn(column,clicks){
-      if (clicks) {
-        filterTable(productsList.sort((a, b) =>
-          a[column] > b[column] ? 1 : b[column] > a[column] ? -1 : 0
-        ));
-      } else {
-        filterTable(productsList.sort((a, b) =>
-        a[column] < b[column] ? 1 : b[column] < a[column] ? -1 : 0
-      ));
-      }
-    }
-
     //Sort table by price REDOOOOO
     $("#priceCol").click(function() {
-      let clicks = $(this).data("clicks");
-      sortColumn("price",clicks);
-      $(this).data("clicks", !clicks);
+      let clicks = $(this).data("price-clicks");
+      if (clicks) {
+        filterTable(
+          productsList.sort((a, b) =>
+            a.price - b.price
+          )
+        );
+      } else {
+        filterTable(
+          productsList.sort((a, b) =>
+           b.price - a.price
+          )
+        );
+      }
+      $(this).data("price-clicks", !clicks);
     });
 
     //Sort table by name DO MORE
     $("#nameCol").on("click", function() {
       let clicks = $(this).data("name-clicks");
-      let icon = $(this).find("span").last();
-      icon.find('i').remove();
-      if(clicks){
-        icon.append(`<i class="fas fa-caret-down"></i>`);
-      } else {
+      let icon = $(this)
+        .find("span")
+        .last();
+      icon.find("i").remove();
+      if (clicks) {
+        filterTable(
+          productsList.sort((a, b) =>
+            a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+          )
+        );
         icon.append(`<i class="fas fa-caret-up"></i>`);
+      } else {
+        filterTable(
+          productsList.sort((a, b) =>
+            a.name < b.name ? 1 : b.name < a.name ? -1 : 0
+          )
+        );
+        icon.append(`<i class="fas fa-caret-down"></i>`);
       }
-      sortColumn("name",clicks);
       $(this).data("name-clicks", !clicks);
     });
   });
