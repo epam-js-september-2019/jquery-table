@@ -21,6 +21,11 @@ body label {
   margin-bottom: 0rem;
 }
 
-.outline-red{
-  outline-color: red;
+.filter-col{
+  cursor: pointer;
+}
+
+.filter-col:hover{
+  text-decoration: underline;
+  color: blue;
 }

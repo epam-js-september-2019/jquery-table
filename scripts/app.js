@@ -405,7 +405,7 @@ class ValidationResult {
       } else {
         productsList.push(product);
       }
-      renderTable(productsList);
+      renderTable(productsList.sort((a,b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
       $modal1.hide();
     });
 
@@ -456,6 +456,39 @@ class ValidationResult {
       if (e.which == 13) {
         filterTable();
       }
+    });
+
+    function sortColumn(column,clicks){
+      if (clicks) {
+        filterTable(productsList.sort((a, b) =>
+          a[column] > b[column] ? 1 : b[column] > a[column] ? -1 : 0
+        ));
+      } else {
+        filterTable(productsList.sort((a, b) =>
+        a[column] < b[column] ? 1 : b[column] < a[column] ? -1 : 0
+      ));
+      }
+    }
+
+    //Sort table by price REDOOOOO
+    $("#priceCol").click(function() {
+      let clicks = $(this).data("clicks");
+      sortColumn("price",clicks);
+      $(this).data("clicks", !clicks);
+    });
+
+    //Sort table by name DO MORE
+    $("#nameCol").on("click", function() {
+      let clicks = $(this).data("name-clicks");
+      let icon = $(this).find("span").last();
+      icon.find('i').remove();
+      if(clicks){
+        icon.append(`<i class="fas fa-caret-down"></i>`);
+      } else {
+        icon.append(`<i class="fas fa-caret-up"></i>`);
+      }
+      sortColumn("name",clicks);
+      $(this).data("name-clicks", !clicks);
     });
   });
 })(jQuery);

@@ -94,8 +94,12 @@ body label {
   color: red;
   margin-bottom: 0rem; }
 
-.outline-red {
-  outline-color: red; }
+.filter-col {
+  cursor: pointer; }
+
+.filter-col:hover {
+  text-decoration: underline;
+  color: blue; }
 
 .custom-modal-1__heading, .custom-modal-2__heading {
   font-size: 1.4rem;
