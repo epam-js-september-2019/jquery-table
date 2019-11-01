@@ -79,10 +79,10 @@ class ValidationResult {
         "dd@dd",
         "123",
         "$0.00",
-        new Country("Russia", [
-          { name: "Saratov", value: false },
-          { name: "Moskow", value: true },
-          { name: "St.Petersburg", value: false }
+        new Country("Belorus", [
+          { name: "Minsk", value: false },
+          { name: "Gomel", value: true },
+          { name: "Mozyr", value: true }
         ])
       )
     );
@@ -226,6 +226,11 @@ class ValidationResult {
   $(function() {
     const $modal1 = $(".custom-modal-1");
     const $modal2 = $(".custom-modal-2");
+    const $name = $modal1.find("#productName");
+    const $supplier = $modal1.find("#supplierEmail");
+    const $count = $modal1.find("#productCount");
+    const $price = $modal1.find("#productPrice");
+    const $country = $modal1.find("#deliverySelect");
 
     //Re render table
     const renderTable = arr => {
@@ -243,7 +248,7 @@ class ValidationResult {
           </td>
           <td class="align-middle">${element.price}</td>
           <td class="text-center">
-              <button id="edit" class="btn btn-secondary px-4">Edit</button>
+              <button class="edit btn btn-secondary px-4">Edit</button>
               <button class="delete btn btn-secondary ml-3">Delete</button>
           </td>
       </tr>
@@ -251,7 +256,7 @@ class ValidationResult {
         );
       });
 
-      //Add listeners on all delete button open modal-2
+      //Add listeners on all delete buttons and open modal-2
       $tBody.find(".delete").on("click", function() {
         let productName = $(this)
           .parent()
@@ -262,30 +267,53 @@ class ValidationResult {
         )[0].innerText = `Are you sure you want to delete /${productName}/?`;
         $modal2.show();
       });
+
+      //Add listeners on all edit buttons and open modal-1
+      $tBody.find(".edit").on("click", function() {
+        let productName = $(this)
+          .parent()
+          .parent()
+          .find(".d-flex span:first-child")[0].innerText;
+        $modal1.show();
+        const productObj =
+          productsList[findWithAttr(productsList, "name", productName)];
+        $name.val(productObj.name);
+        $supplier.val(productObj.supplier);
+        $count.val(productObj.count);
+        $price.val(productObj.price);
+        $country.val(productObj.country.name);
+        loadCheckboxes();
+        productObj.country.cities.forEach(element => {
+          $(`label:contains(${element.name})`)
+            .find("input")
+            .prop("checked", element.value);
+        });
+      });
     };
 
     renderTable(productsList);
 
     //Delete item by name on YES click
-    $("#yes").on("click" , () => {
-        const pText = $modal2.find('.custom-modal-2__text')[0].innerText;
-        let productName = pText.substring(pText.indexOf("/")+1, pText.lastIndexOf("/"));
-        let productIndex = findWithAttr(productsList,"name",productName);
-        productsList.splice(productIndex,1);
-        $modal2.hide();
-        renderTable(productsList);
+    $("#yes").on("click", () => {
+      const pText = $modal2.find(".custom-modal-2__text")[0].innerText;
+      let productName = pText.substring(
+        pText.indexOf("/") + 1,
+        pText.lastIndexOf("/")
+      );
+      let productIndex = findWithAttr(productsList, "name", productName);
+      productsList.splice(productIndex, 1);
+      $modal2.hide();
+      renderTable(productsList);
     });
 
     //Close modal-2 on NO click
-    $("#no").on("click" , () => {
+    $("#no").on("click", () => {
       $modal2.hide();
     });
-
 
     //Clean modal-1 $inputs and reset checkboxes
     const cleanModal1 = () => {
       let $inputs = $modal1.find("input");
-      let $select = $modal1.find("select");
       $inputs
         .val("")
         .prop("checked", false)
@@ -294,15 +322,14 @@ class ValidationResult {
         .parent()
         .find("p")
         .remove();
-      $select.val("Russia");
+      $country.val("Russia");
       loadCheckboxes();
     };
 
     //Load checkboxes for currently selected country
     const loadCheckboxes = () => {
-      const $select = $("#deliverySelect");
-      const $checkboxGrp = $select.next();
-      const country = countriesDelivery.get($select.val());
+      const $checkboxGrp = $country.next();
+      const country = countriesDelivery.get($country.val());
       $checkboxGrp.find("label:not(:first-child)").remove();
       country.forEach((element, index) => {
         $checkboxGrp.append(`
@@ -340,18 +367,11 @@ class ValidationResult {
     });
 
     $("#productPrice").on("blur", () => {
-      const $price = $modal1.find("#productPrice");
-      //if (!displayError($price, validatePrice($price.val()))) return;
       formatPrice($price);
     });
 
     //Add or Update product on save changes click
     $("#save").on("click", () => {
-      const $name = $modal1.find("#productName");
-      const $supplier = $modal1.find("#supplierEmail");
-      const $count = $modal1.find("#productCount");
-      const $price = $modal1.find("#productPrice");
-      const $country = $modal1.find("#deliverySelect");
       const delivery = new Country($country.val());
       const $cities = $country.next().find("label:not(:first-child)");
       $.each($cities, (index, value) => {
@@ -414,5 +434,28 @@ class ValidationResult {
         }
       }
     );
+
+    //Filter table
+    function filterTable() {
+      if ($("#searchBox").val() == "") {
+        renderTable(productsList);
+      } else {
+        renderTable(
+          productsList.filter(element =>
+            element.name.includes($("#searchBox").val())
+          )
+        );
+      }
+    }
+
+    //filter table on search button click
+    $("#search").on("click", filterTable);
+
+    //Filter table on enter keypress
+    $("#searchBox").on("keypress", function(e) {
+      if (e.which == 13) {
+        filterTable();
+      }
+    });
   });
 })(jQuery);
