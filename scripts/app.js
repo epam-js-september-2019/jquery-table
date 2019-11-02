@@ -259,15 +259,26 @@ class ValidationResult {
 
     //Delete item by name on YES click
     $("#yes").on("click", () => {
-      const pText = $modal2.find(".custom-modal-2__text")[0].innerText;
-      let productName = pText.substring(
-        pText.indexOf("/") + 1,
-        pText.lastIndexOf("/")
-      );
-      let productIndex = findWithAttr(productsList, "name", productName);
-      productsList.splice(productIndex, 1);
-      $modal2.hide();
-      renderTable(productsList);
+      let pText;
+      let productIndex;
+      let productName;
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(
+            pText = $modal2.find(".custom-modal-2__text")[0].innerText,
+            productName = pText.substring(
+              pText.indexOf("/") + 1,
+              pText.lastIndexOf("/")
+            ),
+            productIndex = findWithAttr(productsList, "name", productName)
+          );
+        }, 500);
+      });
+      promise.then(() => {
+        productsList.splice(productIndex, 1);
+        $modal2.hide();
+        renderTable(productsList);
+      });
     });
 
     //Close modal-2 on NO click
@@ -357,27 +368,36 @@ class ValidationResult {
         })
       )
         return;
-      const product = new Product(
-        $name.val(),
-        $supplier.val(),
-        $count.val(),
-        +price,
-        delivery
-      );
-
-      let isInArr = findWithAttr(productsList, "name", $name.val());
-      if (isInArr >= 0) {
-        productsList[isInArr] = product;
-      } else {
-        productsList.push(product);
-      }
-      renderTable(
-        productsList.sort((a, b) =>
-          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-        )
-      );
-      $modal1.hide();
-      cleanModal1();
+      let product;
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(
+            (product = new Product(
+              $name.val(),
+              $supplier.val(),
+              $count.val(),
+              +price,
+              delivery
+            ))
+          );
+        }, 500);
+      });
+      let isInArr;
+      promise.then(() => {
+        isInArr = findWithAttr(productsList, "name", $name.val());
+        if (isInArr >= 0) {
+          productsList[isInArr] = product;
+        } else {
+          productsList.push(product);
+        }
+        renderTable(
+          productsList.sort((a, b) =>
+            a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+          )
+        );
+        $modal1.hide();
+        cleanModal1();
+      });
     });
 
     //Select all checkbox functionality
