@@ -1,0 +1,25 @@
+.custom-modal-2 {
+  @include modal;
+
+  &__content {
+    @include modal-content;
+    text-align: center;
+
+    .btn {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .btn:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 1rem;
+  }
+
+  &__text{
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <title>Jquery-table</title>
+</head>
+
+<body>
+    <main class="section-main d-flex">
+        <div class="container w-75 d-flex flex-column justify-content-center align-items-center">
+            <div class="row w-100">
+                <div class="col d-flex align-items-center mb-3 px-0">
+                    <input id="searchBox" type="search">
+                    <button id="search" class="btn btn-secondary px-5 ml-3">Search</button>
+                </div>
+                <div class="col d-flex justify-content-end mb-3 px-0">
+                    <button id="addItem" class="btn btn-secondary px-5">Add new</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <th scope="col">
+                            <div id="nameCol" class="d-flex justify-content-between flex-stretch filter-col">
+                                <span>Name</span>
+                                <span><i class="fas fa-caret-up"></i></span>
+                            </div>
+                        </th>
+                        <th id="priceCol" scope="col">
+                            <div id="priceCol" class="d-flex justify-content-between flex-stretch filter-col">
+                                    <span>Price</span>
+                                    <span><i class="fas fa-caret-up"></i></span>
+                                </div>
+                        </th>
+                        <th scope="col">Actions</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="custom-modal-1">
+            <div class="custom-modal-1__content">
+                <h2 class="custom-modal-1__heading">Product Name</h2>
+                <label for="product-name">
+                    Name:
+                    <input type="text" id="productName" class="custom-modal-1--block-input">
+                </label>
+                <label for="email">
+                    Supplier email:
+                    <input type="text" id="supplierEmail" class="custom-modal-1--block-input">
+                </label>
+                <label for="count">
+                    Count:
+                    <input type="text" id="productCount" class="custom-modal-1--block-input">
+                </label>
+                <label for="price">
+                    Price:
+                    <input type="text" id="productPrice" class="custom-modal-1--block-input">
+                </label>
+                <div class="custom-modal-1__delivery-box">
+                    <label for="deliverySelect">
+                        Delivery:
+                    </label>
+                    <div class="custom-modal-1__delivery-group">
+                        <select name="delivery-select" id="deliverySelect" class="custom-modal-1__select">
+                            <option value="Russia" selected>Russia</option>
+                            <option value="USA">USA</option>
+                            <option value="Belorus">Belorus</option>
+                        </select>
+                        <div class="custom-modal-1__checkbox-group">
+                            <label for="selectAll">
+                                <input type="checkbox" id="selectAll">
+                                Select All
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button id="save" class="btn btn-secondary">Save changes</button>
+                <button id="cancel" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+        <div class="custom-modal-2">
+            <div class="custom-modal-2__content">
+                <h2 class="custom-modal-2__heading">Are you sure?</h2>
+                <p class="custom-modal-2__text">Are you sure you want to delete /product_name/?</p>
+                <button id="yes" class="btn btn-secondary">Yes</button>
+                <button id="no" class="btn btn-secondary">No</button>
+            </div>
+        </div>
+    </main>
+    <script src="https://kit.fontawesome.com/9162f3a4e2.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>

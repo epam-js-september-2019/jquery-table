@@ -1,0 +1,53 @@
+.custom-modal-1 {
+  @include modal;
+
+  label {
+    display: block;
+  }
+
+  &--block-input{
+    display: block;
+    width: 100%;
+  }
+
+  &__content {
+    @include modal-content;
+
+    .btn:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    .btn:last-child{
+      padding-left: 2em;
+      padding-right: 2rem;
+      float: right;
+    }
+
+  }
+
+  &__checkbox-group {
+    border: 1px solid grey;
+    padding: 1rem;
+    width: 60%;
+    float: right;
+  }
+
+  &__select{
+    padding: 0 1rem;
+    float: left;
+  }
+
+  &__checkbox-group :first-child {
+    border-bottom: 1px solid grey;
+  }
+
+  &__delivery-box{
+    margin-bottom: 1rem;
+  }
+
+  &__delivery-box::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
