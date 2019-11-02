@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Table</title>
+  </head>
+  <body>
+    <main>
+
+      <div class="container main-content">
+        <!-- Controls -->
+        <section class="row justify-content-center controls">
+          <div class="col-12 col-md-8 py-2 controls__search-box">
+            <div class="container-fluid controls__searchform-wrapper">
+              <form class="controls__searchform searchform">
+                <div class="row searchform__row">
+                  <div class="col-12 col-md-8 mb-2 mb-md-0 searchform__column">
+                    <input class="form-control controls__search-input" type="text">
+                  </div>
+                  <div class="col-12 col-md-4 d-flex searchform__column">
+                    <button class="btn btn-secondary mr-2 controls__search-button" type="submit">Search</button>
+                    <button class="btn btn-primary controls__showall-button visually-hidden" type="reset">Show All</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 d-flex justify-content-end py-2 controls__addnew-box">
+            <button class="btn btn-primary controls__add-button" type="button">Add new</button>
+          </div>
+        </section>
+
+        <section class="row">
+          <!-- TABLE -->
+          <table class="table col-12 table-striped table-responsive-sm table-bordered table-dark">
+            <!-- TABLE_HEAD -->
+            <thead class="thead-dark table__head">
+              <tr>
+                <th scope="col" class="tabel__column-head tabel__column-head--name">
+                  <a class="d-flex justify-content-between align-items-center tabel__column-name" id="sort-by-name" href="#">
+                    <p class="m-0">Name</p>
+                    <span class="tabel__sort-type tabel__sort-type--up visually-hidden" id="name-sort-icon"></span>
+                  </a>
+                </th>
+                <th scope="col" class="tabel__column-head tabel__column-head--price">
+                  <a class="d-flex justify-content-start align-items-center tabel__column-name" id="sort-by-price" href="#">
+                    <p class="m-0 mr-3">Price</p>
+                    <span class="tabel__sort-type tabel__sort-type--up visually-hidden" id="price-sort-icon"></span>
+                  </a>
+                </th>
+                <th scope="col" class="tabel__column-head tabel__column-head--actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="table__content">
+              <!-- TABEL_ITEMS -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+
+      <section class="modalWindow">
+        <!-- Modals -->
+      </section>
+
+    </main>
+  </body>
+</html>
