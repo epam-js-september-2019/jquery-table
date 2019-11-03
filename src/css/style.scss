@@ -1,0 +1,101 @@
+
+textarea {
+  resize: none !important;
+}
+ul{
+  list-style-type: none;
+  text-align: center;
+  li:first-child{
+    border-bottom: 1px solid black;
+  }
+}
+
+.products-form{
+  display: none;
+}
+.products{
+  font-family: "Comic Sans MS";
+  &-list {
+    &-menu {
+      textarea, button[data-type="add"] {
+        position: relative;
+        top: 11px;
+      }
+    }
+    &-table{
+      text-align: center;
+      margin-top:10px;
+    }
+  }
+  &-button{
+    width:135px;
+    margin: 2px;
+  }
+  .products-count-sort--up:before{
+    content:'▼';
+  }
+  .products-count-sort--down:before{
+    content:'▲';
+  }
+}
+.product {
+  &-info {
+    display: none;
+    background: rgba(104,181,193,0.38);
+    padding: 20px;
+  }
+  &-item td {
+    margin: 9px;
+  }
+
+}
+
+  form{
+    position: fixed;
+    top: 5%;
+    left: 46%;
+    padding: 24px;
+    width: 549px;
+    margin-left: -200px;
+    border: 1px solid black;
+    background: radial-gradient(#a3d0ff, transparent);
+    z-index: 1;
+    .form-group{
+      display: flex;
+      margin: 8px;
+      flex-direction: column;
+
+      label:last-child{
+        visibility: hidden;
+        color: red;
+      }
+      textarea{
+        margin: 2px;
+        width: 247px;
+        height: 33px;
+      }
+      .product-delivery-city{
+        margin: auto;
+        border: 1px solid;
+      }
+    }
+
+  }
+  .modal-window{
+    display: none;
+    position: fixed;
+    top:20%;
+    left:30%;
+    border: 1px solid black;
+    z-index:2001;
+    opacity: 1;
+    background: whitesmoke;
+    &-title{
+      border: 1px solid;
+      text-align: center;
+    }
+    &-body{
+      text-align: center;
+      margin: 24px;
+    }
+  }

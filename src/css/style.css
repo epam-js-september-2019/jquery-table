@@ -1,0 +1,98 @@
+@charset "UTF-8";
+textarea {
+  resize: none !important;
+}
+
+ul {
+  list-style-type: none;
+  text-align: center;
+}
+ul li:first-child {
+  border-bottom: 1px solid black;
+}
+
+.products-form {
+  display: none;
+}
+
+.products {
+  font-family: "Comic Sans MS";
+}
+.products-list-menu textarea, .products-list-menu button[data-type=add] {
+  position: relative;
+  top: 11px;
+}
+.products-list-table {
+  text-align: center;
+  margin-top: 10px;
+}
+.products-button {
+  width: 135px;
+  margin: 2px;
+}
+.products .products-count-sort--up:before {
+  content: "▼";
+}
+.products .products-count-sort--down:before {
+  content: "▲";
+}
+
+.product-info {
+  display: none;
+  background: rgba(104, 181, 193, 0.38);
+  padding: 20px;
+}
+.product-item td {
+  margin: 9px;
+}
+
+form {
+  position: fixed;
+  top: 5%;
+  left: 46%;
+  padding: 24px;
+  width: 549px;
+  margin-left: -200px;
+  border: 1px solid black;
+  background: radial-gradient(#a3d0ff, transparent);
+  z-index: 1;
+}
+form .form-group {
+  display: flex;
+  margin: 8px;
+  flex-direction: column;
+}
+form .form-group label:last-child {
+  visibility: hidden;
+  color: red;
+}
+form .form-group textarea {
+  margin: 2px;
+  width: 247px;
+  height: 33px;
+}
+form .form-group .product-delivery-city {
+  margin: auto;
+  border: 1px solid;
+}
+
+.modal-window {
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 30%;
+  border: 1px solid black;
+  z-index: 2001;
+  opacity: 1;
+  background: whitesmoke;
+}
+.modal-window-title {
+  border: 1px solid;
+  text-align: center;
+}
+.modal-window-body {
+  text-align: center;
+  margin: 24px;
+}
+
+/*# sourceMappingURL=style.css.map */
