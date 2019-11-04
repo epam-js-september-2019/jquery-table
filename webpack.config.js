@@ -22,12 +22,12 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(SRC_ROOT, "index.html")
+      template: "!!html-loader!" + path.resolve(SRC_ROOT, "index.html")
     })
   ]
 };
