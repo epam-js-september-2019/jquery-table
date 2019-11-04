@@ -1,3 +1,5 @@
+import template from "lodash.template";
+
 export class ProductsList {
   constructor({ showDetails, edit, remove }) {
     this.handlers = {
@@ -6,6 +8,7 @@ export class ProductsList {
       remove: remove
     };
     this.table = $(".js-table");
+    this.tableTemplate = template($("#table-template").html());
     this.bindEvents();
     console.log("Products list has been initialized");
   }
@@ -31,5 +34,9 @@ export class ProductsList {
     return $(el)
       .closest(".js-product")
       .data("id");
+  }
+  render(data) {
+    const html = this.tableTemplate(data);
+    this.table.html(html);
   }
 }
