@@ -7,19 +7,18 @@
 	left: 0;
 	z-index: 1050;
 	display: flex;
-    //align-items: center;
-    align-content: center; 
+    align-items: center;
     justify-content: center; 
 	outline: 0;
 	background-color: rgba(160, 160, 160, .5);
 	overflow: auto;
 
 	&-dialog{
-		transform: translate(0, 0);
 		width: 55vw;
+    	max-width: 440px;
+    	max-height: 100%;
 		height: auto;
     	position: relative;
-    	//margin: 10vw;
 	}
 
 	&-content{
@@ -59,34 +58,4 @@
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
-}
-
-.my-modal2{
-	position: fixed;
-	box-sizing: inherit;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	z-index: 1050;
-	display: flex;
-    //align-items: center;
-    align-content: center; 
-    justify-content: center; 
-	outline: 0;
-	background-color: rgba(160, 160, 160, .5);
-	overflow: auto;
-	transform: translate(0, 0);
-
-	&-content{
-		//margin: 10vw;
-		width: 55vw;
-		position: relative;
-		background-color: #fff;
-		background-clip: padding-box;
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 0.3rem;
-		outline: 0;
-		height: 110vh;
-	}
 }

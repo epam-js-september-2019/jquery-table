@@ -65,6 +65,14 @@ $(document).ready(function(){
 				email: "abcfs12@gmail.com",
 				count: 443,
 				price: 7434322.654
+			});
+			this.productList.set(
+				this._idCounter++,
+				{
+				name: "Adonit",
+				email: "asfbf@gmail.com",
+				count: 467,
+				price: 6543.00000
 			})
 			this.render();
 		}
@@ -80,17 +88,23 @@ $(document).ready(function(){
 
 		deleteProduct(id){
 			this.productList.delete(parseInt(id, 10));
+			return new Promise((resolve, reject) => {
+				$("body").css("cursor", "progress");
+				setTimeout(() => resolve(this), 2000);
+			})
 		}
 
-		getProduct(id){
-			return this.productList.get(id);
-		}
+		// getProduct(id){
+		// 	return this.productList.get(id);
+		// }
 
-		getList(){ 
-			return new Map(this.productList);
-		};
+		// getList(){ 
+		// 	return new Map(this.productList);
+		// };
 
 		search(val){
+			if (!this.productList.length)
+				return null;
 			val = val.toLowerCase();
 			let res = Array.from(this.productList).filter(el => el[1].name.toLowerCase().includes(val));
 			return new Map(res);
@@ -155,40 +169,6 @@ $(document).ready(function(){
 		// }
 	}
 
-	const validate = function(value, name){
-		switch (name) {
-			case "name":
-				if (value.length > 15)
-					return "Name max length is 15 characters";
-				if (value === "")
-					return "Please, enter your name"
-				return "";
-				break;
-			case "email":
-				const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				if (!re.exec(value))
-					return "Please, enter correct email adress";
-				return "";
-				break;
-			case "count":
-				if (value === "")
-					return "Please, enter the count"
-				if (!isFinite(value) || value % 1)
-					return "Please, enter an integer value";
-				return "";
-				break;
-			case "price":
-				if (value === "")
-					return "Please, enter the price"
-				if (!isFinite(value))
-					return "Please, enter an integer value";
-				return "";
-				break;
-			default:
-				return "";
-		}
-	}
-
 	const validateForm = function(){
 
 	}
@@ -212,10 +192,10 @@ $(document).ready(function(){
 
 		{
 			$(".add-modal__delivery-country")
-				.html("")
-				.append(`<option selected disabled hidden></option>`)
-				.on("change", function(event) {
-					$(".select-container").html($(".select-container").find($(".select-all")));
+			.html("")
+			.append(`<option selected disabled hidden></option>`)
+			.on("change", function(event) {
+				$(".select-container").html($(".select-container").find($(".select-all")));
 				$(".select-all").on("change", (event) => {
 					if ($(event.target).is(":checked")){
 						$(".add-modal__delivery-city").not(":checked").trigger("click");
@@ -224,17 +204,18 @@ $(document).ready(function(){
 						$(".add-modal__delivery-city:checked").trigger("click");
 				})				
 				deliveryInfo
-					.get(event.target.value)
-					.forEach((val) => {
-						$(".select-container")
-							.append(`
-								<label class="">
-									<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="${val}">
-									${val}
-								</label>
-							`);
-					});
+				.get(event.target.value)
+				.forEach((val) => {
+					$(".select-container")
+					.append(`
+						<label class="">
+							<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="${val}">
+							${val}
+						</label>
+					`);
 				});
+			});
+
 			deliveryInfo.forEach((value, key, map) => {
 				$(".add-modal__delivery-country").append(`<option>${key}</option>`);
 			})
@@ -242,65 +223,128 @@ $(document).ready(function(){
 
 		{
 			$(".select-container")
-				.html("")
-				.append(`
-					<label class="select-all">
-						<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="select-all">
-						Select all
-					</label>
-				`);
+			.html("")
+			.append(`
+				<label class="select-all">
+					<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="select-all">
+					Select all
+				</label>
+			`);
 			$(".select-all").on("change", (event) => {
-				console.log($(event.target).is(":checked"));
 				if ($(event.target).is(":checked"))
 					$(".add-modal__delivery-city").not(":checked").change();
 			})
 		}
 
-		$("#form-add")
-			.on("blur", "[validationNeeded]", function (event){
-				$(this)
+		{
+			const validateInput = function(elem){
+				const _validate = function(value, name){
+					switch (name) {
+						case "name":
+							if (value.length < 5)
+								return "Name min length is 5 characters";
+							if (value.length > 15)
+								return "Name max length is 15 characters";
+							if (value === "")
+								return "Please, enter the name"
+							return "";
+							break;
+						case "email":
+							const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+							if (!re.exec(value))
+								return "Please, enter correct email adress";
+							return "";
+							break;
+						case "count":
+							if (value === "")
+								return "Please, enter the count"
+							if (!isFinite(value) || value % 1 || value < 0)
+								return "Please, enter a positive integer value";
+							return "";
+							break;
+						case "price":
+							if (value === "")
+								return "Please, enter the price"
+							if (!isFinite(value) || value < 0)
+								return "Please, enter a positive numeric value";
+							return "";
+							break;
+						default:
+							return "";
+					}
+				}
+				const errorMsg = _validate(elem.value, elem.name);
+				if (errorMsg === ""){
+					console.log(elem);
+					$(elem)
+					.removeClass("error")
 					.parent()
-					.children(".validation-error")
-					.html(validate(event.target.value, event.target.name));
-			})
-			.on("keypress", "[validationNeeded]", function(event) {
-				if (event.keyCode !== ENTER_KEY)
-					return;
-				event.preventDefault();
-				$(this)
-					.parent()
-					.children(".validation-error")
-					.html(validate(event.target.value, event.target.name));
+					.children(".validation-error").html("");
+					return $(elem).val();
+				}
+				$(elem)
+				.addClass("error")
+				.parent()
+				.children(".validation-error").html(errorMsg);
+				return null;
+			}
+
+			const formatPrice = function(num) {
+				return "$" + parseFloat(parseFloat(num).toFixed(2)).toLocaleString('en-US');
+			}
+
+			$("[validationNeeded]")
+			.on("blur", (event) => {
+				if (validateInput(event.target) && event.target.name === "price")
+					event.target.value = formatPrice(event.target.value);
 			})
 
-		$(".add-modal__btn-add").on("click", (event) => {
-			let res = new Product({});
-			onValidationError = false;
-			$("#form-add [validationNeeded]").each((i, elem) => {
-				const errorMsg = validate(elem.value,elem.name);
-				$(elem)
-					.parent()
-					.children(".validation-error")
-					.html(errorMsg);
-				if (errorMsg !== "")
-					onValidationError = true;
-				else
-					res[elem.name] = $(elem).val();
-			});		
-			$(".add-modal__delivery-city:checked").each((i, elem) => {
-				if (!res.hasOwnProperty(elem.name))
-					res[elem.name] = [];
-				res[elem.name].push($(elem).val());
+			$("form").on("focus", ".error", (event) => {
+				event.target.value = "";
 			})
-			if (!onValidationError){
-				list.addProduct(res).then((list) => {
-					list.render();
-					$form[0].reset();
-					$(".my-modal").fadeOut(300);
-				})
-			}
-		})
 			
+			$(".add-modal__price:not(.error)").on("focus", (event) => {
+				if (event.target.value)
+					event.target.value = parseFloat(event.target.value.slice(1).replace(',',''));
+			})
+
+			$(".add-modal__count")
+			.on("keypress", (event) => {
+				if (event.which != 8 && event.which != 0 && event.which != 46 && (event.which < 48 || event.which > 57))
+					return false;
+				return true;
+			})
+			.on("paste", (event) => {
+				if(!parseInt(event.originalEvent.clipboardData.getData('Text')))
+					return false;
+				return true;
+			})
+
+			$(".add-modal__btn-add").on("click", (event) => {
+				let res = new Product({});
+				onValidationError = false;
+				let curRes;
+				$("#form-add [validationNeeded]").each((i, elem) => {
+					curRes = validateInput(elem);
+					if (!curRes)
+						onValidationError = true;
+					else
+						res[elem.name] = validateInput(elem);
+				});		
+				$(".add-modal__delivery-city:checked").each((i, elem) => {
+					if (!res.hasOwnProperty(elem.name))
+						res[elem.name] = [];
+					res[elem.name].push($(elem).val());
+				})
+				if (!onValidationError){
+					list.addProduct(res).then((list) => {
+						list.render();
+						$form[0].reset();
+						$(".my-modal").fadeOut(300);
+					})
+				}
+			})
+		}
 
 		$(".form__btn-close").on("click", () => {
 			$form[0].reset();
@@ -325,15 +369,18 @@ $(document).ready(function(){
 		})
 
 		$(".delete-modal__btn-yes").on("click", (event) => {
-			list.deleteProduct($(".delete-modal").attr("listid"));
-			$(".delete-modal").fadeOut(300);
-			list.render();
+			list.deleteProduct($(".delete-modal").attr("listid")).then((list) => {
+				$("body").css("cursor", "default");
+				$(".delete-modal").fadeOut(300);
+				list.render();
+			});
 		})
 
 		{
 			const search = (obj) => {
 				let _list = list.search($(obj).val());
-				list.render(_list);
+				if (_list)
+					list.render(_list);
 			}
 			$(".table__btn-search").on("click", () => {
 				search($(".table__input-search"));
@@ -344,6 +391,10 @@ $(document).ready(function(){
 				event.preventDefault();
 				search($(".table__input-search"));
 			})
+			
+		}
+
+		{	
 			
 		}
 

@@ -23,6 +23,14 @@
 		margin-bottom: 1rem;
 	}
 
+	&-control.error{
+	    border-color: #E02C14;
+
+	    &:focus{
+	    	box-shadow: none;
+	    }
+	}
+
 }
 
 .validation-error{
