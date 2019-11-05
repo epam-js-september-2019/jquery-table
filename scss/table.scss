@@ -1,0 +1,26 @@
+$gray: #999;
+
+.name{
+	// align-items: center;
+	// justify-content: space-between;
+	// display: flex;
+
+	&__count{
+		border-radius: 8px;
+		//display: block;
+		float: right;
+		background: $gray;
+		color: white;
+	}
+}
+
+.price{
+}
+
+.header-active{
+	cursor: pointer;
+
+	&:hover &__text{
+		color: $gray;
+	}
+}

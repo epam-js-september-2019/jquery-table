@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>JQuery hw</title>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+	<link rel="stylesheet" type="text/css" href="public/css/style.css">
+</head>
+<body>
+	<div class="container my-4">
+		<div class="row justify-content-end">
+			<div class="col-md-10 mb-2">
+				<div class="input-group">
+					<input type="text" class="table__input-search [ form-control ]">
+					<div class="input-group-append">
+						<button type="button" class="table__btn-search [ btn btn-outline-primary ]">Search</button>
+					</div>
+				</div>
+			</div>
+			<div class="col col-md-2 mb-2">
+				<button type="button" class="table__btn-add [ btn btn-block btn-outline-secondary ]">Add new</button>
+			</div>
+		</div>
+		<table class="product-list [ table table-hover ]">
+			<thead>
+				<tr>
+					<th class="w-50 header-active"scope="col" data-col-name="name">
+						<div class="row justify-content-between px-2">
+							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Name</u></div>
+							<div class="col-xs-2">&#9660;</div>
+						</div>
+					</th>
+					<th class=" header-active" scope="col" data-col-name="price">
+						<div class="row justify-content-between px-2">
+							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Price</u></div>
+							<div class="col-xs-2">&#9660;</div>
+						</div>						
+					</th>
+					<th class="" scope="col" data-col-name="actions">
+						Actions
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+
+		</table>
+
+		<!-- Modals -->
+	    <div class="my-modal add-modal" style="display: none;">
+	    	<div class="my-modal-dialog">
+	    		<div class="my-modal-content">
+	    			<div class="my-modal-content__header">
+						<button type="button" class="form__btn-close">
+							<span>×</span>
+						</button>
+	    				<h4>Add new product</h4>
+	    			</div>
+	    			<div class="my-modal-content__body">
+	    				<form id="form-add">
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Name: *
+	    						</label>
+    							<input class="add-modal__name [ col-sm-7 form-control mb-2]" name="name" validationNeeded>
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Supplier email: *
+	    						</label>
+    							<input class="add-modal__email [ col-sm-7 form-control mb-2]" name="email" validationNeeded>
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Count: *
+	    						</label>
+    							<input class="add-modal__count [ col-sm-7 form-control mb-2]" name="count" validationNeeded>
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Price: *
+	    						</label>
+    							<input class="add-modal__price [ col-sm-7 form-control mb-2]" name="price" validationNeeded>
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Delivery:
+	    						</label>
+	    						<div class="row pr-3">
+	    							<div class="col col-sm-4">
+			    						<select class="add-modal__delivery-country [ form-control ]">
+										</select>
+									</div>
+									<div class="select-container [ col col-sm-8 ]">
+										<label class="select-all">
+											<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="select-all">
+											Select all
+										</label>
+										<label class="">
+											<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="Saratov">
+											Saratov
+										</label>
+										<label class="">
+											<input class="add-modal__delivery-city" type="checkbox" name="delivery-city" value="Samara">
+											Samara
+										</label>
+									</div>
+								</div>
+	    					</div>
+	    				</form>
+	    			</div>
+	    			<div class="my-modal-content__footer [ row ]">
+	    				<div class="col col-md-3 mb-2">
+							<button type="button" class="add-modal__btn-add [ btn btn-block btn-outline-primary ]">Add</button>
+						</div>
+	    				<div class="col col-md-3 mb-2">
+							<button type="button" class="add-modal__btn-cancel [ btn btn-block btn-outline-secondary ]">Cancel</button>
+						</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	    <div class="my-modal delete-modal" listid="" style="display: none;">
+	    	<div class="my-modal-dialog">
+	    		<div class="my-modal-content">
+	    			<div class="my-modal-content__header [ my-modal-content__header d-flex justify-content-center bd-highlight ]">
+	    				<h4 class="bd-highlight">Are you sure?</h4>
+	    			</div>
+	    			<div class="my-modal-content__body  [ d-flex justify-content-center bd-highlight ]">
+	    				<p class="delete-modal__question [ bd-highlight ]"></p>
+	    			</div>
+	    			<div class="my-modal-content__footer [ row ]">
+	    				<div class="col-sm-6 mb-2">
+							<button type="button" class="delete-modal__btn-yes [ btn btn-block btn-outline-primary ]">Yes</button>
+						</div>
+	    				<div class="col-sm-6 mb-2">
+							<button type="button" class="delete-modal__btn-no [ btn btn-block btn-outline-secondary ]">No</button>
+						</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	    <!-- <div class="my-modal2">
+    		<div class="my-modal2-content">
+    			hhhhhhhhhhh
+    		</div>
+    	</div> -->
+
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+	
+	<script src="js/index.js"></script>
+</body>
+</html>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js" crossorigin="anonymous"></script> -->
