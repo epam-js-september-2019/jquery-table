@@ -17,7 +17,7 @@
         </div>
         <table class="table table-bordered product-list__table col-10 mx-auto">
             <thead class="thead-light">
-                <tr class="flex-fill">
+              <tr class="flex-fill">
                     <th>
                         <a href="#">Name</a>
                         <span class="float-right">^</span>
@@ -28,44 +28,44 @@
                     <th class="flex-fill">Actions</th>
                 </tr>
             </thead>
-            <tr class="table-row">
-                <td class="align-middle">
-                    <a href="#">Some products</a>
-                    <span class="float-right product-count">2</span>
-                </td>
-                <td class="align-middle">$1.234.56</td>
-                <td class="align-middle">
-                    <button class="btn btn-primary button-edit" type="button">Edit</button>
-                    <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
-                </td>
-            </tr>
-            <tr class="table-row">
-                <td class="align-middle">
-                    <a href="#">Product name</a>
-                    <span class="float-right product-count">2</span>
-                </td>
-                <td class="align-middle">$7.91</td>
-                <td class="align-middle">
-                    <button class="btn btn-primary button-edit" type="button">Edit</button>
-                    <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
-                </td>
-            </tr>
-            <tr class="table-row">
-                <td class="align-middle">
-                    <a href="#">Another product</a>
-                    <span class="float-right product-count">3</span>
-                </td>
-                <td class="align-middle">$77.88</td>
-                <td class="align-middle">
-                    <button class="btn btn-primary button-edit" type="button">Edit</button>
-                    <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
-                </td>
-            </tr>
+                 <tr class="table-row">
+                   <td class="align-middle">
+                       <a href="#">Some products</a>
+                       <span class="float-right product-count border border-info rounded px-2">2</span>
+                   </td>
+                   <td class="align-middle">$1.234.56</td>
+                   <td class="align-middle">
+                       <button class="btn btn-primary button-edit" type="button">Edit</button>
+                       <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
+                   </td>
+               </tr>
+            <!--     <tr class="table-row">
+                     <td class="align-middle">
+                         <a href="#">Product name</a>
+                         <span class="float-right product-count">2</span>
+                     </td>
+                     <td class="align-middle">$7.91</td>
+                     <td class="align-middle">
+                         <button class="btn btn-primary button-edit" type="button">Edit</button>
+                         <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
+                     </td>
+                 </tr>
+                 <tr class="table-row">
+                     <td class="align-middle">
+                         <a href="#">Another product</a>
+                         <span class="float-right product-count">3</span>
+                     </td>
+                     <td class="align-middle">$77.88</td>
+                     <td class="align-middle">
+                         <button class="btn btn-primary button-edit" type="button">Edit</button>
+                         <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
+                     </td>
+                 </tr> -->
         </table>
     </section>
         <div class="popup">
             <p class="popup__header">Are you sure?</p>
-            <p class="popup__text">Are you sure want to delete this product?</p>
+            <p class="popup__text">Are you sure want to delete <span id="product"></span>?</p>
             <div class="popup__button-container">
                 <button class="popup__button popup__button--yes" type="button">Yes</button>
                 <button class="popup__button popup__button--no" type="button">No</button>
@@ -73,22 +73,22 @@
         </div>
     <form class="product-form col-5 my-5 flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white">
         <h3 class="product-form__title border-bottom border-primary">Product Name</h3>
-        <label class="py-1 w-50" for="name">Name:*
+        <label class="py-1 w-50 m-0" for="name">Name:*
             <input class="form-control form-required" type="text" id="name">
         </label>
-        <p class="warning-message warning-message--name">Name length 5 to 15 characters</p>
-        <label class="py-1 w-50" for="email">Email:*
+        <p class="warning-message warning-message--name m-0">Name length 5 to 15 characters</p>
+        <label class="py-1 w-50 m-0" for="email">Email:*
             <input class="form-control form-required" type="text" id="email">
         </label>
-        <p class="warning-message warning-message--email">Invalid email form</p>
-        <label class="py-1 w-25" for="count">Count:*
+        <p class="warning-message warning-message--email m-0">Invalid email form</p>
+        <label class="py-1 w-25 m-0" for="count">Count:*
             <input class="form-control form-required" type="text" id="count">
         </label>
-        <p class="warning-message warning-message--count">Invalid count</p>
-        <label class="py-1 w-50" for="price">Price:*
+        <p class="warning-message warning-message--count m-0">Invalid count</p>
+        <label class="py-1 w-50 m-0" for="price">Price:*
             <input class="form-control form-required" type="text" id="price">
         </label>
-        <p class="warning-message warning-message--price">Invalid price</p>
+        <p class="warning-message warning-message--price m-0">Invalid price</p>
         <label class="w-25 mr-5">Delivery</label>
         <div class="m-0 d-flex">
             <select class="form-control mr-5 w-25">
