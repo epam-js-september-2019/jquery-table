@@ -5,7 +5,23 @@ $(function() {
     let popup = $('div.popup');
     let reqInput = $('input.form-required');
     let nameInput = $('#name');
+    let emailInput = $('#email');
+    let countInput = $('#count');
+    let priceInput = $('#price');
+    let regEmail = /[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]+/;
+    let reNumbers = /[0-9]+/;
+
+    let numbersInputCheck = (element) => {
+        element.bind("change keyup input click", function() {
+            if (this.value.match(/[^0-9]/g)) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        });
+    };
+
     $( "button.product-list__add-button" ).on( "click", function( event ) {
+        numbersInputCheck(countInput);
+        numbersInputCheck(priceInput);
         formBox.addClass('product-form--show');
         overlay.show();
     });
@@ -24,15 +40,36 @@ $(function() {
         message.hide();
     };
 
+
     let formValuesCheck = () => {
-        if(nameInput.val().length < 5 || nameInput.val().length > 15 || nameInput.val().length === nameInput.val().match(/ /g).length) {
+
+        if( nameInput.val().length < 5 ||
+            nameInput.val().length > 15 ||
+            // nameInput.val().length === (nameInput.val()).match(/ /g).length ||
+            nameInput.val().length === 0) {
             warningShow(nameInput, $('p.warning-message--name'));
             return false;
         } else {
             warningHide(nameInput, $('p.warning-message--name'));
         }
+        console.log(regEmail.test(emailInput.val()));
+        if(!regEmail.test(emailInput.val())) {
+            warningShow(emailInput, $('p.warning-message--email'));
+            return false;
+        } else {
+            warningHide(emailInput, $('p.warning-message--email'));
+        }
+        if(!reNumbers.test(countInput.val())) {
+            warningShow(countInput, $('p.warning-message--count'));
+            return false;
+        } else {
+            warningHide(countInput, $('p.warning-message--count'));
+        }
+
         return true;
     };
+
+
 
 
 
@@ -47,7 +84,7 @@ $(function() {
         productTable.append(`<tr class="table-row">
                 <td class="align-middle">
                     <a href="#">${nameInput.val()}</a>
-                    <span class="float-right">N</span>
+                    <span class="float-right product-count">${countInput.val()}</span>
                 </td>
                 <td class="align-middle">$${$('#price').val()}</td>
                 <td class="align-middle">
