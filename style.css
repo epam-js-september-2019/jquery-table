@@ -116,3 +116,8 @@ body {
     display: none;
     color: red;
 }
+
+.button-edit,
+.button-delete {
+    width: 47%;
+}

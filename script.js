@@ -25,6 +25,16 @@ $(function() {
         formBox.addClass('product-form--show');
         overlay.show();
     });
+
+
+    $(document).keyup(function( event ) {
+        if(event.which === 27) {
+            formBox.removeClass('product-form--show');
+            popup.removeClass('popup--show');
+            overlay.hide();
+        }
+    });
+
     $( "button.product-form__cancel" ).on( "click", function( event ) {
         formBox.removeClass('product-form--show');
         overlay.hide();
@@ -52,13 +62,16 @@ $(function() {
         } else {
             warningHide(nameInput, $('p.warning-message--name'));
         }
-        console.log(regEmail.test(emailInput.val()));
+
+
         if(!regEmail.test(emailInput.val())) {
             warningShow(emailInput, $('p.warning-message--email'));
             return false;
         } else {
             warningHide(emailInput, $('p.warning-message--email'));
         }
+
+
         if(!reNumbers.test(countInput.val())) {
             warningShow(countInput, $('p.warning-message--count'));
             return false;
@@ -70,9 +83,6 @@ $(function() {
     };
 
 
-
-
-
     $('button.product-form__save').on('click', function () {
         if(!reqInput.val()) {
             return false;
@@ -80,7 +90,6 @@ $(function() {
         if(!formValuesCheck()) {
             return false;
         }
-        // if($('#name').length >=5 && $('#name').length <= 15)
         productTable.append(`<tr class="table-row">
                 <td class="align-middle">
                     <a href="#">${nameInput.val()}</a>
@@ -89,7 +98,7 @@ $(function() {
                 <td class="align-middle">$${$('#price').val()}</td>
                 <td class="align-middle">
                     <button class="btn btn-primary button-edit" type="button">Edit</button>
-                    <button class="btn btn-danger button-delete" type="button">Delete</button>
+                    <button class="btn btn-danger button-delete float-right" type="button">Delete</button>
                 </td>
             </tr>`);
         formBox.removeClass('product-form--show');
