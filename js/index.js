@@ -1,9 +1,6 @@
 //TODO
 // валидация принимает на вход объект и идет по ключам
 // удалить все логи
-// переход к следующему полю по enter
-// прописать id для label
-// deliveryInfo сделать json
 // все jsx сделать отдельными функциями с входными параметрами, которые потом подставятся
 
 // import { table } from "./table.js";
@@ -63,12 +60,12 @@ $(document).ready(function(){
 		}
 
 		getProductValue(id, key){
-			if(key==="delivery-country"){
-				// console.log("id (getProductValue) = " + id + "(" + typeof id + ")");
-				console.log("key (getProductValue) = " + key + "(" + typeof key + ")");
-				console.log(this.#productList[id][key]);
-			}
 			return this.#productList[id][key];
+		}
+
+		getProduct(id){
+			const copy = Object.assign({}, this.#productList[id]);
+			return copy;
 		}
 
 		getList(){ 
@@ -160,7 +157,6 @@ $(document).ready(function(){
 			((productTable) => {
 				const fillEdit = (id) => {
 					const country = this.list.getProductValue(id, "delivery-country");
-					console.log(country);
 					$(".js-edit-delivery-country")
 					.val(country);
 					this.#renderCities(country);
@@ -172,6 +168,25 @@ $(document).ready(function(){
 						})
 					});
 
+				}
+
+				const fillInfo = (id) => {
+					let product = this.list.getProduct(id);
+					const delivery = `${product["delivery-country"]}: ${product["delivery-city"].join(", ")}`;
+					delete product["delivery-country"];
+					delete product["delivery-city"];
+					product.delivery = delivery;
+					product.price = this.#priceToEnStr(product.price);
+					this.#modals.info.find("tbody").html("");
+					for (let key in product){
+						this.#modals.info.find("tbody").first().append(`
+							<tr>
+								<th scope="row" class="w-50">${key}</th>
+								<td>${product[key]}</td>
+							</tr>
+						`);
+					}
+					
 				}
 
 				productTable
@@ -191,6 +206,15 @@ $(document).ready(function(){
 					this.#modals.edit
 					.data("id", id)
 					.fadeIn(300);					
+				})
+				.on("click", ".js-link-info", (event) => {
+					event.preventDefault();
+					const id = $(event.target).closest("tr").data("id");
+					this.#modals.info.find(".js-modal-header").html(`${this.list.getProductValue(id, "name")}`);
+					fillInfo(id);
+					this.#modals.info
+					.data("id", id)
+					.fadeIn(300);	
 				})
 			})($("table.product-list"));
 		}
@@ -354,6 +378,22 @@ $(document).ready(function(){
 			.on("input", ".js-edit-count", (event) => {
 				$(event.target).val((i, str) => str.replace(/[^0-9]/g, ''));
 			});
+
+			((infoForm) => {
+
+			})
+
+			this.#modals.info
+			.on("click", ".js-btn-close", () => {
+				this.#modals.common.fadeOut(300);
+				onClose(this.#modals.edit.find("form")[0]);				
+			})
+
+			this.#modals.info
+			.on("click", ((event) => {
+				if (this.#modals.info.is(event.target))
+					this.#modals.info.fadeOut(300);
+			}))
 			
 		}
 
@@ -375,11 +415,10 @@ $(document).ready(function(){
 		render(list = this.list.getList()){
 			$(".product-list tbody").html("");
 			for (let id in list){
-			//list.forEach((value, key, map) => {
 				$(".product-list tbody").append(`
 					<tr data-id=${id}>
 						<td class="name align-middle" data-col-name="name">
-							<a class="name__info" href="">
+							<a class="js-link-info table__link-info" href="">
 								${list[id].name}
 							</a>
 							<span class="name__count px-2 py-1">
@@ -387,7 +426,7 @@ $(document).ready(function(){
 							</span>
 						</td>
 						<td class="price align-middle" data-col-name="price">
-							<div class="price__info">
+							<div>
 								${this.#priceToEnStr(list[id].price)}
 							</div>
 						</td>
@@ -403,21 +442,12 @@ $(document).ready(function(){
 						</td>
 					</tr>`
 				);
-			}//)
+			}
 		}
 	}
 
 	function main(){
 		const initialTable = {};
-		// let prod1 = new Product;
-		// 	prod1["name"]= "Pencil";
-		// 	prod1["email"]= "uss@gmail.com";
-		// 	prod1["count"]= 7;
-		// 	prod1["price"]= 5432.6533;
-		// 	prod1["delivery-country"]= ["Russia"];
-		// 	prod1["delivery-city"]= ["Saratov", "Moscow"];
-		// initialTable["1"] = prod1;
-		// console.log(initialTable["1"]["delivery-country"]);
 		let prod1 = {
 			name: "Pencil",
 			email: "abcfs12@gmail.com",

@@ -53,4 +53,4 @@ gulp.task('js:bundle', () => {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('default', gulp.series(['styles', 'autoprefixer', 'js:bundle']));
+gulp.task('default', gulp.series(['styles', 'autoprefixer']));
