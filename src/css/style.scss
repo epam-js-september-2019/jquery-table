@@ -17,9 +17,13 @@ ul{
   font-family: "Comic Sans MS";
   &-list {
     &-menu {
-      textarea, button[data-type="add"] {
+      textarea{
         position: relative;
-        top: 11px;
+        float: left;
+        margin: 6px;
+      }
+      button[data-type="add"]{
+        width: inherit;
       }
     }
     &-table{
@@ -85,7 +89,7 @@ ul{
     display: none;
     position: fixed;
     top:20%;
-    left:30%;
+    left:34%;
     border: 1px solid black;
     z-index:2001;
     opacity: 1;

@@ -21,12 +21,12 @@ let products = [
     }
 ];
 const countries = {
-    "USA": ["1","2","3"],
+    "USA": ["Los Angeles","Chicago","New York","Houston"],
     "Russia":["St.Petersburg","Moscow","Sevastopol"],
-    "China":["3","2","1"],
-    "Belorus":["9","8","7","6"]
+    "China":["Beijing","Tianjin","Chongqing","Shanghai"],
+    "Belorus":["Baranavichy","Baran","Gomel","Disna"]
 };
-let len = products.length+1;
+
 
 //table
 const table = $("<table></table>");
@@ -80,7 +80,7 @@ const getTable = (type) =>{
         tbody.append(tr);
     });
     if(products.length === 0){
-        let label = $("<label>There are not products</label>")
+        let label = $("<label>There are not products</label>");
         tbody.append(label)
     }
 
@@ -114,13 +114,10 @@ const getInfo = (id) =>{
     });
     div.append(b,buttonExit);
     el.append(div);
-    let product = products.find((el)=> el.id ==id);
+    let product = products.find((el)=> el.id == id);
     let dl = $("<dl></dl>");
     dl.addClass("row");
-
-
     for (let i in product){
-
         let dt = $("<dt></dt>");
         let dd = $("<dd></dd>");
         dt.text(i+":");
@@ -134,7 +131,6 @@ const getInfo = (id) =>{
         dd.addClass("col-10 col-md-9 col-sm-9 col-lg-9 col-xl-9");
         dl.append(dt,dd);
     }
-
     el.append(dl);
 
 };
@@ -160,12 +156,12 @@ const getSort = (e,className,data) => {
         oldClassName = className+"--up";
         sortType = "down";
     }
-        sortPromise.then(()=>{sort(sortType,data,element)})
-            .then(()=>{$.cookie("products",JSON.stringify(products))})
-            .then(()=>{getTable("products")})
-            .then(()=>{addEventListener("table")})
-            .then(()=>{type.removeClass(oldClassName);
-                type.addClass(newClassName)});
+    sortPromise.then(()=>{sort(sortType,data,element)})
+        .then(()=>{$.cookie("products",JSON.stringify(products))})
+        .then(()=>{getTable("products")})
+        .then(()=>{addEventListener("table")})
+        .then(()=>{type.removeClass(oldClassName);
+            type.addClass(newClassName)});
 };
 
 const addEventListenerToSort = ()=>{
@@ -193,14 +189,14 @@ const addEventListener = (to)=> {
     $("td a").click((e)=>{
         let id = $(e.target).attr("data-id");
         let elem = $(".product-info");
-            elem.html("");
-            const prom = new Promise((resolve)=>{
-                setTimeout(()=>{
-                    resolve(id);
-                },0)
-            });
-            prom.then(()=>{getInfo(id)});
-            elem.css("display","block");
+        elem.html("");
+        const prom = new Promise((resolve)=>{
+            setTimeout(()=>{
+                resolve(id);
+            },0)
+        });
+        prom.then(()=>{getInfo(id)});
+        elem.css("display","block");
 
     });
     //делигирование
@@ -253,7 +249,7 @@ const addEventListener = (to)=> {
                 else {
                     //отправляем
                     let pr = setTimeout(()=>{loadData(update,false)},2000);
-                     makeBackgroundType(0.1,0);
+                    makeBackgroundType(0.1,0);
                 }
                 break;
             case "cancel":
@@ -272,20 +268,20 @@ const addEventListener = (to)=> {
                     .then(()=>{getTable("products")}) //обновляем таблицу
                     .then(()=>{addEventListener("table")}); //к обновленной таблице добавляем обработчик событий
                 $(".modal-window").fadeOut();
-                $(".products-form").css("display","");
-                $(".products-list").css("opacity","");
-                $(".product-info").css("opacity","")
+                hideForm();
                 break;
             case "no":
                 cancel("modal");
-                $(".products-form").css("display","");
-                $(".products-list").css("opacity","");
-                $(".product-info").css("opacity","")
+                hideForm();
                 break;
         }
     });
 };
-
+const hideForm = ()=>{
+    $(".products-form").css("display","");
+    $(".products-list").css("opacity","");
+    $(".product-info").css("opacity","");
+};
 
 $(`#selectAll`).click((e)=>{
     if(!e.target.checked){
@@ -306,22 +302,22 @@ $(`#selectAll`).click((e)=>{
 
 //counry + cities
 $("#product-delivery").on("change", (e) =>{
-  const country = $(e.target).val();
+    const country = $(e.target).val();
     $(".product-delivery-city ul li input")[0].checked = false;
     $(".product-delivery-city ul li").each((i,v)=>{
         if(i!==0)
             $(v).remove();
     });
 
-  countries[country].forEach((el)=>{
-     let li = $("<li></li>");
-     let input = $("<input type='checkbox'>");
-      let span = $("<span>");
+    countries[country].forEach((el)=>{
+        let li = $("<li></li>");
+        let input = $("<input type='checkbox'>");
+        let span = $("<span>");
 
-         span.text(el);
-     li.append(input,span);
-      $(".product-delivery-city ul").append(li);
-  });
+        span.text(el);
+        li.append(input,span);
+        $(".product-delivery-city ul").append(li);
+    });
 
 });
 
@@ -380,7 +376,7 @@ const deleteProduct = (id) =>{
 
     products.forEach((el,i)=>{
         if(el.id==id){
-          index = i;
+            index = i;
         }
     });
     products.splice(index, 1); //удаляем по индексу
@@ -405,22 +401,27 @@ const searchProduct = (name) =>{
 //cancel changes
 const cancel = (window,e) => {
 
- switch (window){
-     case "form":
-         $(".products-form").css("display","");
-         $(".products-list").css("opacity","");
-         $(".product-info").css("opacity","");
-         break;
-     case "modal":
+    switch (window){
+        case "form":
 
-         $(".modal-window").fadeOut(300,()=>{
+            $("#product-delivery option").each((i,v)=>{
+                console.log(v);
+                $(v).attr("selected",false);
+            });
+            $(".products-form").css("display","");
+            $(".products-list").css("opacity","");
+            $(".product-info").css("opacity","");
+            break;
+        case "modal":
 
-             $(".products").css("opacity","");
-             $(".products-list").css("display","");
-             $(".product-info").css("opacity","");
-         });
-         break;
- }
+            $(".modal-window").fadeOut(300,()=>{
+
+                $(".products").css("opacity","");
+                $(".products-list").css("display","");
+                $(".product-info").css("opacity","");
+            });
+            break;
+    }
 
 };
 
@@ -437,6 +438,9 @@ const defineValidation = (type) =>{
         case "product-name":
             let name = $("#product-name").val();
 
+            if(name.length===0){
+                return "It has to be determined";
+            }
             if(name.match(/\s+/)&&!name.match(/[a-zA-Zа-яА-Я]+/))// одни пробелы и нет букв
             {
                 return "It has to contain the letters";
@@ -448,28 +452,37 @@ const defineValidation = (type) =>{
             break;
         case "product-supplier-email":
             let email = $("#product-supplier-email").val();
+            if(email.length===0){
+                return "It has to be determined";
+            }
             if (!email.match(/[@]/))
                 return "It has to contain @";
             break;
         case "product-count":
             let count = $("#product-count").val();
-            if(count.match(/\D/))
+            if(count.length===0){
+                return "It has to be determined";
+            }
+            if(count.match(/\s+/)||count.match(/\D/))
                 return "It can be only number";
             break;
         case "product-price":
             let price = $("#product-price").val().substring(1).split(",").join("");
-            if(price.match(/[^0-9.^0-9]+/))
+
+            if(price.length===0)
+                return "It has to be determined";
+            else if(price.match(/[^0-9.^0-9]+/))
                 return "It can be only a positive number";
 
             break;
         default:
             let cities = [];
             type.each((i,e)=>{
-               if($(e).children()[0].checked){
-                  if(i!==0)
-                    cities.push($(e).children().eq(1).text());
-                   result = true;
-               }
+                if($(e).children()[0].checked){
+                    if(i!==0)
+                        cities.push($(e).children().eq(1).text());
+                    result = true;
+                }
             });
             if(!result)
                 return false;
@@ -492,10 +505,10 @@ const saveChanges = (update) =>{
 
         //if city
         if(index===4){
-           result =  defineValidation($(".product-delivery-city ul li"));
-           currentElement = $(".product-delivery-city");
+            result =  defineValidation($(".product-delivery-city ul li"));
+            currentElement = $(".product-delivery-city");
             if(!result){
-               currentElement.css("border-color","red");
+                currentElement.css("border-color","red");
                 confident = false;
             }
             else{
@@ -509,20 +522,18 @@ const saveChanges = (update) =>{
             if (result!==true){
                 label.text(result);
                 label.css("visibility","visible");
+                currentElement.attr("data-validation","fail")
                 currentElement.css("border-color","red").focus();
-                currentElement.eq(1).blur((e)=>{
-                    $(e.target).focus();
-                });
                 confident = false;
             }
             else{
+                currentElement.attr("data-validation","success")
                 label.css("visibility","");
                 currentElement.css("border-color","green");
             }
         }
-
-
     });
+
     if(update){
         products = JSON.parse($.cookie("products"));
         let obj = products.find((pr)=>pr.id == form.attr("id"));
@@ -536,7 +547,6 @@ const saveChanges = (update) =>{
     }
     if(confident) {
         //данные, которые отправляются
-        let len = JSON.parse($.cookie("products")).length;
         let data = {
             id: Number(String(Math.random()*100).substring(0,2))+Number(String(Math.random()*100).substring(0,2)),
             name: $("#product-name").val(),
@@ -549,10 +559,17 @@ const saveChanges = (update) =>{
 
         return data;
     }
+    else{
+        $("textarea").each((e,el)=>{
+            if($(el).attr("data-validation") === "fail"){
+                $(el).focus();
+                return false;
+            }
+        });
+    }
     return false;
 };
 
-//$
 $("#product-price").blur(function(e){
     $(e.target).val(reform($(e.target).val()))
 }).focus(function (e) {
@@ -583,7 +600,7 @@ const reform = (el) => {
 };
 
 const convertData = (data) =>{
-  return Number(data.substring(1).split(",").join(""));
+    return Number(data.substring(1).split(",").join(""));
 };
 
 //sort of products
@@ -635,13 +652,13 @@ function sort(type,data,element){
 }
 
 $("textarea").on("keydown",(e)=>{
-   if(e.keyCode === 13){
+    if(e.keyCode === 13){
         e.preventDefault();
-   $("button[data-type='search']").click();
-   }
+        $("button[data-type='search']").click();
+    }
 });
+
 $( document ).ready(()=>{
-    console.log( $("button[data-type='search']"))
     $(".products-list-table").append(table);
     if(!$.cookie("products")) {
         $.cookie("products", JSON.stringify(products));
@@ -651,4 +668,3 @@ $( document ).ready(()=>{
     addEventListenerToSort();
     addEventListener(".container");
 });
-
