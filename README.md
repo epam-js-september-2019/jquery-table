@@ -4,23 +4,23 @@
 * Наставник: `Неизвестно`.
 
 
-### Памятка
+## Памятка
 
-## to instal ALL DEPs
+### to instal ALL DEPs
 ```
 npm i
 ```
 
-## Сборка: "Simple webpack configuration with babel, sass and webpack-dev-server"
+### Использовал: "Simple webpack configuration with babel, sass and webpack-dev-server" от [LeeSwagger](https://github.com/LeeSwagger/webpack-starter#readme)
 Есть 2 режима работы:
-## Development mode
+#### Development mode
 
 ```
 npm start
 ```
 In this mode *.css and *.js will  remove from /public folder.
 
-## Production mode
+#### Production mode
 
 ```
 npm run build

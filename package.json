@@ -1,7 +1,7 @@
 {
-  "name": "webpack-starter-config",
+  "name": "jquery-table",
   "version": "4.17.2",
-  "description": "Simple webpack config",
+  "description": "Simple App to learn jQuery",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint src/**/*.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeeSwagger/webpack-starter.git"
+    "url": "git+https://github.com/RylkovAlex/jquery-table"
   },
   "browserslist": [
     "last 2 versions",
@@ -27,12 +27,12 @@
     "babel",
     "sass"
   ],
-  "author": "LeeSwagger",
+  "author": "RylkovAlex",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LeeSwagger/webpack-starter/issues"
+    "url": "https://github.com/RylkovAlex"
   },
-  "homepage": "https://github.com/LeeSwagger/webpack-starter#readme",
+  "homepage": "https://github.com/RylkovAlex/jquery-table",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
