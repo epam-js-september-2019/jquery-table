@@ -1,5 +1,5 @@
-let buttons = `<button class="btn btn-default edit">edit</button>
-               <button class="btn btn-default delete">delete</button>`;
+let buttons = `<button class="btn btn-warning edit">edit</button>
+               <button class="btn btn-danger delete">delete</button>`;
 
 let mas = [
     {id:'1', name: 'Apple', count: '56', price: '$2', actions: [buttons], email: 'store1@mail.ru', country: 1, checks: [true,true,false]},
@@ -42,397 +42,436 @@ const tableRefresh = (mas) => {
                        <td>${item.actions}</td>
                 </tr>`);
     });
-    deleteButtonsRender();
-    editButtonsRender();
-    showNameInfo();
+    deleteButtonsRender(mas).then(
+        result => {
+            mas = result.slice();
+            masRefresh(mas);
+            tableRefresh(mas);
+
+        }
+    );
+    editButtonsRender(mas).then(
+        result => {
+            console.log('edit promise resolved');
+            mas = result.slice();
+            tableRefresh(mas);
+        }
+    );
+    showNameInfo(mas);
 };
 
 /* --- DELETE --- */
 
-const deleteButtonsRender = () => {
-    $('.btn.btn-default.delete').click((e) => {
-        $('.modal-delete').show();
-        let id = $(e.currentTarget).closest('tr').attr('id');
-        $('#question-delete').text(`Are you sure you want to delete " ${mas[id - 1].name} " ? `);
+const deleteButtonsRender = (mas) => {
+   return new Promise(resolve => {
+       $('.btn.btn-danger.delete').click((e) => {
+           let newMas = mas.slice();
+           $('.modal-delete').show();
+           let id = $(e.currentTarget).closest('tr').attr('id');
+           $('#question-delete').text(`Are you sure you want to delete " ${newMas[id - 1].name} " ? `);
 
-        $('#yes-delete').click( () => {
-            $(`tr#${id}`).remove();
-            mas.splice(id - 1, 1);
-            $('#yes-delete').unbind('click');
-            $('.modal-delete').hide();
-            masRefresh(mas);
-            tableRefresh(mas);
-            return new Promise(resolve => {
-               setTimeout(() => resolve(),1000);
-            });
-
-
-
-        });
-        $('#no-delete').click(() => {
-             $('#yes-delete').unbind('click');
-             $('.modal-delete').hide();
-        })
+           $('#yes-delete').click( () => {
+               setTimeout(function(){
+                   $(`tr#${id}`).remove();
+                   newMas.splice(id - 1, 1);
+                   $('#yes-delete').unbind('click');
+                   $('.modal-delete').hide();
+                   resolve(newMas);
+               },1000);
 
 
-    });
+           });
+           $('#no-delete').click(() => {
+               $('#yes-delete').unbind('click');
+               $('.modal-delete').hide();
+           })
+       });
+   });
+
 };
-deleteButtonsRender();
+deleteButtonsRender(mas).then(
+    result => {
+        console.log(" delete promise resolved");
+        mas = result.slice();
+        masRefresh(mas);
+        tableRefresh(mas);
+    }
+);
 
 /* --- ADD BUTTON --- */
 
-const renderAddButton = () => {
-    $('#add').click(()=>{
-   $('#modalAdd').show();
-});
+const renderAddButton = (mas) => {
+   return new Promise(resolve => {
+       let newMas = mas.slice();
+       $('#add').click(()=>{
+           $('#modalAdd').show();
+       });
 
-    let inputs = $('#checkbox-add-id input');
-    $('#checkbox-add-id input').first().click(()=>{
-        inputs.attr('checked','');
-    });
+       let inputs = $('#checkbox-add-id input');
+       $('#checkbox-add-id input').first().click(()=>{
+           inputs.attr('checked','');
+       });
 
-    let selectedCountry = 0;
-    $('#select-add').change((e)=>{
-        console.log(e.currentTarget.selectedIndex);
-        $('#checkbox-add-id').html('');
-        $('#checkbox-add-id').append( `
+       let selectedCountry = 0;
+       $('#select-add').change((e)=>{
+           $('#checkbox-add-id').html('');
+           $('#checkbox-add-id').append( `
         <input type="checkbox">Select All<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city1}<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city2}<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city3}<br>
      `);
-        $('#checkbox-add-id input').first().click(()=>{
-            inputs.attr('checked','');
-        });
-        inputs = $('#checkbox-add-id input');
-        selectedCountry = e.currentTarget.selectedIndex;
-    });
+           $('#checkbox-add-id input').first().click(()=>{
+               inputs.attr('checked','');
+           });
+           inputs = $('#checkbox-add-id input');
+           selectedCountry = e.currentTarget.selectedIndex;
+       });
 
-    let flag1 = false;
-    let flag2 = false;
-    let flag3 = false;
-    let flag4 = false;
-    let flag5 = false;
-    let flag6 = false;
+       let flag1 = false;
+       let flag2 = false;
+       let flag3 = false;
+       let flag4 = false;
+       let flag5 = false;
+       let flag6 = false;
 
-$('#button-save-changes-add').click(() => {
+       $('#button-save-changes-add').click(() => {
 
-    let name = $('#name-add').val();
-    let email = $('#email-add').val();
-    let count = $('#count-add').val();
-    let price = $('#price-add').val();
+           let name = $('#name-add').val();
+           let email = $('#email-add').val();
+           let count = $('#count-add').val();
+           let price = $('#price-add').val();
 
-    console.log(name);
+
 
 // Проверка на длину имени
-    if (name.length === 0) {
-        $('.caution.mandatory.add').show();
-        flag1 = false;
-    }
-    else {
-        $('.caution.mandatory.add').hide();
-        flag1 = true;
-    }
-    if (name.length !== 0 && name.length < 5 || name.length > 15) {
-        $('.caution.length.add').show();
-        flag1 = false;
-    }
-    else {
-        $('.caution.length.add').hide();
-        flag1 = true;
-    }
-    // Проверка на только пробелы
-    if (/^\s+$/.test(name)) {
-        $('.caution.spaces.add').show();
-        flag2 = false;
-    }
-    else {
-        $('.caution.spaces.add').hide();
-        flag2 = true;
-    }
-    // Проверка на валидность e-mail
-    if (email.length === 0) {
-        $('.caution.mandatory.mail.add').show();
-        flag3 = false;
-    }
-    else {
-        $('.caution.mandatory.mail.add').hide();
-        flag3 = true;
-    }
+           if (name.length === 0) {
+               $('.caution.mandatory.add').show();
+               flag1 = false;
+           }
+           else {
+               $('.caution.mandatory.add').hide();
+               flag1 = true;
+           }
+           if (name.length !== 0 && name.length < 5 || name.length > 15) {
+               $('.caution.length.add').show();
+               flag1 = false;
+           }
+           else {
+               $('.caution.length.add').hide();
+               flag1 = true;
+           }
+           // Проверка на только пробелы
+           if (/^\s+$/.test(name)) {
+               $('.caution.spaces.add').show();
+               flag2 = false;
+           }
+           else {
+               $('.caution.spaces.add').hide();
+               flag2 = true;
+           }
+           // Проверка на валидность e-mail
+           if (email.length === 0) {
+               $('.caution.mandatory.mail.add').show();
+               flag3 = false;
+           }
+           else {
+               $('.caution.mandatory.mail.add').hide();
+               flag3 = true;
+           }
 
-    if (email.length !== 0 && !/^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i.test(email)) {
-        $('.caution.valid.add').show();
-        flag3 = false;
-    }
-    else {
-        $('.caution.valid.add').hide();
-        flag3 = true;
-    }
-    //Проверка на количество товара
-    if (count.length === 0) {
-        $('.caution.mandatory.count-price.add').show();
-        flag4 = false;
-    }
-    else {
-        $('.caution.mandatory.count-price.add').hide();
-        flag4 = true;
-    }
-    let isNumber = (num) => {
-        return isFinite(num) && !isNaN(num);
-    };
-    if (!isNumber(count)) {
-        $('.caution.is-num.add').show();
-        flag4 = false;
-    }
-    else {
-        $('.caution.is-num.add').hide();
-        flag4 = true;
-    }
-    // Проверка на цену
+           if (email.length !== 0 && !/^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i.test(email)) {
+               $('.caution.valid.add').show();
+               flag3 = false;
+           }
+           else {
+               $('.caution.valid.add').hide();
+               flag3 = true;
+           }
+           //Проверка на количество товара
+           if (count.length === 0) {
+               $('.caution.mandatory.count-price.add').show();
+               flag4 = false;
+           }
+           else {
+               $('.caution.mandatory.count-price.add').hide();
+               flag4 = true;
+           }
+           let isNumber = (num) => {
+               return isFinite(num) && !isNaN(num);
+           };
+           if (!isNumber(count)) {
+               $('.caution.is-num.add').show();
+               flag4 = false;
+           }
+           else {
+               $('.caution.is-num.add').hide();
+               flag4 = true;
+           }
+           // Проверка на цену
 
-    if (price.slice(1).length === 0) {
-        $('.caution.mandatory.price.add').show();
-        flag5 = false;
-    }
-    else {
-        $('.caution.mandatory.price.add').hide();
-        flag5 = true;
-    }
+           if (price.slice(1).length === 0) {
+               $('.caution.mandatory.price.add').show();
+               flag5 = false;
+           }
+           else {
+               $('.caution.mandatory.price.add').hide();
+               flag5 = true;
+           }
 
-    if (price[1] === '-') {
-        $('.caution.pos-num.add').show();
-        flag6 = false;
+           if (price[1] === '-') {
+               $('.caution.pos-num.add').show();
+               flag6 = false;
 
-    }
-    else {
-        $('.caution.pos-num.add').hide();
-        flag6 = true;
-    }
+           }
+           else {
+               $('.caution.pos-num.add').hide();
+               flag6 = true;
+           }
 //    let inputPrice = document.getElementById('price');
 
-    if (name.length !== 0 && email.length !== 0 && count.length !== 0 && price.length !== 0) {
-        if (flag1 && flag2 && flag3 && flag4 && flag5 && flag6) {
-            mas.push({
-                id: '',
-                name: name,
-                count: count,
-                price: price,
-                actions: [buttons],
-                email: email,
-                country: selectedCountry,
-                checks: [inputs[1].checked,
-                     inputs[2].checked,
-                     inputs[3].checked,]
-            });
-            masRefresh(mas);
-            tableRefresh(mas);
-            $('#name-add').val('');
-            $('#email-add').val('');
-            $('#count-add').val('');
-            $('#price-add').val('');
-            $('#modalAdd').hide();
-        }
-    }
-  });
+           if (name.length !== 0 && email.length !== 0 && count.length !== 0 && price.length !== 0) {
+               if (flag1 && flag2 && flag3 && flag4 && flag5 && flag6) {
+                 setTimeout(function(){
+                     newMas.push({
+                         id: '',
+                         name: name,
+                         count: count,
+                         price: price,
+                         actions: [buttons],
+                         email: email,
+                         country: selectedCountry,
+                         checks: [inputs[1].checked,
+                             inputs[2].checked,
+                             inputs[3].checked,]
+                     });
 
-   $('#button-cancel-add').click(()=> {
-       $('#name-add').val('');
-       $('#email-add').val('');
-       $('#count-add').val('');
-       $('#price-add').val('');
-       $('.caution.mandatory.add').hide();
-       $('.caution.mandatory.mail.add').hide();
-       $('.caution.mandatory.count-price.add').hide();
-       $('.caution.mandatory.price.add').hide();
-       $('#modalAdd').hide();
+                     $('#name-add').val('');
+                     $('#email-add').val('');
+                     $('#count-add').val('');
+                     $('#price-add').val('');
+                     $('#modalAdd').hide();
 
+                     resolve(newMas);
+                 },1000);
+
+               }
+           }
+       });
+
+       $('#button-cancel-add').click(()=> {
+           $('#name-add').val('');
+           $('#email-add').val('');
+           $('#count-add').val('');
+           $('#price-add').val('');
+           $('.caution.mandatory.add').hide();
+           $('.caution.mandatory.mail.add').hide();
+           $('.caution.mandatory.count-price.add').hide();
+           $('.caution.mandatory.price.add').hide();
+           $('#modalAdd').hide();
+
+       });
    });
 };
-renderAddButton();
+renderAddButton(mas).then(
+    result => {
+        console.log('add promise resolved')
+        mas = result.slice();
+        masRefresh(mas);
+        tableRefresh(mas);
+    }
+);
 
 /*--- EDIT BUTTONS ---*/
 
-const editButtonsRender = () => {
+const editButtonsRender = (mas) => {
+    return new Promise(resolve => {
+        let newMas = mas.slice();
+        $('.btn.btn-warning.edit').click((e)=>{
+            $('#modal-edit-id').show();
+            let id = $(e.currentTarget).closest('tr').attr('id');
 
-    $('.btn.btn-default.edit').click((e)=>{
-        $('#modal-edit-id').show();
-        let id = $(e.currentTarget).closest('tr').attr('id');
-
-        let flag1 = false;
-        let flag2 = false;
-        let flag3 = false;
-        let flag4 = false;
-        let flag5 = false;
-        let flag6 = false;
+            let flag1 = false;
+            let flag2 = false;
+            let flag3 = false;
+            let flag4 = false;
+            let flag5 = false;
+            let flag6 = false;
 
 
-        $('#name-edit').val(mas[id - 1].name);
-        $('#email-edit').val(mas[id - 1].email);
-        $('#count-edit').val(mas[id - 1].count);
-        $('#price-edit').val(mas[id - 1].price);
+            $('#name-edit').val(newMas[id - 1].name);
+            $('#email-edit').val(newMas[id - 1].email);
+            $('#count-edit').val(newMas[id - 1].count);
+            $('#price-edit').val(newMas[id - 1].price);
 
-        let name =  $('#name-edit').val();
-        let email =  $('#email-edit').val();
-        let count = $('#count-edit').val();
-        let price =  $('#price-edit').val();
+            let name =  $('#name-edit').val();
+            let email =  $('#email-edit').val();
+            let count = $('#count-edit').val();
+            let price =  $('#price-edit').val();
 
-        $('#select-edit')[0].selectedIndex = mas[id-1].country;
-        let selectedCountry =  $('#select-edit')[0].selectedIndex;
+            $('#select-edit')[0].selectedIndex = newMas[id-1].country;
+            let selectedCountry =  $('#select-edit')[0].selectedIndex;
 
-        $('#checkbox-edit').html(`
+            $('#checkbox-edit').html(`
            <input type="checkbox">Select All<br>
-        <input type="checkbox" ${mas[id-1].checks[0] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city1}<br>
-        <input type="checkbox" ${mas[id-1].checks[1] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city2}<br>
-        <input type="checkbox" ${mas[id-1].checks[2] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city3}<br>
+        <input type="checkbox" ${newMas[id-1].checks[0] ? 'checked' : 'unchecked'}>${cities[newMas[id-1].country].city1}<br>
+        <input type="checkbox" ${newMas[id-1].checks[1] ? 'checked' : 'unchecked'}>${cities[newMas[id-1].country].city2}<br>
+        <input type="checkbox" ${newMas[id-1].checks[2] ? 'checked' : 'unchecked'}>${cities[newMas[id-1].country].city3}<br>
         `);
 
-        let inputs = $('#checkbox-edit input');
-        $('#checkbox-edit input').first().click(()=>{
-            inputs.attr('checked','');
-        });
+            let inputs = $('#checkbox-edit input');
+            $('#checkbox-edit input').first().click(()=>{
+                inputs.attr('checked','');
+            });
 
-        $('#select-edit').change((e)=>{
-            $('#checkbox-edit').html('');
-            $('#checkbox-edit').append( `
+            $('#select-edit').change((e)=>{
+                $('#checkbox-edit').html('');
+                $('#checkbox-edit').append( `
         <input type="checkbox">Select All<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city1}<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city2}<br>
         <input type="checkbox">${cities[e.currentTarget.selectedIndex].city3}<br>
         `);
-            $('#checkbox-edit input').first().click(()=>{
-                inputs.attr('checked','');
+                $('#checkbox-edit input').first().click(()=>{
+                    inputs.attr('checked','');
+                });
+                inputs = $('#checkbox-edit input');
+                selectedCountry = e.currentTarget.selectedIndex;
             });
-            inputs = $('#checkbox-edit input');
-            selectedCountry = e.currentTarget.selectedIndex;
-        });
 
-        $('#button-save-changes-edit').click(()=>{
+            $('#button-save-changes-edit').click(()=>{
 
-            name = $('#name-edit').val();
-            email = $('#email-edit').val();
-            count = $('#count-edit').val();
-            price = $('#price-edit').val();
+                name = $('#name-edit').val();
+                email = $('#email-edit').val();
+                count = $('#count-edit').val();
+                price = $('#price-edit').val();
 
+                if (name.length === 0) {
+                    $('.caution.mandatory.edit').show();
+                    flag1 = false;
+                }
+                else {
+                    $('.caution.mandatory.edit').hide();
+                    flag1 = true;
+                }
+                if (name.length !== 0 && name.length < 5 || name.length > 15) {
+                    $('.caution.length.edit').show();
+                    flag1 = false;
+                }
+                else {
+                    $('.caution.length.edit').hide();
+                    flag1 = true;
+                }
+                // Проверка на только пробелы
+                if (/^\s+$/.test(name)) {
+                    $('.caution.spaces.edit').show();
+                    flag2 = false;
+                }
+                else {
+                    $('.caution.spaces.edit').hide();
+                    flag2 = true;
+                }
+                // Проверка на валидность e-mail
+                if (email.length === 0) {
+                    $('.caution.mandatory.mail.edit').show();
+                    flag3 = false;
+                }
+                else {
+                    $('.caution.mandatory.mail.edit').hide();
+                    flag3 = true;
+                }
 
-            if (name.length === 0) {
-                $('.caution.mandatory.edit').show();
-                flag1 = false;
-            }
-            else {
-                $('.caution.mandatory.edit').hide();
-                flag1 = true;
-            }
-            if (name.length !== 0 && name.length < 5 || name.length > 15) {
-                $('.caution.length.edit').show();
-                flag1 = false;
-            }
-            else {
-                $('.caution.length.edit').hide();
-                flag1 = true;
-            }
-            // Проверка на только пробелы
-            if (/^\s+$/.test(name)) {
-                $('.caution.spaces.edit').show();
-                flag2 = false;
-            }
-            else {
-                $('.caution.spaces.edit').hide();
-                flag2 = true;
-            }
-            // Проверка на валидность e-mail
-            if (email.length === 0) {
-                $('.caution.mandatory.mail.edit').show();
-                flag3 = false;
-            }
-            else {
-                $('.caution.mandatory.mail.edit').hide();
-                flag3 = true;
-            }
-
-            if (email.length !== 0 && !/^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i.test(email)) {
-                $('.caution.valid.edit').show();
-                flag3 = false;
-            }
-            else {
-                $('.caution.valid.edit').hide();
-                flag3 = true;
-            }
-            //Проверка на количество товара
-            if (count.length === 0) {
-                $('.caution.mandatory.count-price.edit').show();
-                flag4 = false;
-            }
-            else {
-                $('.caution.mandatory.count-price.edit').hide();
-                flag4 = true;
-            }
-            let isNumber = (num) => {
-                return isFinite(num) && !isNaN(num);
-            };
-            if (!isNumber(count)) {
-                $('.caution.is-num.edit').show();
-                flag4 = false;
-            }
-            else {
-                $('.caution.is-num.edit').hide();
-                flag4 = true;
-            }
-            // Проверка на цену
-            if (price.slice(1).length === 0) {
-                $('.caution.mandatory.price.edit').show();
-                flag5 = false;
-            }
-            else {
-                $('.caution.mandatory.price.edit').hide();
-                flag5 = true;
-            }
+                if (email.length !== 0 && !/^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i.test(email)) {
+                    $('.caution.valid.edit').show();
+                    flag3 = false;
+                }
+                else {
+                    $('.caution.valid.edit').hide();
+                    flag3 = true;
+                }
+                //Проверка на количество товара
+                if (count.length === 0) {
+                    $('.caution.mandatory.count-price.edit').show();
+                    flag4 = false;
+                }
+                else {
+                    $('.caution.mandatory.count-price.edit').hide();
+                    flag4 = true;
+                }
+                let isNumber = (num) => {
+                    return isFinite(num) && !isNaN(num);
+                };
+                if (!isNumber(count)) {
+                    $('.caution.is-num.edit').show();
+                    flag4 = false;
+                }
+                else {
+                    $('.caution.is-num.edit').hide();
+                    flag4 = true;
+                }
+                // Проверка на цену
+                if (price.slice(1).length === 0) {
+                    $('.caution.mandatory.price.edit').show();
+                    flag5 = false;
+                }
+                else {
+                    $('.caution.mandatory.price.edit').hide();
+                    flag5 = true;
+                }
 
 
-            if (price[1] === '-') {
-                $('.caution.pos-num.edit').show();
-                flag6 = false;
-
-            }
-            else {
-                $('.caution.pos-num.edit').hide();
-                flag6 = true;
-            }
-
-            if (name.length !== 0 && email.length !== 0 && count.length !== 0 && price.length !== 0) {
-                if (flag1 && flag2 && flag3 && flag4 && flag5 && flag6) {
-
-                    mas[id - 1] = {
-                        id: id,
-                        name: name,
-                        count: count,
-                        price: price,
-                        actions: [buttons],
-                        email: email,
-                        country: selectedCountry,
-                        checks: [inputs[1].checked,
-                            inputs[2].checked,
-                            inputs[3].checked,]
-                    };
-                    tableRefresh(mas);
-
-                    $('#button-save-changes-edit').unbind('click');
-                    $('#modal-edit-id').hide();
-
+                if (price[1] === '-') {
+                    $('.caution.pos-num.edit').show();
+                    flag6 = false;
 
                 }
-            }
+                else {
+                    $('.caution.pos-num.edit').hide();
+                    flag6 = true;
+                }
+
+                if (name.length !== 0 && email.length !== 0 && count.length !== 0 && price.length !== 0) {
+                    if (flag1 && flag2 && flag3 && flag4 && flag5 && flag6) {
+                       setTimeout(function(){
+                           newMas[id - 1] = {
+                               id: id,
+                               name: name,
+                               count: count,
+                               price: price,
+                               actions: [buttons],
+                               email: email,
+                               country: selectedCountry,
+                               checks: [inputs[1].checked,
+                                   inputs[2].checked,
+                                   inputs[3].checked,]
+                           };
+
+                           $('#button-save-changes-edit').unbind('click');
+                           $('#modal-edit-id').hide();
+                           resolve(newMas);
+                       },1000);
+                    }
+                }
+            });
+
+            $('#button-cancel-edit').click(()=>{
+
+                $('#button-save-changes-edit').unbind('click');
+
+                $('#modal-edit-id').hide();
+            });
+
         });
-
-        $('#button-cancel-edit').click(()=>{
-
-            $('#button-save-changes-edit').unbind('click');
-
-            $('#modal-edit-id').hide();
-        });
-
     });
+
 };
-editButtonsRender();
+editButtonsRender(mas).then(
+    result => {
+        console.log('edit promise resolved');
+        mas = result.slice();
+        tableRefresh(mas);
+    }
+);
 
 /* --- SEARCH --- */
 
@@ -537,7 +576,6 @@ const showNameInfo = () => {
 
     $('.name').click((e)=>{
         let id = $(e.currentTarget).closest('tr').attr('id');
-        console.log(id);
 
         $('#name-edit').val(mas[id - 1].name);
         $('#email-edit').val(mas[id - 1].email);

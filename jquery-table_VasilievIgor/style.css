@@ -117,7 +117,17 @@ header {
     float:right;
 }
 
+
 .name:hover {
     text-decoration: underline;
     cursor: pointer;
+    font-size: 15px;
+    transition: 1.2s;
+}
+
+table {
+    table-layout: fixed;
+}
+table th, table td {
+    overflow: hidden;
 }
