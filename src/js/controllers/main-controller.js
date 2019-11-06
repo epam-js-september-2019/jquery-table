@@ -21,6 +21,7 @@ export default class MainController {
     this._tableController.render(this._items);
   }
 
+  // колбэк на изменение данных
   _onDataChange(newData, mode) {
     const index = this._items.findIndex((item) => item.id === newData.id);
     switch (mode) {

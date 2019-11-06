@@ -95,7 +95,7 @@ export default class TabelController {
         return;
       }
       switch (evt.currentTarget.id) {
-        // TODO: упростить манипуляцию классами...
+        // TODO: мб упростить манипуляцию классами...
         case `sort-by-name`:
           priceIcon.addClass(`visually-hidden`);
           nameIcon.removeClass(`visually-hidden`);
