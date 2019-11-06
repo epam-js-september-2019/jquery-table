@@ -104,11 +104,19 @@ body {
     z-index: 15;
 }
 
+.product-info {
+    display: none;
+    top: calc(50% - 125px);
+    left: calc(50% - 170px);
+    z-index: 15;
+}
+
 .overlay--show {
     display: block;
 }
 
-.product-form--show {
+.product-form--show,
+.product-info--show{
     display: flex;
 }
 

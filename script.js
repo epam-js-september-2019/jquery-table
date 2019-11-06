@@ -2,11 +2,14 @@ $(function() {
     let formBox = $('form.product-form');
     let overlay = $('div.overlay');
     let productTable = $('table.table');
-    let productName;
     let popup = $('div.popup');
-    let reqInput = $('input.form-required');
+    let reqInput = $('input.form-required')
+    let infoContainer = $('div.info-container');
 
+    // let productName;
     let price;
+    // let count;
+    // let email;
 
     let isCorrect;
     let tableRow;
@@ -41,6 +44,7 @@ $(function() {
         if(event.which === 27) {
             formBox.removeClass('product-form--show');
             popup.removeClass('popup--show');
+            $('div.product-info').removeClass('d-flex');
             overlay.hide();
         }
     });
@@ -125,22 +129,12 @@ $(function() {
         DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), price: parseInt(priceInput.val().replace(/[$,.]/g,''))};
         console.log(DATA);
         price = priceInput.val();
-        //     let valid = /^\d{0,10}(\.\d{0,2})?$/.test( price.replace('.', '') ),
-        //         val = price.replace('.', '');
-        //     if( !valid ) {
-        //     // invalid input, erase character
-        //         price = price.substring(0, price.length-1);
-        //     } else if( price.length > 2 ) {
-        //     // valid input, set decimal point if string is longer than 3 characters
-        //         price = price.substring(0,price.length-2)+"."+price.substring(price.length-2);
-        //     }
-        if(priceInput.val().length > 2) {
-            // price = price.substring(0, price.length - 2) + '.' + price.substring(price.length - 2, price.length);
-            // price = price.replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-        }
+        // let productName = nameInput.val();
+        // let count = countInput.val();
+        // let email = emailInput.val();
         productTable.append(`<tr class="table-row">
                 <td class="align-middle">
-                    <a href="#">${nameInput.val()}</a>
+                    <a href="#" class="name-link">${nameInput.val()}</a>
                     <span class="float-right product-count border border-info rounded px-2">${countInput.val()}</span>
                 </td>
                 <td class="align-middle">${price}</td>
@@ -149,10 +143,28 @@ $(function() {
                     <button class="btn btn-danger button-delete float-right" type="button" data="${nameInput.val()}">Delete</button>
                 </td>
             </tr>`);
+        infoContainer.append(`
+                <div class="product-info flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white w-25" id="${nameInput.val()}">
+                    <p class="my-2">Name: ${nameInput.val()}</p>
+                    <p class="my-2">Email: <span>${emailInput.val()}</span></p>
+                    <p class="my-2">Count: <span>${countInput.val()}</span></p>
+                    <p class="my-2">Price: <span>${price}</span></p>
+                    <p class="my-2">Delivery: <span>Russia</span></p>
+                    <button class="align-self-start btn btn-primary mt-2 w-100 close-button" type="button">Close</button>
+                </div>`);
         formBox.removeClass('product-form--show');
         overlay.hide();
         reqInput.val('');
-        productName = nameInput.val();
+            $('a.name-link').on('click', function () {
+                // console.log(this.text());
+                $('#' + $(this).text()).addClass('d-flex');
+                overlay.show();
+                $('button.close-button').on('click', function () {
+                    overlay.hide();
+                    $('div.product-info').removeClass('d-flex');
+                })
+            });
+
             $('button.button-delete').on("click", function () {
                 productNameDelete.text($(this).attr('data'));
                 popup.addClass('popup--show');
