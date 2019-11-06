@@ -6,6 +6,8 @@ $(function() {
     let popup = $('div.popup');
     let reqInput = $('input.form-required');
 
+    let price;
+
     let isCorrect;
     let tableRow;
 
@@ -29,7 +31,7 @@ $(function() {
 
     $( "button.product-list__add-button" ).on( "click", function( event ) {
         numbersInputCheck(countInput);
-        numbersInputCheck(priceInput);
+        // numbersInputCheck(priceInput);
         formBox.addClass('product-form--show');
         overlay.show();
     });
@@ -85,16 +87,32 @@ $(function() {
         } else {
             warningHide(countInput, $('p.warning-message--count'));
         }
-        if(priceInput.val() === '') {
+        if(priceInput.val() === '' || priceInput.val()[0] === '0' || priceInput.val().length < 3 || priceInput.val().length > 21) {
             warningShow(priceInput, $('p.warning-message--price'));
             isCorrect = false;
         } else {
             warningHide(priceInput, $('p.warning-message--price'));
         }
 
-        // 'p.warning-message--price'
         return isCorrect;
     };
+
+    priceInput.on('keyup', function () {
+        if(this.value.length > 2) {
+            this.value = this.value.replace('.','');
+            this.value = this.value.substring(0, this.value.length - 2) + '.' + this.value.substring(this.value.length - 2, this.value.length);
+        }
+    });
+
+    priceInput.on('blur', function () {
+       if(this.value.length > 2) {
+           this.value = '$' + this.value.replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+       }
+    });
+
+    priceInput.on('focus', function () {
+        this.value = this.value.replace('$','').replace(',','');
+    });
 
 
     $('button.product-form__save').on('click', function () {
@@ -104,14 +122,28 @@ $(function() {
         if(!formValuesCheck()) {
             return false;
         }
-        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: countInput.val(), price: priceInput.val()};
+        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), price: parseInt(priceInput.val().replace(/[$,.]/g,''))};
         console.log(DATA);
+        price = priceInput.val();
+        //     let valid = /^\d{0,10}(\.\d{0,2})?$/.test( price.replace('.', '') ),
+        //         val = price.replace('.', '');
+        //     if( !valid ) {
+        //     // invalid input, erase character
+        //         price = price.substring(0, price.length-1);
+        //     } else if( price.length > 2 ) {
+        //     // valid input, set decimal point if string is longer than 3 characters
+        //         price = price.substring(0,price.length-2)+"."+price.substring(price.length-2);
+        //     }
+        if(priceInput.val().length > 2) {
+            // price = price.substring(0, price.length - 2) + '.' + price.substring(price.length - 2, price.length);
+            // price = price.replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+        }
         productTable.append(`<tr class="table-row">
                 <td class="align-middle">
                     <a href="#">${nameInput.val()}</a>
                     <span class="float-right product-count border border-info rounded px-2">${countInput.val()}</span>
                 </td>
-                <td class="align-middle">$${priceInput.val()}</td>
+                <td class="align-middle">${price}</td>
                 <td class="align-middle">
                     <button class="btn btn-primary button-edit" type="button">Edit</button>
                     <button class="btn btn-danger button-delete float-right" type="button" data="${nameInput.val()}">Delete</button>
