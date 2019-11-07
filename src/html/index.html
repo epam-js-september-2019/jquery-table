@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="../../node_modules/jquery.cookie/jquery.cookie.js"></script>
+
+    <title>Products</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="products">
+            <div class="products-list">
+                    <div class="products-list-menu">
+                        <div class="row">
+                            <div class="col-6 col-sm-9 col-md-9 col-lg-10 col-xl-10">
+                                <textarea rows="1" placeholder="Enter product name..." id="product-search"></textarea>
+                                <button class="products-button btn btn-outline-success" data-type="search">Search</button>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-2 col-xl-2" style="text-align: right">
+                                <button class="products-button btn btn-outline-success" data-type="add">Add new</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="products-list-table">
+                    </div>
+
+        </div>
+        <div class="products-form">
+            <form>
+                <div class="form-group">
+                    <label for="product-name">Name:</label>
+                    <textarea placeholder="Some product name" id="product-name"></textarea>
+                    <label for="product-name"></label>
+                </div>
+                <div class="form-group">
+                    <label for="product-supplier-email">Supplier email:</label>
+                    <textarea placeholder="example@gmail.com" id="product-supplier-email"></textarea>
+                    <label for="product-supplier-email">It has to contain @</label>
+                </div>
+                <div class="form-group">
+                    <label for="product-count">Count:</label>
+                    <textarea placeholder="5" id="product-count"></textarea>
+                    <label for="product-count"></label>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Price:</label>
+                    <textarea placeholder="111111" id="product-price"></textarea>
+                    <label for="product-price">Just a number</label>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-4">
+                        <label for="product-delivery">Delivery:</label>
+                        <select id="product-delivery">
+                            <option id="Russia">Russia</option>
+                            <option id="USA">USA</option>
+                            <option id="Belorus">Belorus</option>
+                            <option id="China">China</option>
+                        </select>
+                        </div>
+                        <div class="product-delivery-city col-sm-6">
+                        <ul>
+                            <li>
+                                <input type="checkbox" value="Select all" id="selectAll"/>
+                                <span>Select all</span>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="products-form-actions">
+                        <button class="products-button btn btn-outline-success" data-type="save">Save changes</button>
+                        <button class="products-button btn btn-outline-danger" data-type="cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-window">
+        <div class="modal-window-title">
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-window-body">
+            <label>Are you sure you want to delete</label>
+            <br>
+            <button class="products-button btn btn-outline-success" data-type="yes">Yes</button>
+            <button class="products-button btn btn-outline-danger" data-type="no">No</button>
+        </div>
+    </div>
+    <div class="product-info">
+    </div>
+</div>
+</body>
+<script src="../js/main.js"></script>
+</html>
