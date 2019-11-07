@@ -1,0 +1,28 @@
+{
+  "name": "jqueryhomework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
+    "popper": "^1.0.1",
+    "webpack": "^4.41.2"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mimimishencko/jquery-table.git"
+  },
+  "author": "Anastasiia Mishchenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mimimishencko/jquery-table/issues"
+  },
+  "homepage": "https://github.com/mimimishencko/jquery-table#readme"
+}
