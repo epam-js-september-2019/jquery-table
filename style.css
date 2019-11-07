@@ -1,0 +1,126 @@
+body {
+    font-family: 'Be Vietnam', sans-serif;
+}
+
+/* Sorting arrows */
+
+.sort-arrow {
+    max-width: 20px;
+}
+
+.direct-sort {
+    transform: rotate(180deg);
+}
+
+/* Pop-ups */
+
+.editing,
+.deleting-confirmation {
+    width: 600px;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+}
+
+.label {
+    display: block;
+    margin-bottom: 20px;
+    line-height: 2rem;
+}
+
+.label input,
+.label select {
+    display: block;
+    width: 45%;
+    min-width: 250px;
+    height: 40px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.delivery-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cities {
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: .25rem;
+}
+
+.cities input {
+    margin-right: 1rem;
+}
+
+.my-btn {
+    min-width: 100px;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid gray;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.my-btn-accept {
+    border: 1px solid rgb(115, 245, 115);
+    transition: background-color .4s linear;
+}
+
+.my-btn-accept:hover {
+    border: 1px solid rgb(0, 255, 0);
+    background-color: rgb(163, 255, 145);
+}
+
+.my-btn-deny {
+    border: 1px solid rgb(252, 101, 101);
+    transition: background-color .4s linear;
+}
+
+.my-btn-deny:hover {
+    border: 1px solid rgb(255, 0, 0);
+    background-color: rgb(255, 126, 126);
+}
+
+.deleting-confirmation {
+    text-align: center;
+}
+
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.display-off {
+    display: none;
+}
+
+.redOutline {
+    outline-color: red;
+}

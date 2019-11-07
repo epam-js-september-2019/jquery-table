@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>jQuery Hometask</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Be+Vietnam:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <!-- Search and adding new element -->
+
+      <div class="row">
+        <div class="col">
+          <form>
+            <div class="row mb-4">
+              <div class="col-8">
+                <input
+                  class="form-control product-search"
+                  type="text"
+                  name="search"
+                  id="search"
+                  placeholder="Enter product name..."
+                />
+              </div>
+              <div class="col">
+                <button class="btn btn-info btn-search">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="col">
+          <button class="btn btn-primary float-right btn-add-new">
+            Add new
+          </button>
+        </div>
+      </div>
+
+      <!-- Table with products -->
+
+      <div class="row">
+        <div class="col">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="align-middle" scope="col">
+                  <input type="hidden" id="name_order" value="asc" />
+                  <a class="table-name" href="#">Name</a>
+                  <img
+                    class="float-right sort-arrow sort-arrow-name"
+                    src="https://img.icons8.com/plasticine/50/000000/triangle.png"
+                  />
+                </th>
+
+                <th class="align-middle" scope="col">
+                  <input type="hidden" id="price_order" value="asc" />
+                  <a class="table-price" href="#">Price</a
+                  ><img
+                    class="float-right sort-arrow sort-arrow-price"
+                    src="https://img.icons8.com/plasticine/50/000000/triangle.png"
+                  />
+                </th>
+
+                <th class="align-middle" scope="col">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editing product -->
+    <div class="overlay overlay-editing display-off">
+      <div class="editing">
+        <h2 class="product-name"></h2>
+        <hr />
+        <form>
+          <label class="label"
+            >Name:<br /><input type="text" name="name" id="product-name"
+          /></label>
+          <label class="label"
+            >Supplier e-mail:<br /><input
+              type="text"
+              name="email"
+              id="product-email"
+          /></label>
+          <label class="label"
+            >Count:<br /><input type="text" name="count" id="product-count"
+          /></label>
+          <label class="label"
+            >Price:<br /><input type="text" name="price" id="product-price"
+          /></label>
+          <div class="delivery-container">
+            <label class="label"
+              >Delivery:<br />
+              <select name="delivery" id="product-delivery-country">
+                <option></option>
+                <option class="country-option">Russia</option>
+                <option class="country-option">Belorus</option>
+                <option class="country-option">USA</option>
+              </select>
+            </label>
+            <div class="cities">
+              
+            </div>
+          </div>
+          <button type="button" class="my-btn my-btn-accept btn-save-changes">
+            Save changes
+          </button>
+          <button type="button" class="my-btn my-btn-deny btn-cancel">
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Deleting confirmation -->
+    <div class="overlay overlay-deleting display-off">
+      <div class="deleting-confirmation">
+        <h2>Are you sure?</h2>
+        <hr />
+        <p>
+          <!-- Are you sure you want to delete /product name/? -->
+        </p>
+        <button type="button" class="my-btn my-btn-accept btn-yes">Yes</button>
+        <button type="button" class="my-btn my-btn-deny btn-no">No</button>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
+
