@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Product table</title>
+	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<link rel="stylesheet" href="table.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+				integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<input type="search" class="form-control" id="form-focus" placeholder="Enter product name...">
+		</div>
+		<div class="col-md-2">
+			<button type="button" class="btn btn-block btn-info" id="searchBtn">Search</button>
+		</div>
+		<div class="col-md-2 offset-md-4">
+			<button type="button" class="btn btn-block btn-add btn-info">Add new</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered" id="myTable">
+				<thead>
+				<th style="width: 60%"><a href="#" onclick="sortName();">Name</a><div id="triangleName" class="triangleName_none"
+																					  onclick="sortName();"></div></th>
+				<th style="width: 20%"><a href="#" onclick="sortPrice();">Price</a><div id="trianglePrice" class="trianglePrice_none"
+																						onclick="sortPrice();"></div></th>
+					<th>Actions</th>
+				</thead>
+				<tbody id="tableBody"></tbody>
+			</table>
+			<input type="hidden" id="name_order" value="asc">
+			<input type="hidden" id="price_order" value="asc">
+		</div>
+	</div>
+</div>
+<form class="overlay-add" onsubmit="createOrEditProduct(); return false;">
+	<div class="popup-add">
+		<h3>Product name</h3>
+		<hr>
+		<div class="form-group" >
+			<label for="name-product">Name:</label>
+			<div class="col-md-8">
+				<input type="text" minlength="5" maxlength="15" pattern="\S+.*" title = 'Название продукта не должно содержать только пробелы' class="form-control" id="name-product" placeholder="Add product name" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="email">Supplier email:</label>
+			<div class="col-md-7">
+				<input type="email" class="form-control" id="email" placeholder="nesmotri@epam.com" required>
+			</div>
+		</div>
+		<div class="group-forms ">
+			<div class="form-group">
+				<label for="count">Count:</label>
+				<div class="col-md-7">
+					<input type="number" class="form-control" id="count" placeholder="10" min="1" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="price">Price:</label>
+				<div class="col-md-10">
+					<input type="text" class="form-control" id="price" min="0" onfocus="changePriceToNumber()" onblur="formPrice()" required>
+				</div>
+			</div>
+		</div>
+		<label for="delivery">Delivery:</label>
+		<div class="group-forms ">
+			<div class="col-md-6 country">
+				<select name="delivery" class="form-control" id="delivery" onchange="onCountrySelect([])">
+				</select>
+			</div>
+			<div class="group-forms__cities col-md-5 country-city">
+				<label for="selectAll">
+					<input type="checkbox" id="selectAll"> Select All
+				</label>
+				<hr>
+			</div>
+		</div>
+		<div class="row col-md-12">
+			<div class="col-md-5">
+				<button type="submit"  name="submit" class="btn btn-block btn-warning btn-change">Create</button>
+			</div>
+			<div class="col-md-5 offset-md-2">
+				<button type="button" class="btn btn-block btn-info cancel">Cancel</button>
+			</div>
+		</div>
+	</div>
+</form>
+<form class="overlay-del">
+	<div class="popup-del">
+		<h3>Are you sure?</h3>
+		<hr>
+		<p class="popup-del-text"></p>
+		<div class="row col-md-12">
+			<div class="col-md-5">
+				<button type="button" class="btn btn-block btn-info btn-delete-yes" onclick="deleteProduct()">Yes</button>
+			</div>
+			<div class="col-md-5 offset-md-2">
+				<button type="button" class="btn btn-block btn-warning btn-delete-no">No</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script src="table.js"></script>
+</body>
+</html>

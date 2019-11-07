@@ -1,0 +1,182 @@
+.container {
+  padding-top: 50px;
+  background-color: rgba(91, 192, 222, 0.09);
+  font-family: "Comic Sans MS";
+}
+
+table {
+  margin-top: 50px;
+  background-color: white;
+  box-shadow: -2px 2px 10px 2px rgba(83, 164, 194, 0.67);
+}
+table thead {
+  color: rgba(74, 145, 175, 0.85);
+}
+table thead a {
+  color: rgba(74, 145, 175, 0.85);
+}
+table thead a:hover {
+  color: #ffc107;
+  text-decoration: none;
+}
+table tbody {
+  color: rgba(43, 68, 87, 0.95);
+}
+table tbody a {
+  color: rgba(43, 68, 87, 0.95);
+}
+table tbody a:hover {
+  color: #ffc107;
+  text-decoration: none;
+}
+table .count {
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+  color: white;
+  float: right;
+  border-radius: 50px;
+  background-color: rgba(74, 145, 175, 0.63);
+}
+table #form-focus:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+table #triangleName:hover,
+table #trianglePrice:hover {
+  cursor: pointer;
+}
+table .triangleName_top,
+table .trianglePrice_top {
+  display: inline-block;
+  float: right;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  margin: 6px 13px 0 0;
+  border-bottom: 14px solid #ffc107;
+}
+table .triangleName_down,
+table .trianglePrice_down {
+  display: inline-block;
+  float: right;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  margin: 6px 13px 0 0;
+  border-top: 14px solid #ffc107;
+}
+table .triangleName_none,
+table .trianglePrice_none {
+  display: inline-block;
+  float: right;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  margin: 6px 13px 0 0;
+  border-bottom: 12px solid lightgray;
+}
+
+.overlay-add {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.overlay-add .popup-add {
+  position: absolute;
+  width: 500px;
+  height: 580px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  color: rgba(43, 68, 87, 0.95);
+  border: 2px solid rgba(43, 68, 87, 0.95);
+  border-radius: 10px;
+  box-shadow: -2px 2px 10px 2px rgba(83, 164, 194, 0.67);
+}
+.overlay-add .popup-add h3 {
+  text-align: center;
+  color: rgba(45, 79, 97, 0.95);
+}
+.overlay-add .popup-add label {
+  margin-left: 15px;
+}
+.overlay-add .popup-add .group-forms {
+  display: flex;
+  flex-direction: row;
+}
+.overlay-add .popup-add .country-city {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  height: 110px;
+  padding: 10px;
+  margin-bottom: 25px;
+  line-height: 15px;
+}
+.overlay-add .popup-add .country-city hr {
+  margin: 3px;
+}
+.overlay-add .popup-add .country-city-rus {
+  display: none;
+}
+.overlay-add .popup-add .country-city-bel {
+  display: none;
+}
+.overlay-add .popup-add #name-product:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+.overlay-add .popup-add input:invalid {
+  border-color: rgba(165, 0, 0, 0.82);
+}
+.overlay-add .popup-add #email:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+.overlay-add .popup-add #count:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+.overlay-add .popup-add #price:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+.overlay-add .popup-add #delivery:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.1rem #ffc107;
+}
+
+.overlay-del {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.overlay-del .popup-del {
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  color: rgba(43, 68, 87, 0.95);
+  border: 2px solid rgba(43, 68, 87, 0.95);
+  border-radius: 10px;
+  box-shadow: -2px 2px 10px 2px rgba(83, 164, 194, 0.67);
+}
+
+/*# sourceMappingURL=table.css.map */
