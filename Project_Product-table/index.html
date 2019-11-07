@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="myStyles.css">
+
+    <title>Table</title>
+  </head>
+  <body>
+
+    <div class = "modal modal-editAddNew">
+      <div class="modal-editAddNew-window">
+        <div class="modal-editAddNew-window-title"></div>
+        <div class="modal-editAddNew-window-body">
+          <label>
+            Name: *
+            <input class="form-control name" id="inputName" data-error = "no" placeholder="Enter product name">
+            <p class = "textError" id="errorName"></p>
+          </label>
+          <label>
+              Supplier email: *
+              <input class="form-control email" id="inputEmail" data-error = "no" placeholder="Enter supplier's email">
+              <p class = "textError" id="errorEmail"></p>
+          </label>
+          <label>
+              Count: *
+              <input class="form-control number-input" id="inputCount" data-error = "no">
+              <p class = "textError" id="errorCount"></p>
+          </label>
+          <label>
+              Price: *
+              <input class="form-control number-input" id="inputPrice" data-error = "no">
+              <p class = "textError" id="errorPrice"></p>
+          </label>  
+          <label>
+            <div class = "delivery-text">Delivery:</div>
+            <select class="custom-select custom-select-sm delivery countries">
+              <option value="0" selected></option>
+              <option value="1">Russia</option>
+              <option value="2">Belorus</option>
+              <option value="3">USA</option>
+            </select>
+            <div class="cities" id = "Russia">
+                <div class="form-check select-all">
+                    <input class="form-check-input selectAll" type="checkbox" value="allRussia" id="russiaAll">
+                    <label class="form-check-label" for="russiaAll">
+                      Select all
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input selectCity optionRus" type="checkbox" value="Saratov" id="saratov">
+                    <label class="form-check-label" for="saratov">
+                      Saratov
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input selectCity optionRus" type="checkbox" value="Moscow" id="moscow">
+                    <label class="form-check-label" for="moscow">
+                      Moscow
+                    </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input selectCity optionRus" type="checkbox" value="St. Petersburg" id="petersburg">
+                  <label class="form-check-label" for="petersburg">
+                    St. Petersburg
+                  </label>
+                </div>  
+              </div>
+
+              <div class="cities" id = "Belorus">
+                  <div class="form-check select-all">
+                      <input class="form-check-input selectAll" type="checkbox" value="allBelorus" id="belorusAll">
+                      <label class="form-check-label" for="belorusAll">
+                        Select all
+                      </label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input selectCity optionBel" type="checkbox" value="Minsk" id="minsk">
+                      <label class="form-check-label" for="minsk">
+                        Minsk
+                      </label>
+                  </div>
+                  <div class="form-check">
+                      <input class="form-check-input selectCity optionBel" type="checkbox" value="Gomel" id="mogilev">
+                      <label class="form-check-label" for="mogilev">
+                        Gomel
+                      </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input selectCity optionBel" type="checkbox" value="Brest" id="brest">
+                    <label class="form-check-label" for="brest">
+                      Brest
+                    </label>
+                  </div>  
+                </div>
+
+                <div class="cities" id = "USA">
+                    <div class="form-check select-all">
+                        <input class="form-check-input selectAll" type="checkbox" value="allUSA" id="usaAll">
+                        <label class="form-check-label" for="ussaAll">
+                          Select all
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input selectCity optionUSA" type="checkbox" value="New-York" id="newyork">
+                        <label class="form-check-label" for="newyork">
+                          New-York
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input selectCity optionUSA" type="checkbox" value="Washington" id="washington">
+                        <label class="form-check-label" for="washington">
+                          Washington
+                        </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input selectCity optionUSA" type="checkbox" value="Chicago" id="chicago">
+                      <label class="form-check-label" for="chicago">
+                        Chicago
+                      </label>
+                    </div>  
+                  </div>
+            </label>
+            <div class = "buttons">
+              <button type="button" class="btn btn-outline-primary modalBtn modalBtn-save" id = "saveBtn">Save changes</button>
+              <button type="button" class="btn btn-outline-secondary modalBtn modalBtn-cancel" id = "dontSaveBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class = "modal modal-delete">
+      <div class = "modal-delete-window">
+        <div class = "modal-delete-window-title">Are you sure?</div>
+        <div class = "modal-delete-window-body">
+        </div>
+      </div>
+    </div>
+
+    <div class = "my-container">
+      <div class = "row search-row">
+        <div class = "col-md-6">
+          <input type="search" class="form-control form-search" id="inputSearch" placeholder = "Enter product name...">
+          <button type="button" class="btn btn-outline-primary my-btn" id = "searchBtn">Search</button>
+        </div>
+        <div class = "col-md-6">
+          <a class="btn btn-outline-success my-btn-addNew" href="#" role="button">Add new</a>
+        </div>
+      </div>
+
+      <table id="products" class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">
+              <a id = "name" data-sort = "no" href = "#">
+              Name
+              <div id="triangleName"></div>
+              <div id="triangleName-reverse"></div></a>
+            </th>
+            <th scope="col">
+              <a id = "price" data-sort = "no" href = "#">
+              Price
+              <div id="trianglePrice"></div>
+              <div id="trianglePrice-reverse"></div></a>
+            </th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="jquery.inputmask.js"></script>
+    <script src="lodash.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
