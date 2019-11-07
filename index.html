@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
-
-
-
-
-
     <title>JQuery Product table</title>
 </head>
 
@@ -49,7 +44,6 @@
                 </tr>
             </thead>
 
-
             <tbody>
                 <div class="products" id="products">
                     <span class='first'> 0 </span>
@@ -57,11 +51,9 @@
                 </div>
             </tbody>
         </table>
-
     </div>
 
-
-<!------------------------------templaete--------->
+<!----templaete--------->
 <script id="template-product-item" type="text/template">
     <tr class="product-row"> 
         <td class='align-middle'>
@@ -74,16 +66,14 @@
         <div class='val-price row justify-content-between no-gutters'><%= price %></div>
     </td>
     <td class='align-middle'>
-        <div class='row justify-content-end no-gutters'>
-             
+        <div class='row justify-content-end no-gutters'>   
         <button type='button' class='btn-edit btn btn-info mr-1'>Edit</button>
         <button type='button' class='btn-delete btn btn-dark'>Delete</button>
-     
 </td>
 </tr>
 </script>
 
-    <!-----------------------modal add product------------------------------->
+    <!--modal add product----->
     <div class="add-product-modal">
         <div class='add-product-modal-content'>
             <div class="product-modal-header">
@@ -106,22 +96,21 @@
             </select>
             <div id="countriesForSelect"></div>
 
-<!------------------temp for select----------------------------------------------------->
+<!----temp for select----->
             <script type="text/template" id="devivery">
                 <input type="checkbox"  id="select-all"> <label for="all" class='selectAll'>Select all</label> <br>
             <input type="checkbox" class=" " id="0"> <label for="0"><%= city1 %>!</label><br>
             <input type="checkbox" id="1"> <label for="1"><%= city2 %></label><br>
             <input type="checkbox" id="2"> <label for="2"><%= city3 %></label><br>
         </script>
-
- <!------------------------------------------------------------------------>
+ <!------------------>
             <div class="modal-content-btns">
                 <button type="button" class="btn-save">Save change</button>
                 <button type="button" class="btn-cancel">Cancel</button>
             </div>
         </div>
     </div>
-<!-------------------modal for delete---------------------------------------------------->
+<!---modal for delete-------->
     <div class="space-for-delete-product-modal">
         <div class="delete-product-modal">
             <h3> Are you sure?</h3>
