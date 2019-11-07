@@ -1,12 +1,14 @@
 import compileTemplate from "lodash.template";
 import { validateEmail, formatPrice } from "./helpers.js";
 
-export class EditForm {
-  constructor({ initialData, submit }) {
+export class Form {
+  constructor({ title, initialData, submit }) {
     this.formData = {
+      name: "",
+      email: "",
       ...initialData,
-      amount: parseInt(initialData.amount),
-      price: Math.round(parseFloat(initialData.price) * 100) / 100
+      amount: parseInt(initialData.amount) || 1,
+      price: Math.round(parseFloat(initialData.price) * 100) / 100 || 0
     };
     this.errors = {};
     this.handlers = { submit };
@@ -14,6 +16,7 @@ export class EditForm {
     this.renderTemplate = compileTemplate($("#form-template").html());
     this.modalContainer.html(
       this.renderTemplate({
+        title: title,
         ...this.formData,
         price: formatPrice(this.formData.price)
       })
@@ -109,9 +112,9 @@ export class EditForm {
     if (+value < 0) return "Should be positive";
   }
   validatePrice(value) {
+    if (value <= 0) return "Should be positive";
     if (!value) return "This field is required";
     if (isNaN(value)) return "Should be a number";
-    if (value < 0) return "Should be positive";
   }
   renderErrors() {
     this.clearAllErrors();

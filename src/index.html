@@ -12,7 +12,7 @@
     <!-- Search and controls -->
     <header class="b-header container mb-3 mt-5">
       <div class="row justify-content-between">
-        <form class="d-flex justify-content-between">
+        <form class="d-flex justify-content-between js-search">
           <input
             name="search"
             class="form-control form-control-lg mr-3"
@@ -23,7 +23,7 @@
           </button>
         </form>
         <div>
-          <button type="button" class="btn btn-primary btn-lg px-5">
+          <button type="button" class="btn btn-primary btn-lg px-5 js-addnew">
             Add new
           </button>
         </div>
@@ -51,7 +51,7 @@
     <!-- Product form -->
     <script type="text/template" id="form-template">
       <div id="product-form" class="b-modal shadow rounded px-4 py-3">
-        <h2 class="mb-3"><%- name %></h2>
+        <h2 class="mb-3"><%- title %></h2>
         <form class="js-form">
           <div class="form-group">
             <label for="product-name">Name*:</label>
@@ -60,7 +60,7 @@
               type="text"
               id="product-name"
               class="form-control js-focus-target"
-              value=<%- name %>
+              <%- name ? `value=${name}` : "" %>
             />
           </div>
           <div class="form-group">
@@ -70,7 +70,7 @@
               type="text"
               id="product-email"
               class="form-control"
-              value=<%- email %>
+              <%- email ? `value=${email}` : "" %>
             />
           </div>
           <div class="form-row">
@@ -81,7 +81,7 @@
                 type="text"
                 id="product-amount"
                 class="form-control"
-                value=<%- amount %>
+                <%- amount ? `value=${amount}` : "" %>
               />
             </div>
             <div class="col form-group">
@@ -91,7 +91,7 @@
                 type="text"
                 id="product-price"
                 class="form-control"
-                value=<%- price %>
+                <%- price ? `value=${price}` : "" %>
               />
             </div>
           </div>
