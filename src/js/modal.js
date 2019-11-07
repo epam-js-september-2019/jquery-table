@@ -1,3 +1,5 @@
+import compileTemplate from "lodash.template";
+
 export class Modal {
   constructor() {
     this.modalContainer = $(".js-modal-container");
@@ -28,6 +30,12 @@ export class Modal {
     this.modalContainer.fadeOut();
     this.modalContainer.html("");
     this.deactivateFocusTrap();
+  }
+  startLoading() {
+    if (this.submitButton) {
+      const renderLoading = compileTemplate($("#loading-template").html());
+      this.submitButton.html(renderLoading());
+    }
   }
   activateFocusTrap() {
     const container = this.modalContainer.get(0);

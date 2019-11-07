@@ -23,6 +23,7 @@ export class Form extends Modal {
       })
     );
     this.form = this.modalContainer.find(".js-form");
+    this.submitButton = this.form.find(".js-submit");
     this.fields = {
       name: this.form.find("input[name=name]"),
       email: this.form.find("input[name=email]"),
@@ -33,7 +34,7 @@ export class Form extends Modal {
   }
   bindEvents() {
     this.form.find("button").click(e => e.preventDefault());
-    this.form.find(".js-submit").click(this.submit.bind(this));
+    this.submitButton.click(this.submit.bind(this));
     this.form.find(".js-cancel").click(this.close.bind(this));
     this.form.find("input").on("input", e => this.clearError(e.target.name));
     this.fields.name.on("change", this.handleNameChange.bind(this));
@@ -130,6 +131,7 @@ export class Form extends Modal {
     if (Object.keys(this.errors).length > 0) {
       this.renderErrors();
     } else {
+      this.startLoading();
       this.handlers.submit(this.formData).then(() => this.close());
     }
   }

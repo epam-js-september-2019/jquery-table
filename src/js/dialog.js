@@ -12,6 +12,7 @@ export class Dialog extends Modal {
       })
     );
     this.dialog = this.modalContainer.find(".js-dialog");
+    this.submitButton = this.dialog.find(".js-yes");
     this.bindEvents();
   }
   bindEvents() {
@@ -19,6 +20,7 @@ export class Dialog extends Modal {
     this.dialog.on("click", ".js-no", this.close.bind(this));
   }
   confirm() {
+    this.startLoading();
     this.handlers.confirm().then(() => this.close());
   }
 }
