@@ -1,4 +1,4 @@
-import { ProductsModel } from "./productsModel.js";
+import { Storage } from "./storage.js";
 import { Header } from "./header.js";
 import { Table } from "./table.js";
 import { Form } from "./form.js";
@@ -11,7 +11,7 @@ import cities from "../fixtures/cities.json";
 
 export class App {
   constructor() {
-    this.model = new ProductsModel();
+    this.storage = new Storage();
     this.search = null;
     this.header = new Header({
       addNew: this.addProduct.bind(this),
@@ -23,9 +23,9 @@ export class App {
       edit: this.editProduct.bind(this),
       remove: this.removeProduct.bind(this)
     });
-    this.table.render(this.model.getAll());
-    this.model.subscribe(this.renderList.bind(this));
-    this.model.init();
+    this.table.render(this.storage.getAll());
+    this.storage.subscribe(this.renderList.bind(this));
+    this.storage.init();
   }
   renderList(data) {
     const products = this.search ? searchByName(data, this.search) : data;
@@ -33,7 +33,7 @@ export class App {
   }
   showDetails(id) {
     this.details = new Details({
-      data: this.model.getDetails(id),
+      data: this.storage.getDetails(id),
       cities: cities
     });
     this.details.show();
@@ -41,33 +41,33 @@ export class App {
   addProduct() {
     this.createForm({
       title: "Add new product",
-      submit: data => this.model.addNewProduct(data)
+      submit: data => this.storage.addNewProduct(data)
     });
   }
   editProduct(id) {
     this.createForm({
-      title: this.model.getDetails(id).name,
-      initialData: this.model.getDetails(id),
-      submit: data => this.model.updateProduct(id, data)
+      title: this.storage.getDetails(id).name,
+      initialData: this.storage.getDetails(id),
+      submit: data => this.storage.updateProduct(id, data)
     });
   }
   removeProduct(id) {
     this.dialog = new Dialog({
       message: `Are you sure you want to delete ${
-        this.model.getDetails(id).name
+        this.storage.getDetails(id).name
       }?`,
-      confirm: () => this.model.removeProduct(id)
+      confirm: () => this.storage.removeProduct(id)
     });
     this.dialog.show();
   }
   applySearch(query) {
     this.search = query;
-    this.renderList(this.model.getAll());
+    this.renderList(this.storage.getAll());
   }
   resetSearch() {
     console.log("Reset");
     this.search = null;
-    this.renderList(this.model.getAll());
+    this.renderList(this.storage.getAll());
   }
   createForm({ title, initialData = {}, submit }) {
     this.form = new Form({ title, initialData, submit });

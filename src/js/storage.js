@@ -3,7 +3,7 @@ import PRODUCTS_DATA from "../fixtures/products.json";
 const REQUEST_DELAY = 1200;
 const LS_KEY = "minerals:store";
 
-export class ProductsModel {
+export class Storage {
   constructor() {
     this._products = [];
     this._listeners = [];
