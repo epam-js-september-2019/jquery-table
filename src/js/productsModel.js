@@ -1,6 +1,7 @@
 import PRODUCTS_DATA from "../fixtures/products.json";
 
 const REQUEST_DELAY = 1200;
+const LS_KEY = "minerals:store";
 
 export class ProductsModel {
   constructor() {
@@ -8,7 +9,11 @@ export class ProductsModel {
     this._listeners = [];
   }
   init() {
-    this._products = PRODUCTS_DATA;
+    if (localStorage.getItem(LS_KEY)) {
+      this._products = JSON.parse(localStorage.getItem(LS_KEY));
+    } else {
+      this._products = PRODUCTS_DATA;
+    }
     return this._request().then(() =>
       console.log("Product list has been loaded")
     );
@@ -48,6 +53,9 @@ export class ProductsModel {
       this.listeners = this._listeners.filter(l => l !== callback);
     };
   }
+  persistData() {
+    localStorage.setItem(LS_KEY, JSON.stringify(this._products));
+  }
   _notifyListeners() {
     this._listeners.forEach(listener => listener(this._products));
   }
@@ -62,6 +70,7 @@ export class ProductsModel {
     return new Promise((resolve, reject) =>
       setTimeout(() => {
         this._notifyListeners();
+        this.persistData();
         resolve(this._products);
       }, REQUEST_DELAY)
     );
