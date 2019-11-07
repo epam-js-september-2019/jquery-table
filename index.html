@@ -13,7 +13,7 @@
 		<div class="row justify-content-end">
 			<div class="col-md-10 mb-2">
 				<div class="search-group [ input-group ]">
-					<input type="text" class="table__input-search [ form-control ]">
+					<input type="text" class="table__input-search [ form-control ]" placeholder="Enter product name...">
 					<div class="input-group-append">
 						<button type="button" class="table__btn-search search [ btn btn-outline-primary ]">Search</button>
 					</div>
@@ -26,16 +26,16 @@
 		<table class="product-list [ table table-hover ]">
 			<thead>
 				<tr>
-					<th class="w-50 header-active"scope="col" data-col-name="name">
+					<th class="header-active [ w-50 ]" scope="col">
 						<div class="row justify-content-between px-2">
 							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Name</u></div>
-							<div class="col-xs-2">&#9660;</div>
+							<div class="js-name-direction js-direction [ col-xs-2 ]">&#9660;</div>
 						</div>
 					</th>
-					<th class=" header-active" scope="col" data-col-name="price">
+					<th class="header-active" scope="col">
 						<div class="row justify-content-between px-2">
 							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Price</u></div>
-							<div class="col-xs-2">&#9660;</div>
+							<div class="js-price-direction js-direction [ col-xs-2 ]">&#9660;</div>
 						</div>						
 					</th>
 					<th class="" scope="col" data-col-name="actions">
@@ -64,14 +64,14 @@
 	    						<label class="form-control-label">
 	    							Name: *
 	    						</label>
-    							<input class="js-edit-name js-validate [ col-sm-7 form-control mb-2]" name="name" type="text">
+    							<input class="js-edit-name js-validate [ col-sm-7 form-control mb-2]" name="name" placeholder="Some product name" type="text">
 	    						<span class="validation-error"></span>
 	    					</div>
 	    					<div class="form__item">
 	    						<label class="form-control-label">
 	    							Supplier email: *
 	    						</label>
-    							<input class="js-edit-email js-validate [ col-sm-7 form-control mb-2]" name="email" type="text">
+    							<input class="js-edit-email js-validate [ col-sm-7 form-control mb-2]" name="email" placeholder="uss@epam.com" type="text">
 	    						<span class="validation-error"></span>
 	    					</div>
 	    					<div class="form__item">

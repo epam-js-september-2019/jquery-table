@@ -1,27 +1,7 @@
-//TODO
-// валидация принимает на вход объект и идет по ключам
-// удалить все логи
-// все jsx сделать отдельными функциями с входными параметрами, которые потом подставятся
-
 // import { table } from "./table.js";
 
 $(document).ready(function(){
 	'use strict';
-
-	// ($("#form-add").validate({
-	// 		rules: {
-	// 			name: {
-	// 				required: true,
-	// 				maxlength: 15,
-	// 			}
-	// 		},
-	// 		messages: {
-	// 			name: {
-	// 				required: true,
-	// 				maxlength: 15,
-	// 			}
-	// 		}
-	// 		}))
 
 	const ENTER_KEY = 13;
 
@@ -36,7 +16,7 @@ $(document).ready(function(){
 
 		#init = function(newList){
 			for(let id in newList){
-				this.#productList[this.#idCounter++] = newList[id];
+				this.addProduct(newList[id]);
 			}
 		}
 
@@ -68,7 +48,7 @@ $(document).ready(function(){
 			return copy;
 		}
 
-		getList(){ 
+		getList(){ 			
 			return JSON.parse(JSON.stringify(this.#productList));
 		};
 
@@ -87,9 +67,9 @@ $(document).ready(function(){
 	class Table{
 		constructor(list = 0){
 			this.list = new List(list);
-			this.render();
 			this.initFields();
 			this.initModals();
+			this.render();
 		}
 
 		#modals = {
@@ -129,8 +109,6 @@ $(document).ready(function(){
 				}
 
 				const _input = $(searchField).find("input");
-
-				_input.attr("placeholder", "Enter product name...");
 
 				searchField
 				.on("click", "button.search", (event) => {
@@ -189,6 +167,14 @@ $(document).ready(function(){
 					
 				}
 
+				$(".header-active")
+				.parent()
+				.data("param", "name")
+				.data("direction", "AZ");
+
+				$(".header-active .js-price-direction").closest(".header-active").data("col-name", "price");
+				$(".header-active .js-name-direction").closest(".header-active").data("col-name", "name");
+
 				productTable
 				.on("click", ".js-btn-delete", (event) => {
 					const id = $(event.target).closest("tr").data("id");
@@ -215,6 +201,14 @@ $(document).ready(function(){
 					this.#modals.info
 					.data("id", id)
 					.fadeIn(300);	
+				})
+				.on("click", ".header-active", (event) => {
+					const ha = $(event.target).closest(".header-active");
+					const dir = ha.parent().data("direction");
+					ha.find(".js-direction").toggleClass("updown");
+					ha.parent().data("param", ha.data("col-name"));
+					ha.parent().data("direction", dir === "AZ" ? "ZA" : "AZ");
+					this.render();
 				})
 			})($("table.product-list"));
 		}
@@ -336,13 +330,15 @@ $(document).ready(function(){
 						res[elem.name] = [];
 					res[elem.name].push($(elem).val());
 				})
-				console.log(res);
 				if (!onValidationError){
 					this.#modals.common.fadeOut(300);
 					this.list.addProduct(res, this.#modals.edit.data("id")).then((list) => {
 						this.render();
 						onClose(this.#modals.edit.find("form")[0]);
 					})
+				}
+				else{
+					$("form .error").first().trigger("focus");
 				}
 			})
 			.on("change", ".select-all", (event) => {
@@ -369,19 +365,12 @@ $(document).ready(function(){
 				if (validateInput(event.target))
 					event.target.value = this.#priceToEnStr(event.target.value);
 			})
-			.on("focus", "form .error", (event) => {
-				event.target.value = "";
-			})
 			.on("focus", ".js-edit-price:not(.error)", (event) => {
 				event.target.value = event.target.value && this.#priceFromEnStr(event.target.value);
 			})
 			.on("input", ".js-edit-count", (event) => {
 				$(event.target).val((i, str) => str.replace(/[^0-9]/g, ''));
 			});
-
-			((infoForm) => {
-
-			})
 
 			this.#modals.info
 			.on("click", ".js-btn-close", () => {
@@ -413,8 +402,41 @@ $(document).ready(function(){
 		}
 
 		render(list = this.list.getList()){
+			const order = ((par, dir) => {
+				let res = Object.keys(list);
+
+				switch (par) {
+					case "name":
+						res = res.sort((a, b) => {
+							if (list[a].name > list[b].name)
+								return 1;
+							else if (list[a].name < list[b].name)
+								return -1;
+							return 0;
+						});
+						if (dir === "AZ")
+							return res;
+						return res.reverse();
+						break;
+					case "price":
+						res = res.sort((a, b) => {
+							if (+list[a].price > +list[b].price)
+								return 1;
+							else if (+list[a].price < +list[b].price)
+								return -1;
+							return 0;
+						});
+						if (dir === "AZ")
+							return res;
+						return res.reverse();
+						break;
+					default:
+						break;
+				}
+			})($(".header-active").parent().data("param"), $(".header-active").parent().data("direction"));
+
 			$(".product-list tbody").html("");
-			for (let id in list){
+			for (let id of order){
 				$(".product-list tbody").append(`
 					<tr data-id=${id}>
 						<td class="name align-middle" data-col-name="name">
@@ -449,32 +471,41 @@ $(document).ready(function(){
 	function main(){
 		const initialTable = {};
 		let prod1 = {
-			name: "Pencil",
-			email: "abcfs12@gmail.com",
+			name: "Hydrogenium",
+			email: "marusa@gmail.com",
 			count: 654,
-			price: 4322.45,
+			price: 0.45,
 			"delivery-country": "Russia",
 			"delivery-city": ["Saratov", "Moscow"]
 		};
 		initialTable["1"] = prod1;
 		let prod2 = {
-			name: "Pen01",
-			email: "abcfs12@gmail.com",
-			count: 443,
-			price: 7434322.654,
-			"delivery-country": "Belarus",
-			"delivery-city": ["Minsk"]
+			name: "Aurum",
+			email: "steve@gmail.com",
+			count: 4436,
+			price: 74322.654,
+			"delivery-country": "USA",
+			"delivery-city": ["New-York", "Chicago"]
 		};
 		initialTable["2"] = prod2;
 		let prod3 = {
-			name: "Adonit",
-			email: "asfbf@gmail.com",
+			name: "Aluminium",
+			email: "ivan@gmail.com",
 			count: 467,
 			price: 6543.00000,
 			"delivery-country": "Russia",
 			"delivery-city": ["Saratov", "Moscow"]
 		};
 		initialTable["3"] = prod3;
+		let prod4 = {
+			name: "Natrium",
+			email: "ivan@gmail.com",
+			count: 467,
+			price: 64.754,
+			"delivery-country": "Russia",
+			"delivery-city": ["Saratov", "Moscow"]
+		};
+		initialTable["4"] = prod4;
 
 		const tbl = new Table(initialTable);
 		document.tbl = tbl;
