@@ -9,3 +9,9 @@ export function formatPrice(price) {
     currency: "USD"
   });
 }
+
+export function searchByName(items, query) {
+  return items.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+}

@@ -4,6 +4,7 @@ import { ProductsList } from "./productsList.js";
 import { Form } from "./form.js";
 import { RemoveDialog } from "./removeDialog.js";
 import { DeliveryField } from "./deliveryField.js";
+import { searchByName } from "./helpers.js";
 import countries from "../fixtures/countries.json";
 import cities from "../fixtures/cities.json";
 
@@ -22,8 +23,12 @@ export class App {
       remove: this.removeProduct.bind(this)
     });
     this.table.render({ items: this.model.getAll() });
-    this.model.subscribe(data => this.table.render({ items: data }));
+    this.model.subscribe(this.renderList.bind(this));
     this.model.init();
+  }
+  renderList(data) {
+    const products = this.search ? searchByName(data, this.search) : data;
+    this.table.render({ items: products });
   }
   showDetails(id) {
     console.log("Show details: " + id);
@@ -46,6 +51,7 @@ export class App {
   }
   applySearch(query) {
     this.search = query;
+    this.renderList(this.model.getAll());
   }
   resetSearch() {
     this.search = null;
