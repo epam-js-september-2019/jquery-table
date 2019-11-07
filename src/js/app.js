@@ -3,6 +3,7 @@ import { Header } from "./header.js";
 import { ProductsList } from "./productsList.js";
 import { Form } from "./form.js";
 import { Dialog } from "./dialog.js";
+import { Details } from "./details.js";
 import { DeliveryField } from "./deliveryField.js";
 import { searchByName } from "./helpers.js";
 import countries from "../fixtures/countries.json";
@@ -31,7 +32,11 @@ export class App {
     this.table.render(products);
   }
   showDetails(id) {
-    console.log("Show details: " + id);
+    this.details = new Details({
+      data: this.model.getDetails(id),
+      cities: cities
+    });
+    this.details.show();
   }
   addProduct() {
     this.createForm({

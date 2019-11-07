@@ -200,5 +200,38 @@
         </div>
       </div>
     </script>
+
+    <script type="text/template" id="details-template">
+      <div class="b-modal shadow rounded px-4 py-3 js-details">
+        <h2 class="mb-3"><%- name %></h2>
+        <div>
+          <small>Name:</small>
+          <p><%- name %></p>
+        </div>
+        <div>
+          <small>Email:</small>
+          <p><%- email %></p>
+        </div>
+        <div>
+          <small>Count:</small>
+          <p><%- amount %></p>
+        </div>
+        <div>
+          <small>Price:</small>
+          <p><%- price %></p>
+        </div>
+        <div>
+          <small>Delivery cities:</small>
+          <p>
+            <% if (cities.length > 0) { %>
+              <span><%= cities.join(", ") %></span>
+            <% } else { %>
+              <span class="text-secondary">No cities selected</span>
+            <% } %>
+          </p>
+        </div>
+        <button class="close b-close js-close">x</button>
+      </div>
+    </script>
   </body>
 </html>

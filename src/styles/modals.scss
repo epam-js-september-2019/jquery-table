@@ -10,7 +10,13 @@
   padding: 32px;
 }
 .b-modal {
+  position: relative;
   margin: auto;
   width: 640px;
   background-color: #fff;
+}
+.b-close {
+  position: absolute;
+  right: 24px;
+  top: 16px;
 }

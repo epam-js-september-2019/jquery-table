@@ -1,8 +1,10 @@
+import { Modal } from "./modal";
 import compileTemplate from "lodash.template";
 import { validateEmail, formatPrice } from "./helpers.js";
 
-export class Form {
+export class Form extends Modal {
   constructor({ title, initialData, submit }) {
+    super();
     this.formData = {
       name: "",
       email: "",
@@ -12,7 +14,6 @@ export class Form {
     };
     this.errors = {};
     this.handlers = { submit };
-    this.modalContainer = $(".js-modal-container");
     this.renderTemplate = compileTemplate($("#form-template").html());
     this.modalContainer.html(
       this.renderTemplate({
@@ -30,15 +31,6 @@ export class Form {
     };
     this.bindEvents();
   }
-  show() {
-    this.activateFocusTrap();
-    this.modalContainer.fadeIn();
-  }
-  close() {
-    this.modalContainer.fadeOut();
-    this.modalContainer.html("");
-    this.deactivateFocusTrap();
-  }
   bindEvents() {
     this.form.find("button").click(e => e.preventDefault());
     this.form.find(".js-submit").click(this.submit.bind(this));
@@ -49,20 +41,6 @@ export class Form {
     this.fields.amount.on("input", this.handleAmountChange.bind(this));
     this.fields.price.on("focus", this.handlePriceFocus.bind(this));
     this.fields.price.on("blur", this.handlePriceBlur.bind(this));
-    const handleOverlayClick = e => {
-      if (e.target === this.modalContainer.get(0)) {
-        this.modalContainer.unbind(handleOverlayClick);
-        this.close();
-      }
-    };
-    this.modalContainer.bind("click", handleOverlayClick);
-    const handleEsc = e => {
-      if (e.key === "Escape") {
-        $(document).unbind("keyup", handleEsc);
-        this.close();
-      }
-    };
-    $(document).bind("keyup", handleEsc);
   }
   handlePriceFocus(e) {
     e.target.value = this.formData.price;
@@ -168,17 +146,5 @@ export class Form {
         return this.value;
       })
       .get();
-  }
-  activateFocusTrap() {
-    const container = this.modalContainer.get(0);
-    const focusTarget = $(".js-focus-target", this.modalContainer).get(0);
-    $(document).on("focusin.bft", e => {
-      if (!$.contains(container, e.target)) {
-        focusTarget.focus();
-      }
-    });
-  }
-  deactivateFocusTrap() {
-    $(document).off("focusin.bft");
   }
 }

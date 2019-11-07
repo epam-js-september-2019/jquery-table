@@ -1,10 +1,11 @@
+import { Modal } from "./modal";
 import compileTemplate from "lodash.template";
 
-export class Dialog {
+export class Dialog extends Modal {
   constructor({ message, confirm }) {
+    super();
     this.handlers = { confirm };
     this.renderTemplate = compileTemplate($("#dialog-template").html());
-    this.modalContainer = $(".js-modal-container");
     this.modalContainer.html(
       this.renderTemplate({
         message: message
@@ -19,26 +20,5 @@ export class Dialog {
   }
   confirm() {
     this.handlers.confirm().then(() => this.close());
-  }
-  show() {
-    this.activateFocusTrap();
-    this.modalContainer.fadeIn();
-  }
-  close() {
-    this.modalContainer.fadeOut();
-    this.modalContainer.html("");
-    this.deactivateFocusTrap();
-  }
-  activateFocusTrap() {
-    const container = this.modalContainer.get(0);
-    const focusTarget = this.dialog.find(".js-focus-target").get(0);
-    $(document).on("focusin.bft", e => {
-      if (!$.contains(container, e.target)) {
-        focusTarget.focus();
-      }
-    });
-  }
-  deactivateFocusTrap() {
-    $(document).off("focusin.bft");
   }
 }
