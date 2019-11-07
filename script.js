@@ -5,9 +5,12 @@ $(function() {
     let popup = $('div.popup');
     let reqInput = $('input.form-required')
     let infoContainer = $('div.info-container');
+    let countrySelect = $('#country');
+    let productNameEdit;
 
+    // console.log(formBox[0].name.value);
     // let productName;
-    let price;
+    let priceStr;
     // let count;
     // let email;
 
@@ -23,6 +26,25 @@ $(function() {
     let reNumbers = /[0-9]+/;
 
     const DATA = [];
+    countrySelect.on('change', function () {
+        if (countrySelect.val() === 'russia') {
+            $('#russia').addClass('d-flex').removeClass('d-none');
+            $('#usa').removeClass('d-flex').addClass('d-none');
+            $('#belarus').removeClass('d-flex').addClass('d-none');
+        }
+        if (countrySelect.val() === 'usa') {
+            $('#usa').addClass('d-flex').removeClass('d-none');
+            $('#russia').removeClass('d-flex').addClass('d-none');
+            $('#belarus').removeClass('d-flex').addClass('d-none');
+        }
+        if (countrySelect.val() === 'belarus') {
+            $('#belarus').addClass('d-flex').removeClass('d-none');
+            $('#russia').removeClass('d-flex').addClass('d-none');
+            $('#usa').removeClass('d-flex').addClass('d-none');
+        }
+
+    });
+    console.log(countrySelect.val());
 
     let numbersInputCheck = (element) => {
         element.bind("change keyup input click", function() {
@@ -62,6 +84,11 @@ $(function() {
     let warningHide = (element, message) => {
         element.css('box-shadow', 'none');
         message.hide();
+    };
+
+    let editHandler = () => {
+        $(`[data-row=${productNameEdit}]`).replaceAll(createProduct());
+        $('button.product-form__save').unbind('click', editHandler);
     };
 
 
@@ -118,6 +145,31 @@ $(function() {
         this.value = this.value.replace('$','').replace(',','');
     });
 
+    let createProduct = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr) => {
+          return `<tr class="table-row" data-row="${name}">
+                <td class="align-middle">
+                    <a href="#" class="name-link">${name}</a>
+                    <span class="float-right product-count border border-info rounded px-2">${count}</span>
+                </td>
+                <td class="align-middle">${price}</td>
+                <td class="align-middle">
+                    <button class="btn btn-primary button-edit" type="button" data="${name}">Edit</button>
+                    <button class="btn btn-danger button-delete float-right" type="button" data="${name}">Delete</button>
+                </td>
+            </tr>`;
+    };
+
+    let createProductInfo = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr) => {
+        return  `<div class="product-info flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white w-25" id="${name}">
+                    <p class="my-2">Name: ${name}</p>
+                    <p class="my-2">Email: <span>${email}</span></p>
+                    <p class="my-2">Count: <span>${count}</span></p>
+                    <p class="my-2">Price: <span>${price}</span></p>
+                    <p class="my-2">Delivery: <span>Russia</span></p>
+                    <button class="align-self-start btn btn-primary mt-2 w-100 close-button" type="button">Close</button>
+                </div>`;
+    };
+
 
     $('button.product-form__save').on('click', function () {
         if(!reqInput.val()) {
@@ -126,32 +178,14 @@ $(function() {
         if(!formValuesCheck()) {
             return false;
         }
-        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), price: parseInt(priceInput.val().replace(/[$,.]/g,''))};
+        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceData: parseInt(priceInput.val().replace(/[$,.]/g,''))};
         console.log(DATA);
-        price = priceInput.val();
+        priceStr = priceInput.val();
         // let productName = nameInput.val();
         // let count = countInput.val();
         // let email = emailInput.val();
-        productTable.append(`<tr class="table-row">
-                <td class="align-middle">
-                    <a href="#" class="name-link">${nameInput.val()}</a>
-                    <span class="float-right product-count border border-info rounded px-2">${countInput.val()}</span>
-                </td>
-                <td class="align-middle">${price}</td>
-                <td class="align-middle">
-                    <button class="btn btn-primary button-edit" type="button">Edit</button>
-                    <button class="btn btn-danger button-delete float-right" type="button" data="${nameInput.val()}">Delete</button>
-                </td>
-            </tr>`);
-        infoContainer.append(`
-                <div class="product-info flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white w-25" id="${nameInput.val()}">
-                    <p class="my-2">Name: ${nameInput.val()}</p>
-                    <p class="my-2">Email: <span>${emailInput.val()}</span></p>
-                    <p class="my-2">Count: <span>${countInput.val()}</span></p>
-                    <p class="my-2">Price: <span>${price}</span></p>
-                    <p class="my-2">Delivery: <span>Russia</span></p>
-                    <button class="align-self-start btn btn-primary mt-2 w-100 close-button" type="button">Close</button>
-                </div>`);
+        productTable.append(createProduct());
+        infoContainer.append(createProductInfo());
         formBox.removeClass('product-form--show');
         overlay.hide();
         reqInput.val('');
@@ -163,6 +197,18 @@ $(function() {
                     overlay.hide();
                     $('div.product-info').removeClass('d-flex');
                 })
+            });
+
+            $('button.button-edit').on("click", function () {
+                formBox.addClass('product-form--show');
+                overlay.show();
+                productNameEdit = $(this).attr('data');
+                console.log($(this).parent().parent());
+                formBox[0].name.value = DATA[productNameEdit].name;
+                formBox[0].email.value = DATA[productNameEdit].email;
+                formBox[0].count.value = DATA[productNameEdit].count;
+                formBox[0].price.value = DATA[productNameEdit].priceData;
+                $('button.product-form__save').on('click', editHandler);
             });
 
             $('button.button-delete').on("click", function () {

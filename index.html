@@ -17,15 +17,15 @@
         </div>
         <table class="table table-bordered product-list__table col-10 mx-auto">
             <thead class="thead-light">
-              <tr class="flex-fill">
+                <tr class="flex-fill">
                     <th>
                         <a href="#" id="name-link">Name</a>
                         <span class="float-right">^</span>
                     </th>
                     <th class="flex-fill">
-                        <a href="#">Price
+                            <a href="#">Price
                     </th>
-                    <th class="flex-fill">Actions</th>
+                        <th class="flex-fill">Actions</th>
                 </tr>
             </thead>
                  <tr class="table-row">
@@ -93,27 +93,57 @@
         <p class="warning-message warning-message--price m-0">Invalid price</p>
         <label class="w-25 mr-5">Delivery</label>
         <div class="m-0 d-flex">
-            <select class="form-control mr-5 w-25">
-                <option>Russia</option>
-                <option>Belarus</option>
-                <option>USA</option>
+            <select class="form-control mr-5 w-25" id="country">
+                <option value="russia">Russia</option>
+                <option value="belarus">Belarus</option>
+                <option value="usa">USA</option>
             </select>
             <div class="form-check d-flex flex-column flex-shrink-1 border pl-5 py-2 w-50">
                 <label class="form-check-label product-form__select-all" for="selectAll">
                     <input class="form-check-input" type="checkbox" value="" id="selectAll">Select All
                 </label>
-                <label class="form-check-label" for="saratov">
-                    <input class="form-check-input" type="checkbox" value="" id="saratov">
-                    Saratov
-                </label>
-                <label class="form-check-label" for="moscow">
-                    <input class="form-check-input" type="checkbox" value="" id="moscow">
-                    Moscow
-                </label>
-                <label class="form-check-label" for="petersburg">
-                    <input class="form-check-input" type="checkbox" value="" id="petersburg">
-                    St. Petersburg
-                </label>
+                <div class="d-flex flex-column" id="russia">
+                    <label class="form-check-label" for="saratov">
+                        <input class="form-check-input" type="checkbox" value="" id="saratov">
+                        Saratov
+                    </label>
+                    <label class="form-check-label" for="moscow">
+                        <input class="form-check-input" type="checkbox" value="" id="moscow">
+                        Moscow
+                    </label>
+                    <label class="form-check-label" for="petersburg">
+                        <input class="form-check-input" type="checkbox" value="" id="petersburg">
+                        St. Petersburg
+                    </label>
+                </div>
+                <div class="flex-column d-none" id="usa">
+                    <label class="form-check-label" for="los-angeles">
+                        <input class="form-check-input" type="checkbox" value="" id="los-angeles">
+                        Los Angeles
+                    </label>
+                    <label class="form-check-label" for="new-york">
+                        <input class="form-check-input" type="checkbox" value="" id="new-york">
+                        New York
+                    </label>
+                    <label class="form-check-label" for="ostin">
+                        <input class="form-check-input" type="checkbox" value="" id="ostin">
+                        Ostin
+                    </label>
+                </div>
+                <div class="flex-column d-none" id="belarus">
+                    <label class="form-check-label" for="mogilev" id="belarus">
+                        <input class="form-check-input" type="checkbox" value="" id="mogilev">
+                        Mogilev
+                    </label>
+                    <label class="form-check-label" for="minsk">
+                        <input class="form-check-input" type="checkbox" value="" id="minsk">
+                        Minsk
+                    </label>
+                    <label class="form-check-label" for="bobruisk">
+                        <input class="form-check-input" type="checkbox" value="" id="bobruisk">
+                        Bobruisk
+                    </label>
+                </div>
             </div>
         </div>
         <div class="mt-4">
