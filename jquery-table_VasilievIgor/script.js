@@ -25,16 +25,17 @@ mas.forEach((item) => {
 
 /* --- REFRESH --- */
 
-const masRefresh = (mas) => {
-    mas.forEach((item,i) =>{
+const masRefresh = (arr) => {
+    arr.forEach((item,i) =>{
         item.id = i+1;
     });
+    mas = arr.slice();
 };
 masRefresh(mas);
 
-const tableRefresh = (mas) => {
+const tableRefresh = (arr) => {
     $('tbody').html('');
-    mas.forEach((item) => {
+    arr.forEach((item) => {
         $('tbody').append( `<tr id ="${item.id}">
                   <th scope="row">${item.id}</th>
                        <td><span class="name">${item.name}</span><span class="count">${item.count}</span></td>
@@ -42,30 +43,35 @@ const tableRefresh = (mas) => {
                        <td>${item.actions}</td>
                 </tr>`);
     });
+    mas = arr.slice();
+    renderSortButtons(mas);
     deleteButtonsRender(mas).then(
         result => {
+            console.log('delete promise resolved');
             mas = result.slice();
             masRefresh(mas);
             tableRefresh(mas);
-
         }
     );
-    editButtonsRender(mas).then(
+    editButtonsRender(arr).then(
         result => {
             console.log('edit promise resolved');
             mas = result.slice();
             tableRefresh(mas);
+            masRefresh(mas);
+
         }
     );
     showNameInfo(mas);
+
 };
 
 /* --- DELETE --- */
 
-const deleteButtonsRender = (mas) => {
+const deleteButtonsRender = (arr) => {
    return new Promise(resolve => {
        $('.btn.btn-danger.delete').click((e) => {
-           let newMas = mas.slice();
+           let newMas = arr.slice();
            $('.modal-delete').show();
            let id = $(e.currentTarget).closest('tr').attr('id');
            $('#question-delete').text(`Are you sure you want to delete " ${newMas[id - 1].name} " ? `);
@@ -100,9 +106,9 @@ deleteButtonsRender(mas).then(
 
 /* --- ADD BUTTON --- */
 
-const renderAddButton = (mas) => {
+const renderAddButton = (arr) => {
    return new Promise(resolve => {
-       let newMas = mas.slice();
+       let newMas = arr.slice();
        $('#add').click(()=>{
            $('#modalAdd').show();
        });
@@ -284,9 +290,10 @@ renderAddButton(mas).then(
 
 /*--- EDIT BUTTONS ---*/
 
-const editButtonsRender = (mas) => {
+const editButtonsRender = (arr) => {
     return new Promise(resolve => {
-        let newMas = mas.slice();
+
+        let newMas = arr.slice();
         $('.btn.btn-warning.edit').click((e)=>{
             $('#modal-edit-id').show();
             let id = $(e.currentTarget).closest('tr').attr('id');
@@ -470,6 +477,7 @@ editButtonsRender(mas).then(
         console.log('edit promise resolved');
         mas = result.slice();
         tableRefresh(mas);
+        masRefresh(mas);
     }
 );
 
@@ -508,15 +516,10 @@ searchButtonRender();
 
 /* --- SORT BUTTONS --- */
 
-const renderSortButtons = () => {
-
-    let buttonSortNameUp = document.getElementById('up-name');
-    let buttonSortPriceUp = document.getElementById('up-price');
-    let buttonSortNameDown = document.getElementById('down-name');
-    let buttonSortPriceDown = document.getElementById('down-price');
+const renderSortButtons = (arr) => {
 
     $('#down-name').click(() => {
-        mas = mas.sort(function (a, b) {
+        arr = arr.sort(function (a, b) {
             if (a.name < b.name) {
                 return -1
             }
@@ -527,22 +530,30 @@ const renderSortButtons = () => {
         });
         $('#down-name').hide();
         $('#up-name').show();
+        $('#down-name').unbind();
+        $('#up-name').unbind();
+        $('#down-price').unbind();
+        $('#up-price').unbind();
         masRefresh(mas);
         tableRefresh(mas);
     });
 
     $('#down-price').click( () => {
-        mas = mas.sort((obj1, obj2) => {
+        arr = arr.sort((obj1, obj2) => {
             return obj1.price.slice(1).split(',').join('.').split('.').join('') - obj2.price.slice(1).split(',').join('.').split('.').join('');
         })
         $('#down-price').hide();
         $('#up-price').show();
+        $('#down-price').unbind();
+        $('#up-price').unbind();
+        $('#down-name').unbind();
+        $('#up-name').unbind();
         masRefresh(mas);
         tableRefresh(mas);
     });
 
     $('#up-name').click(() => {
-        mas = mas.sort(function (b, a) {
+        arr = arr.sort(function (b, a) {
             if (a.name < b.name) {
                 return -1
             }
@@ -553,6 +564,10 @@ const renderSortButtons = () => {
         });
         $('#up-name').hide();
         $('#down-name').show();
+        $('#down-price').unbind();
+        $('#up-price').unbind();
+        $('#down-name').unbind();
+        $('#up-name').unbind();
         masRefresh(mas);
         tableRefresh(mas);
     });
@@ -563,56 +578,61 @@ const renderSortButtons = () => {
         })
         $('#up-price').hide();
         $('#down-price').show();
+        $('#down-price').unbind();
+        $('#up-price').unbind();
+        $('#down-name').unbind();
+        $('#up-name').unbind();
         masRefresh(mas);
         tableRefresh(mas);
     });
 
 };
-renderSortButtons();
+renderSortButtons(mas);
 
 
 /*--- SHOW NAME INFO --- */
-const showNameInfo = () => {
+const showNameInfo = (arr) => {
 
-    $('.name').click((e)=>{
+
+    $('.name').click((e) => {
         let id = $(e.currentTarget).closest('tr').attr('id');
 
-        $('#name-edit').val(mas[id - 1].name);
-        $('#email-edit').val(mas[id - 1].email);
-        $('#count-edit').val(mas[id - 1].count);
-        $('#price-edit').val(mas[id - 1].price);
+        $('#name-edit').val(arr[id - 1].name);
+        $('#email-edit').val(arr[id - 1].email);
+        $('#count-edit').val(arr[id - 1].count);
+        $('#price-edit').val(arr[id - 1].price);
         $('#modal-edit-id').show();
         $("#button-save-changes-edit").hide();
 
-        $('#form-edit input').prop('readonly',true);
-        $('#select-edit')[0].selectedIndex = mas[id-1].country;
-        $('#select-edit').prop('disabled',true);
+        $('#form-edit input').prop('readonly', true);
+        $('#select-edit')[0].selectedIndex = arr[id - 1].country;
+        $('#select-edit').prop('disabled', true);
         $('#checkbox-edit').html(`
         <input type="checkbox" disabled>Select All<br>
-        <input type="checkbox" disabled ${mas[id-1].checks[0] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city1}<br>
-        <input type="checkbox" disabled ${mas[id-1].checks[1] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city2}<br>
-        <input type="checkbox" disabled ${mas[id-1].checks[2] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city3}<br> 
+        <input type="checkbox" disabled ${arr[id - 1].checks[0] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city1}<br>
+        <input type="checkbox" disabled ${arr[id - 1].checks[1] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city2}<br>
+        <input type="checkbox" disabled ${arr[id - 1].checks[2] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city3}<br> 
         `);
 
-        $('#button-cancel-edit').click(()=>{
-            $('#form-edit input').prop('readonly',false);
-            $('#select-edit').prop('disabled',false);
+        $('#button-cancel-edit').click(() => {
+            $('#form-edit input').prop('readonly', false);
+            $('#select-edit').prop('disabled', false);
             $('#checkbox-edit').html(`
         <input type="checkbox">Select All<br>
-        <input type="checkbox" ${mas[id-1].checks[0] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city1}<br>
-        <input type="checkbox" ${mas[id-1].checks[1] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city2}<br>
-        <input type="checkbox" ${mas[id-1].checks[2] ? 'checked' : 'unchecked'}>${cities[mas[id-1].country].city3}<br> 
+        <input type="checkbox" ${arr[id - 1].checks[0] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city1}<br>
+        <input type="checkbox" ${arr[id - 1].checks[1] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city2}<br>
+        <input type="checkbox" ${arr[id - 1].checks[2] ? 'checked' : 'unchecked'}>${cities[arr[id - 1].country].city3}<br> 
         `);
 
 
-         $("#button-save-changes-edit").show();
-         $('#modal-edit-id').hide();
+            $("#button-save-changes-edit").show();
+            $('#modal-edit-id').hide();
+
 
         });
     });
-
 };
-showNameInfo();
+showNameInfo(mas);
 
 /* --- Price input edit ---- */
 

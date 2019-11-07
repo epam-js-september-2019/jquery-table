@@ -1,7 +1,6 @@
 /*--- FLEX ---*/
 .flex {
     display: flex;
-
 }
 
 header {
@@ -107,9 +106,9 @@ header {
 
 
 /*--- CHECKBOX ---*/
-.checkbox {
+.checkbox-edit, .checkbox-add {
     border: 1px solid;
-    padding: 24px;
+    padding: 12px;
     margin: 0 24px;
 }
 
@@ -130,4 +129,12 @@ table {
 }
 table th, table td {
     overflow: hidden;
+}
+
+#button-cancel-add {
+    margin: 18px 0 0;
+}
+
+.btn-light{
+    margin: 0 2px;
 }
