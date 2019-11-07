@@ -1,0 +1,2 @@
+To build application run webpack -w script.js and open index.html in browser
+ 
