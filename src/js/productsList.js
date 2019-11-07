@@ -7,7 +7,6 @@ export class ProductsList {
     this.table = $(".js-table");
     this.renderTableTemplate = compileTemplate($("#table-template").html());
     this.bindEvents();
-    console.log("Products list has been initialized");
   }
   render(items) {
     const html = this.renderTableTemplate({

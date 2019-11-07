@@ -36,17 +36,7 @@
     </main>
 
     <!-- Modals -->
-    <div class="b-modals js-modal-container" style="display: none">
-      <!-- Confirm deletion -->
-      <div id="confirm" class="b-modal">
-        <h2>Are you sure?</h2>
-        <p>Are you sure you want to delete <em>Antarcticite</em>?</p>
-        <div>
-          <button type="button">Yes</button>
-          <button type="button">No</button>
-        </div>
-      </div>
-    </div>
+    <div class="b-modals js-modal-container" style="display: none"></div>
 
     <!-- Product form -->
     <script type="text/template" id="form-template">
@@ -196,6 +186,19 @@
           </tr>
         <% }); %>
       </tbody>
+    </script>
+
+    <!-- Dialog -->
+    <script type="text/template" id="dialog-template">
+      <!-- Confirm deletion -->
+      <div id="confirm" class="b-modal shadow rounded px-4 py-3 d-flex flex-column justify-content-center align-items-center js-dialog">
+        <h2 class="row text-center mb-4">Are you sure?</h2>
+        <p class="pb-3"><%- message %></p>
+        <div class="d-flex flex-row-reverse text-center">
+          <button class="btn btn-success js-yes px-6 js-focus-target" type="button">Yes</button>
+          <button class="btn btn-secondary js-no px-6 mr-3" type="button">No</button>
+        </div>
+      </div>
     </script>
   </body>
 </html>

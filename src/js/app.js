@@ -2,7 +2,7 @@ import { ProductsModel } from "./productsModel.js";
 import { Header } from "./header.js";
 import { ProductsList } from "./productsList.js";
 import { Form } from "./form.js";
-import { RemoveDialog } from "./removeDialog.js";
+import { Dialog } from "./dialog.js";
 import { DeliveryField } from "./deliveryField.js";
 import { searchByName } from "./helpers.js";
 import countries from "../fixtures/countries.json";
@@ -47,7 +47,13 @@ export class App {
     });
   }
   removeProduct(id) {
-    console.log("Show details " + id);
+    this.dialog = new Dialog({
+      message: `Are you sure you want to delete ${
+        this.model.getDetails(id).name
+      }?`,
+      confirm: () => this.model.removeProduct(id)
+    });
+    this.dialog.show();
   }
   applySearch(query) {
     this.search = query;
