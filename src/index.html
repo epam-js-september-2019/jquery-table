@@ -15,15 +15,22 @@
         <form class="d-flex justify-content-between js-search">
           <input
             name="search"
-            class="form-control form-control-lg mr-3"
+            class="form-control form-control mr-3"
             placeholder="Enter product name.."
           />
-          <button type="submit" class="btn btn-success btn-lg px-5">
+          <button
+            type="reset"
+            class="btn btn-danger btn px-3 js-clear-search mr-3"
+            style="display: none"
+          >
+            Clear
+          </button>
+          <button type="submit" class="btn btn-success btn px-3">
             Search
           </button>
         </form>
         <div>
-          <button type="button" class="btn btn-primary btn-lg px-5 js-addnew">
+          <button type="button" class="btn btn-primary btn px-3 js-addnew">
             Add new
           </button>
         </div>

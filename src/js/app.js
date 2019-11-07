@@ -65,7 +65,9 @@ export class App {
     this.renderList(this.model.getAll());
   }
   resetSearch() {
+    console.log("Reset");
     this.search = null;
+    this.renderList(this.model.getAll());
   }
   createForm({ title, initialData = {}, submit }) {
     this.form = new Form({ title, initialData, submit });
