@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>jquery-table</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <header>
+            <h1>GOODS</h1>
+        </header>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+           <form>
+               <span><input id="search" type="search" placeholder="Enter product name..."></span>
+               <span><button id="search-button" type="button" class="btn btn-default">Search</button></span>
+           </form>
+        </div>
+        <div class="col-md-8">
+            <button id="add" type="button" class="btn btn-default">Add new</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered" id="table">
+                <thead>
+                <tr>
+                    <th >#</th>
+                    <th>
+                        <span>Name</span>
+                        <span><button id="down-name" type="button" class="sort">\/</button></span>
+                        <span><button id="up-name" type="button" class="sort">/\</button></span>
+                    </th>
+                    <th>
+                        <span>Price</span>
+                        <span><button id="down-price" type="button" class="sort">\/</button></span>
+                        <span><button id="up-price" type="button" class="sort">/\</button></span>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--- Modal Delete --->
+    <div id="modalDelete" class="modal-delete">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <button class="close" onclick="closeDeleteModal()">Х</button>
+            <p id="question-delete"></p>
+            <button id="yes-delete" class="btn btn-default">Yes</button>
+            <button id="no-delete" class="btn btn-default">No</button>
+        </div>
+    </div>
+<!---Modal Add --->
+    <div id="modalAdd" class="modal-add">
+       <div class="modal-content">
+        <header class="header-modal">
+            <h1>Product Name</h1>
+        </header>
+          <section>
+              <form id="form" action="">
+                    Name: *<br>
+                    <input id="name" type="text"><br>
+                    <div class="caution mandatory">this field is mandatory</div>
+                    <div class="caution length">name length must be between 5 and 15 characters</div>
+                    <div class="caution spaces">this field cannot contain only spaces</div>
+                    Supplier email: *<br>
+                    <input id="email" type="text"><br>
+                    <div class="caution mandatory mail">this field is mandatory</div>
+                    <div class="caution valid">email adress must be valid</div>
+                      <div></div>
+                    Count: *<br>
+                    <input id="count" type="text"><br>
+                    <div class="caution mandatory count-price">this field is mandatory</div>
+                    <div class="caution is-num">this field can contain only numbers</div>
+                    Price: *<br>
+                    <input id="price" type="text" onchange="priceFormatAdd()"><br>
+                    <div class="caution mandatory price">this field is mandatory</div>
+                    <div class="caution pos-num">this field can contain only positive numbers</div>
+                    Delivery: <br>
+                     <div class="flex">
+                        <div>
+                        <select id="select">
+                            <option label="Russia"></option>
+                            <option label="Belarus"></option>
+                            <option label="USA"></option>
+                        </select>
+                        </div>
+                         <div id="checkbox-id" class="checkbox">
+                             <input type="checkbox">Select All<br>
+                             <input type="checkbox">Moscow<br>
+                             <input type="checkbox">SP<br>
+                             <input type="checkbox">Saratov<br>
+                         </div>
+
+                     </div>
+                     <div class="caution">this field is mandatory</div><br>
+                     <button id="button-save-changes" type="button">save changes</button>
+                     <span><button id="button-cancel" type="button">cancel</button></span>
+              </form>
+          </section>
+       </div>
+    </div>
+</div>
+
+<!--- Modal Edit --->
+<div id="modal-edit-id" class="modal-edit">
+    <div class="modal-content">
+        <header class="header-modal">
+            <h1>Product Name</h1>
+        </header>
+        <section>
+            <form id="form-edit" action="">
+                Name: *<br>
+                <input id="name-edit" type="text"><br>
+                <div class="caution mandatory edit">this field is mandatory</div>
+                <div class="caution length edit">name length must be between 5 and 15 characters</div>
+                <div class="caution spaces edit">this field cannot contain only spaces</div>
+                Supplier email: *<br>
+                <input id="email-edit" type="text"><br>
+                <div class="caution mandatory mail edit">this field is mandatory</div>
+                <div class="caution valid edit">email adress must be valid</div>
+                <div></div>
+                Count: *<br>
+                <input id="count-edit" type="text"><br>
+                <div class="caution mandatory count-price edit">this field is mandatory</div>
+                <div class="caution is-num edit">this field can contain only numbers</div>
+                Price: *<br>
+                <input id="price-edit" type="text" onchange="priceFormatEdit()"><br>
+                <div class="caution mandatory price edit">this field is mandatory</div>
+                <div class="caution pos-num edit">this field can contain only positive numbers</div>
+                Delivery: <br>
+                <div class="flex">
+                    <div>
+                        <select id="select-edit">
+                            <option label="Russia"></option>
+                            <option label="Belarus"></option>
+                            <option label="USA"></option>
+                        </select>
+                    </div>
+                    <div id="checkbox-edit-id" class="checkbox-edit">
+                        <input type="checkbox">Select All<br>
+                        <input type="checkbox">Moscow<br>
+                        <input type="checkbox">SP<br>
+                        <input type="checkbox">Saratov<br>
+                    </div>
+
+                </div>
+                <br>
+                <button id="button-save-changes-edit" type="button">save changes</button>
+                <span><button id="button-cancel-edit" type="button">cancel</button></span>
+            </form>
+        </section>
+    </div>
+</div>
+
+
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JS -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
