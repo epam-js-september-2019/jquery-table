@@ -1,0 +1,14 @@
+[
+  { "key": "spb", "value": "Saint-Petersburg", "country": "rus" },
+  { "key": "msk", "value": "Moskow" , "country": "rus"},
+  { "key": "ekb", "value": "Ekaterinburg" , "country": "rus"},
+  { "key": "minsk", "value": "Minsk", "country": "bel" },
+  { "key": "gomel", "value": "Gomel" , "country": "bel"},
+  { "key": "mogilev", "value": "Mogilev" , "country": "bel"},
+  { "key": "kiev", "value": "Kiev", "country": "ukr" },
+  { "key": "kharkiv", "value": "Kharkiv" , "country": "ukr"},
+  { "key": "odessa", "value": "Odessa" , "country": "ukr"},
+  { "key": "ny", "value": "New-York", "country": "usa" },
+  { "key": "sf", "value": "San-Francisko" , "country": "usa"},
+  { "key": "phl", "value": "Philadelphia" , "country": "usa"}
+]
