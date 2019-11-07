@@ -1,0 +1,115 @@
+.container {
+  margin-top: 24px;
+}
+
+.col-3 {
+  text-align: right;
+}
+
+.fix {
+  width: 880px;
+  margin: 0 auto;
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.delete-overlay, .add-overlay {
+	display: none;
+}
+
+.delete-popup {
+	position: absolute;
+	width: 400px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 40px;
+	box-sizing: border-box;
+  background-color: white;
+  text-align: center;
+}
+
+.add-popup {
+	position: absolute;
+	width: 510px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 16px;
+	box-sizing: border-box;
+  background-color: white;
+  text-align: center;
+  padding-top: 10px;
+  overflow: auto;
+}
+
+.add-popup h3{
+  text-align: left;
+}
+
+.add-popup .fix{
+  width: 400px;
+  margin-left: 8px;
+  margin-top: 16px;
+}
+
+.add-popup .fix-text-input{
+  width: 280px;
+  margin-left: 8px;
+  margin-top: 16px;
+}
+
+label {
+  float: left;
+}
+
+h3 {
+  padding: 5px;
+  border-bottom: 1px solid grey;
+}
+
+.cities {
+  padding: 20px;
+}
+
+.add-popup-buttons {
+  float: left;
+  margin-top: 16px;
+  margin-left: 3px;
+}
+
+.delivery-block {
+  margin-left: 8px;
+}
+
+.fix-count {
+  width: 130px;
+}
+
+.checkboxes {
+  margin-top: 30px;
+  overflow: auto;
+  width: 100px;
+  height: 100px;
+  text-align: left;
+}
+
+.card-count {
+  border-radius: 42px;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.arrow {
+  float:right;
+  display: none;
+}
