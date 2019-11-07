@@ -23,7 +23,9 @@ export class Table {
     this.table.on("click", ".js-edit", this.editProduct.bind(this));
     this.table.on("click", ".js-remove", this.removeProduct.bind(this));
     this.table.on("click", ".js-th", e => {
-      const field = e.target.dataset.sortField;
+      const field = $(e.target)
+        .closest(".js-th")
+        .data("sortField");
       const dir = this.sort.direction === "asc" ? "desc" : "asc";
       this.changeSort(field, dir);
     });
