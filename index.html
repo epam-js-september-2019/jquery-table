@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Kisliakova Tatsiana">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Jquery-table CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Kisliakova Tatsiana jquery-table</title>
+  </head>
+  <body>
+    <div class="wrapper">  
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Enter product name.." aria-label="Search" name="search" id="search" >
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+            </form>
+
+            <!-- Modal dialog from button Add new Product -->
+
+            <a href="#openModal" class="AddnewLink">Add new</a>
+
+                <div id="openModal" class="modalDialog">
+                    <div>
+                        <a href="#close" title="Закрыть" class="close">X</a>
+                        <h2>Product Name</h2>
+                        <hr>
+                        <form id="register" action="#">
+                            <label for="ProdName" class="modalInfo">Name:*</label>
+                            <input type="text" id="ProdName" value="" placeholder="Product name">
+                            <label for="email" class="modalInfo">Supplier email:*</label>
+                            <input type="text" id="email" value="" placeholder="youmail@domain.ru">
+                            <span class="modalInfo">Count:*</span>
+                            <input type="number" placeholder="10" id="count">
+                            <span class="modalInfo">Price:*</span>
+                            <input type="number" placeholder="$1000" id="Price">
+                            <p>Delivery:</p>
+                            <p class="selectdelivery"><select size="4" name="delivery[]">
+                                <option selected disabled>Сhoose country</option>
+                                <option value="Russia" id="Russia">Russia</option>
+                                <option value="Belarus">Belarus</option>
+                                <option value="USA">USA</option>
+                            </select>
+                            </p>
+                            <p class="checkbox">
+                                <input type="checkbox" name="delivery-russia" value="Select all" class="chk-all">Select all<br>
+                                <input type="checkbox" name="delivery-russia" value="Saratov">Saratov<Br>
+                                <input type="checkbox" name="delivery-russia" value="Moskow">Moskow<Br> 
+                                <input type="checkbox" name="delivery-russia" value="St.Petersburg">St.Petersburg<Br> 
+                            </p>
+                            <p>
+                            <button class="btn btn-success" name="button" id="send" data-dismiss="modal">Save changes</button>
+                            <button class="btn btn-success" type="submit" data-dismiss="modal">Cancel</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+        </nav> 
+
+        <!-- Header product table -->
+
+        <table class="table">
+            <thead>
+            <tr id="search-menu">
+                <th scope="col"><a class="btn SortLink" data-sort="product_name" href="#">Name</a>
+                    <img src="svg/caret-bottom.svg" alt="caret-bottom" class="caret-bottom">
+                </th>
+                <th scope="col"><a class="btn SortLink" data-sort="product_price" href="#">Price</a></th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="tasksList" id="search-results">
+
+                    <!-- Modal dialog for edit  -->
+
+                    <div id="openModalEdit" class="modalDialog">
+                        <div >
+                                                    
+                              <a href="#close" title="Закрыть" class="close">X</a>
+                              <h2 class="modal-title">Edit product</h2>
+                            
+                            <div class="modal-body">
+                                <p>Edit Name</p>
+                                <input type="text" class="input-task-edit">
+                                <p>Edit Count</p>
+                                <input type="text" class="input-count-edit">
+                                <p>Edit Price</p>
+                                <input type="text" class="input-price-edit">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-success save-changes" data-dismiss="modal">Save changes</button>
+                            </div>
+                        
+                        </div>
+                    </div>
+
+
+                    <!-- Modal dialog for delete --> 
+
+                    <div id="openModalDelete" class="modalDialog" >
+                            <div>
+                                    <a href="#close" title="Закрыть" class="close">X</a>
+                                    <h2>Are you sure?</h2>
+                                    <hr>
+                                    <p class="question">Are you sure you want to delete </p>
+                                    <div>
+                                        <button class="AddnewLink delete">Yes</button>
+                                        <a href="#close" class="AddnewLink" data-dismiss="modal">No</a>
+                                    </div>    
+                            </div>        
+                    </div>
+            </tbody>
+        </table>
+    </div>
+    
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- Jquery-table  -->
+        <script src="script.js"></script>
+    </body>
+</html>
