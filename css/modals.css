@@ -1,0 +1,48 @@
+.my-modal {
+  position: fixed;
+  box-sizing: inherit;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 0;
+  background-color: rgba(160, 160, 160, 0.5);
+  overflow: auto; }
+  .my-modal-dialog {
+    width: 55vw;
+    max-width: 440px;
+    max-height: 100%;
+    height: auto;
+    position: relative; }
+  .my-modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0; }
+    .my-modal-content__header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      font-weight: 600; }
+    .my-modal-content__body {
+      position: relative;
+      padding: 15px; }
+    .my-modal-content__footer {
+      padding: 15px; }
+
+.select-all {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee; }
+
+.select-container {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; }

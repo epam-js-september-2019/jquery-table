@@ -1,5 +1,3 @@
-// import { table } from "./table.js";
-
 $(document).ready(function(){
 	'use strict';
 

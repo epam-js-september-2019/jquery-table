@@ -1,0 +1,19 @@
+.name__count {
+  border-radius: 8px;
+  float: right;
+  background: #999;
+  color: white; }
+
+.header-active {
+  cursor: pointer; }
+  .header-active:hover .header-active__text {
+    color: #999; }
+
+table .table__link-info {
+  cursor: pointer;
+  text-decoration: underline; }
+  table .table__link-info:hover {
+    color: #999; }
+
+.updown {
+  transform: rotate(180deg); }

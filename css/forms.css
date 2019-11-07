@@ -1,0 +1,26 @@
+.form__btn-close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  float: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .2; }
+  .form__btn-close:hover {
+    opacity: .5; }
+
+.form__item {
+  margin-bottom: 1rem; }
+
+.form-control.error {
+  border-color: #E02C14; }
+  .form-control.error:focus {
+    box-shadow: none; }
+
+.validation-error {
+  font-size: .8rem;
+  color: #e02c14; }
