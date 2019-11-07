@@ -7,13 +7,6 @@ export class Modal {
   }
   bindModalEvents() {
     this.modalContainer.on("click", ".js-close", this.close.bind(this));
-    const handleOverlayClick = e => {
-      if (e.target === this.modalContainer.get(0)) {
-        this.modalContainer.off("click", handleOverlayClick);
-        this.close();
-      }
-    };
-    this.modalContainer.on("click", handleOverlayClick);
     const handleEsc = e => {
       if (e.key === "Escape") {
         $(document).off("keyup", handleEsc);
