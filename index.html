@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="fix">
+    <div class="container">
+      <div class="row">
+        <div class="col-9">
+          <form class="form">
+            <div class="form-row">
+              <div class="form-group col-5">
+                <input type="text" class="form-control card-for-search" placeholder="Enter product name...">
+              </div>
+              <div class="col-7">
+                <button class="btn btn-outline-primary search-button" type="button">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-outline-primary add-button">Add new</button>
+        </div>
+      </div>
+
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <div class="row">
+            <th>
+              <span><a href=# class="name-header-link">Name</a></span>
+              <span class="arrow name-arrow-up mr-4">&#9650;</span>
+              <span class="arrow name-arrow-down mr-4">&#9660;</span>
+            </th>
+            <th>
+              <span><a href=# class="price-header-link">Price</a></span>
+              <span class="arrow price-arrow-up mr-4">&#9650;</span>
+              <span class="arrow price-arrow-down mr-4">&#9660;</span>
+            </th>
+            <th>Actions</th>
+            </div>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="overlay delete-overlay">
+    <div class="delete-popup">
+      <h3>Are you sure?</h3>
+      <p class="delete-popup-warning-msg">Are you sure you want to delete %product name%?</p>
+      <div class="row">
+        <div class="col-6">
+          <button class="btn btn-outline-danger yes-button">YES</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-outline-danger no-button">NO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay add-overlay">
+    <div class="add-popup">
+      <h3>Product Name</h3>
+      <form class="form">
+        <div class="fix">
+          <div class="fix-text-input">
+            <div class="form-group">
+              <label for="name">Name*:</label>
+              <input type="text" name="name" class="form-control name-input">
+              <p class="text-danger text-sm-left help-block name-warning"></p>
+            </div>
+            <div class="form-group">
+              <label for="email">Supplier email*:</label>
+              <input type="text" name="email" class="form-control email-input">
+              <p class="text-danger text-sm-left help-block email-warning"></p>
+            </div>
+            <div class="form-group">
+              <label for="count">Count*:</label>
+              <div class="fix-count">
+                <input type="text" name="count" class="form-control count-input">
+              </div>
+              <p class="text-danger text-sm-left help-block count-warning"></p>
+            </div>
+            <div class="form-group">
+              <label for="price">Price*:</label>
+              <input type="text" name="price" class="form-control price-input">
+              <p class="text-danger text-sm-left help-block price-warning"></p>
+            </div>
+          </div>
+          <div class="delivery-block">
+            <div class="row">
+              <div class="drop col-6">
+                <label for="country">Delivery:</label><br>
+                <select class="form-control country-select">
+                </select>
+              </div>
+              <div class="checkboxes border rounded col-6">
+              </div>
+            </div>
+          </div>
+            <div class="add-popup-buttons">
+              <div class="form-row">
+                <div class="col-8">
+                  <button class="btn btn-outline-primary save-changes-button" type="button">Save changes</button>
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-outline-primary cancel-button" type="button">Cancel</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
