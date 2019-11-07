@@ -1,0 +1,22 @@
+{
+  "name": "jquery",
+  "version": "1.0.0",
+  "description": "JQuery homework foe EPAm JS sep19",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.0",
+    "del": "^5.1.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp"
+  },
+  "author": "Yulia Shutova",
+  "license": "MIT"
+}

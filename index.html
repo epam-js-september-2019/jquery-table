@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>JQuery hw</title>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="container my-4">
+		<div class="row justify-content-end">
+			<div class="col-md-10 mb-2">
+				<div class="search-group [ input-group ]">
+					<input type="text" class="table__input-search [ form-control ]" placeholder="Enter product name...">
+					<div class="input-group-append">
+						<button type="button" class="table__btn-search search [ btn btn-outline-primary ]">Search</button>
+					</div>
+				</div>
+			</div>
+			<div class="col col-md-2 mb-2">
+				<button type="button" class="table__btn-add [ btn btn-block btn-outline-secondary ]">Add new</button>
+			</div>
+		</div>
+		<table class="product-list [ table table-hover ]">
+			<thead>
+				<tr>
+					<th class="header-active [ w-50 ]" scope="col">
+						<div class="row justify-content-between px-2">
+							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Name</u></div>
+							<div class="js-name-direction js-direction [ col-xs-2 ]">&#9660;</div>
+						</div>
+					</th>
+					<th class="header-active" scope="col">
+						<div class="row justify-content-between px-2">
+							<div class="[ header-active__text ] [ col-xs-10 ]"><u>Price</u></div>
+							<div class="js-price-direction js-direction [ col-xs-2 ]">&#9660;</div>
+						</div>						
+					</th>
+					<th class="" scope="col" data-col-name="actions">
+						Actions
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+
+		</table>
+
+		<!-- Modals -->
+	    <div class="my-modal edit-modal" style="display: none;">
+	    	<div class="my-modal-dialog">
+	    		<div class="my-modal-content">
+	    			<div class="my-modal-content__header">
+						<button type="button" class="form__btn-close js-btn-close">
+							<span>×</span>
+						</button>
+	    				<h4 class="js-modal-header"></h4>
+	    			</div>
+	    			<div class="my-modal-content__body">
+	    				<form id="form-edit">
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Name: *
+	    						</label>
+    							<input class="js-edit-name js-validate [ col-sm-7 form-control mb-2]" name="name" placeholder="Some product name" type="text">
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Supplier email: *
+	    						</label>
+    							<input class="js-edit-email js-validate [ col-sm-7 form-control mb-2]" name="email" placeholder="uss@epam.com" type="text">
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Count: *
+	    						</label>
+    							<input class="js-edit-count js-validate [ col-sm-7 form-control mb-2]" name="count" type="text">
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Price: *
+	    						</label>
+    							<input class="js-edit-price js-validate [ col-sm-7 form-control mb-2]" name="price" type="text">
+	    						<span class="validation-error"></span>
+	    					</div>
+	    					<div class="form__item">
+	    						<label class="form-control-label">
+	    							Delivery:
+	    						</label>
+	    						<div class="row pr-3">
+	    							<div class="col col-sm-4">
+			    						<select class="js-edit-delivery-country [ form-control ]" name="delivery-country">
+										</select>
+									</div>
+									<div class="select-container [ col col-sm-8 ]">
+										<label class="select-all">
+											<input class="js-select-all" type="checkbox" value="select-all">
+											Select all
+										</label>
+									</div>
+								</div>
+	    					</div>
+	    				</form>
+	    			</div>
+	    			<div class="my-modal-content__footer [ row ]">
+	    				<div class="col col-md-5 mb-2">
+							<button type="button" class="js-edit-submit [ btn btn-block btn-outline-primary ]">Save changes</button>
+						</div>
+	    				<div class="col col-md-3 mb-2">
+							<button type="button" class="js-edit-cancel [ btn btn-block btn-outline-secondary ]">Cancel</button>
+						</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	    <div class="my-modal delete-modal" style="display: none;">
+	    	<div class="my-modal-dialog">
+	    		<div class="my-modal-content">
+	    			<div class="my-modal-content__header [ my-modal-content__header d-flex justify-content-center bd-highlight ]">
+	    				<h4 class="bd-highlight">Are you sure?</h4>
+	    			</div>
+	    			<div class="my-modal-content__body  [ d-flex justify-content-center bd-highlight ]">
+	    				<p class="js-delete-question [ bd-highlight ]"></p>
+	    			</div>
+	    			<div class="my-modal-content__footer [ row ]">
+	    				<div class="col-sm-6 mb-2">
+							<button type="button" class="js-delete-submit [ btn btn-block btn-outline-primary ]">Yes</button>
+						</div>
+	    				<div class="col-sm-6 mb-2">
+							<button type="button" class="js-delete-cancel [ btn btn-block btn-outline-secondary ]">No</button>
+						</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	    <div class="my-modal info-modal" style="display: none;">
+	    	<div class="my-modal-dialog">
+	    		<div class="my-modal-content">
+	    			<div class="my-modal-content__header">
+						<button type="button" class="form__btn-close js-btn-close">
+							<span>×</span>
+						</button>
+	    				<h4 class="js-modal-header"></h4>
+	    			</div>
+	    			<div class="my-modal-content__body">
+	    				<table class = "table table-borderless">
+	    					<tbody>
+	    						
+	    					</tbody>
+	    				</table>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+	    <div class="spinner [ spinner-grow ]" role="status" style="display: none;">
+		</div>
+
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+	
+	<script src="js/index.js"></script>
+</body>
+</html>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js" crossorigin="anonymous"></script> -->
