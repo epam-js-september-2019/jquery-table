@@ -12,7 +12,8 @@ export class Table {
     const html = this.renderTableTemplate({
       sortField: this.sort.field,
       sortDirection: this.sort.direction,
-      items: items.sort(this._getCompareFunction())
+      items: items.sort(this._getCompareFunction()),
+      thClasses: this._getThClasses()
     });
     this.table.html(html);
     this.items = items;
@@ -43,6 +44,15 @@ export class Table {
   changeSort(field, direction = "asc") {
     this.sort = { field, direction };
     this.render(this.items);
+  }
+  _getThClasses() {
+    const field = this.sort.field;
+    const dir = this.sort.direction;
+    const className = dir === "asc" ? "b-th--sort--asc" : "b-th--sort--desc";
+    return {
+      name: field === "name" ? className : "",
+      price: field === "price" ? className : ""
+    };
   }
   _getCompareFunction() {
     const key = this.sort.field;
