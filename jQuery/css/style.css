@@ -1,0 +1,75 @@
+/* Ширина */
+
+.w-30{
+    width: 30%;
+}
+
+/* свойства модального окна по умолчанию */
+.addProduct-modal, .delete-modal{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    opacity: 0; /* по умолчанию модальное окно прозрачно */
+    pointer-events: none; /* элемент невидим для событий мыши */
+}
+
+/* при отображении модального окна */
+.addProduct-modal-active, .delete-modal-active{
+    opacity: 1;
+    pointer-events: auto;
+    overflow-y: auto;
+}
+
+
+/* свойства таблицы с продуктами */
+.table__edit-button, .table__delete-button{
+    width: 40%;
+}
+.table__name-head{
+    width: 45%;
+}
+.table__price-head{
+    width: 20%;
+}
+
+/* размеры выпадающего меню */
+.dropdown-menu-country{
+    width: 100%;
+    min-width: 0;
+    padding-bottom: 0;
+}
+
+.country-city{
+    height:120px;
+}
+
+.table__name-head, .table__price-head, .table__name-products{
+    cursor: pointer;
+}
+
+/* Сортировка */
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid white;
+  }
+
+ .triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 10px solid white;
+}
+
+@media (max-width: 1200px) { 
+    .addProduct-wrap {
+        width: 70% !important;
+    }
+ }

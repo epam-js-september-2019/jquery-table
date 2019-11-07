@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container page-wrap">
+    <div class="row mx-0 mt-5 mb-4 product-head">
+      <input class="col-4 input-group product-head__search-input" placeholder="Enter product name..">
+      <button type="button" class="col ml-3 btn btn-info product-head__search-button"> Search </button>
+      <button type="button" class="col offset-md-4  btn btn-info product-head__add-button"> Add new </button>
+    </div>
+    <table class="table table-bordered">
+      <tr>
+        <thead class="table-dark">
+          <th class="table__name-head">
+            <div class="d-flex justify-content-between align-items-center">
+              Name
+              <div class="triangle"></div>
+            </div>
+          </th>
+          <th class="table__price-head">
+            <div class="d-flex justify-content-between align-items-center">
+              Price
+              <div class="triangle"></div>
+            </div>
+          </th>
+          <th class="table__actions-head"> Actions</th>
+        </thead>
+      </tr>
+      <tbody class="tbody"></tbody>
+    </table>
+
+
+    <!-- Modal window and add product -->
+    <div class="row align-items-center justify-content-center addProduct-modal">
+      <div class="w-25 rounded px-4 py-2 bg-light addProduct-wrap">
+        <h3 class="border-bottom border-dark pb-2 mb-3 product-name"></h3>
+        <div class="form-group">
+          <label for="product-name-input">Name: *</label>
+          <input class="form-control w-50" id="product-name-input" placeholder="Product name">
+          <small class="font-weight-light">Name max length is 15 characters</small>
+        </div>
+        <div class="form-group">
+          <label for="email-input">Supplier email: *</label>
+          <input class="form-control w-50" id="email-input" placeholder="e-mail@example.com">
+        </div>
+        <div class="form-group">
+          <label for="count-input">Count: *</label>
+          <input class="form-control w-30" id="count-input">
+        </div>
+        <div class="form-group">
+          <label for="price-input">Price: *</label>
+          <input class="form-control w-50" id="price-input">
+        </div>
+
+        <!-- dropdown menu  and checkboxes-->
+        <label for="delivery-input">Delivery:</label>
+        <div class="form-row country-city">
+          <div class="col-4 mr-5">
+            <div class="input-group">
+              <input class="form-control" id="delivery-input">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"></button>
+                <ul class="dropdown-menu dropdown-menu-right dropdown-menu-country">
+                  <li class="dropdown-item py-0 pl-1">Russia</li>
+                  <li class="dropdown-item py-0 pl-1">Belarus</li>
+                  <li class="dropdown-item py-0 pl-1">USA</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- checkbox city -->
+          <div class="col-5 border mr-4 delivery-city d-none">
+            <div class="form-check border-bottom border-dark my-2">
+              <input class="form-check-input" type="checkbox" value="" id="checkAll">
+              <label class="form-check-label" for="checkAll">
+                Select All
+              </label>
+            </div>
+            <div class="form-check mt-1">
+              <input class="form-check-input check-city" type="checkbox" value="" id="check1">
+              <label class="form-check-label label-city" for="check1">
+
+              </label>
+            </div>
+            <div class="form-check mt-1">
+              <input class="form-check-input check-city" type="checkbox" value="" id="check2">
+              <label class="form-check-label label-city" for="check2">
+
+              </label>
+            </div>
+            <div class="form-check mt-1">
+              <input class="form-check-input check-city" type="checkbox" value="" id="check3">
+              <label class="form-check-label label-city" for="check3">
+
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4 mx-0">
+          <button type="button" class="col-4 btn btn-info save-change-button"> Save changes </button>
+          <button type="button" class="col-3 ml-5 btn btn-info cancel-modal"> Cancel </button>
+        </div>
+      </div>
+    </div>
+    <!-- -->
+
+    <!-- Modal window for delete product -->
+
+    <div class="row align-items-center justify-content-center delete-modal">
+      <div class="w-30 rounded py-2 bg-light">
+        <h4 class="border-bottom border-dark pb-2 mb-3 text-center">Are you sure?</h4>
+        <p class="text-center delete-txt"></p>
+        <div class="row mt-4 mx-0 justify-content-center">
+          <button type="button" class="col-3 btn btn-info confirm-delete"> Yes </button>
+          <button type="button" class="col-3 ml-5 btn btn-info cancel-deleteModal"> No </button>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <!-- lodash template for new tr with product -->
+  </div>
+  <script type="text/template" id="tr-template">
+    <tr class="product">
+        <td class="align-middle">
+          <div class="d-flex justify-content-between align-items-center table__name-count-wrap">
+            <p class="m-0 table__name-products"><%=name%></p>
+            <div class="badge badge-dark text-wrap table__count"><%=count%></div>
+          </div>
+        </td>
+        <td class="align-middle table__price"><%=price%></td>
+        <td>
+          <div class="d-flex justify-content-around table__button-wrapper">
+            <button type="button" class="btn btn-info table__edit-button"> Edit </button>
+            <button type="button" class="btn btn-info table__delete-button"> Delete </button>
+          </div>
+        </td>
+      </tr>
+    </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+  <script src="./js/code.js"></script>
+  
+</body>
+
+</html>
