@@ -272,7 +272,7 @@ $(document).ready(function(){
 				let _value = elem.value.slice(0);
 				const _name = elem.name.slice(0);
 				if(_name === "price" && _value.slice(0, 1) === "$")
-					_value = this.#priceFromEnStr(_value);
+					_value = elem.value = this.#priceFromEnStr(_value);
 				const errorMsg = _validate(_value, _name);
 				if (errorMsg === ""){
 					$(elem)
@@ -333,7 +333,9 @@ $(document).ready(function(){
 				if (!onValidationError){
 					this.#modals.common.fadeOut(300);
 					$(".spinner").fadeIn(300);
+					$(".js-edit-submit").attr('disabled','disabled');
 					this.list.addProduct(res, this.#modals.edit.data("id")).then((list) => {
+						$(".js-edit-submit").removeAttr('disabled');
 						$(".spinner").hide();
 						this.render();
 						onClose(this.#modals.edit.find("form")[0]);
@@ -390,6 +392,7 @@ $(document).ready(function(){
 
 		#renderCities = (country) => {
 			$(".js-edit-delivery-city").parent().remove();
+			$(".js-select-all").prop("checked", false);
 			this.#deliveryInfo
 			.get(country)
 			.forEach((val) => {
