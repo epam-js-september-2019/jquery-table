@@ -1,6 +1,6 @@
 import compileTemplate from "lodash.template";
 
-export class ProductsList {
+export class Table {
   constructor({ showDetails, edit, remove }) {
     this.handlers = { showDetails, edit, remove };
     this.sort = { field: "name", direction: "asc" };

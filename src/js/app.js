@@ -1,6 +1,6 @@
 import { ProductsModel } from "./productsModel.js";
 import { Header } from "./header.js";
-import { ProductsList } from "./productsList.js";
+import { Table } from "./table.js";
 import { Form } from "./form.js";
 import { Dialog } from "./dialog.js";
 import { Details } from "./details.js";
@@ -18,7 +18,7 @@ export class App {
       applySearch: this.applySearch.bind(this),
       resetSearch: this.resetSearch.bind(this)
     });
-    this.table = new ProductsList({
+    this.table = new Table({
       showDetails: this.showDetails.bind(this),
       edit: this.editProduct.bind(this),
       remove: this.removeProduct.bind(this)
