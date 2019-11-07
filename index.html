@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="node_modules/lodash/lodash.js"></script>
+
+    <script type="text/javascript" src="dist/main.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Product Table</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <input class="form-control col-md-3 search-input" type="text" placeholder="Enter product name..." aria-label="Search">
+        <button class="btn btn-primary" id="search">Search</button>
+        <a href="#open-modal-form" class="add-new"><button class="btn btn-primary">Add new</button></a>
+
+    </div>
+    <div class="row">
+    <div class="table-responsive">
+        <table class=" table table-bordered" id="product-table">
+            <thead>
+            <tr>
+                <th><a  class="sort">Name</a>
+            <span class="arrow-up arrowName float-right">
+                <img src="img/777999_profile_picture_50x50.jpg">
+            </span>
+            </th>
+                <th><a  class="sort">Price</a>
+                    <span class="arrow-up arrowPrice float-right">
+                <img src="img/777999_profile_picture_50x50.jpg">
+            </span>
+                </th>
+            <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+<div id="open-modal-form" class="modal-form">
+    <div class="col-5 container">
+        <div class="row border-bottom modal-form__header">Product Name
+            <a href="#" class="float-right close-modal-form close-form">
+                <span aria-hidden="true">&times;</span></a>
+        </div>
+
+        <form role="form" id="form">
+            <div class="form-group row">
+                <div class="col-7">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" placeholder="Put product name">
+                    <p class="help-block s-15 hidden">Product name should be 5-15 symbols</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-7">
+                    <label for="email">Supplier email:</label>
+                    <input type="text" class="form-control" id="email" placeholder="Put supplier email">
+                    <p class="help-block s-15 hidden">This email is not valid</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-7">
+                    <label for="count">Count:</label>
+                    <input type="text" class="form-control" id="count" placeholder="Put count of product">
+                    <p class="help-block s-15 hidden">There should be numbers</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-7">
+                    <label for="price">Price:</label>
+                    <input type="text" class="form-control" id="price" placeholder="Put product price">
+                    <p class="help-block s-15 hidden">There should be numbers</p>
+                </div>
+            </div>
+            <label for="delivery">Delivery:</label>
+            <div class="row delivery-row">
+                <div class="col-5">
+                    <div class="input-group" id="delivery">
+                        <input  autocomplete="off" type="text" class="form-control" id="delivery-input" aria-label="Text input with dropdown button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-menu">
+                            <span class="dropdown-item" data-value="Russia">Russia</span>
+                            <span class="dropdown-item" data-value="Belarus">Belarus</span>
+                            <span class="dropdown-item" data-value="USA">USA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class ="col-4 border select-city"></div>
+
+            </div>
+
+        </form>
+        <a href="#"><button type="button" class="btn btn-secondary col-4 close-form">Close</button></a>
+        <button type="button" class="btn btn-primary col-4" id="save-product" >Save changes</button>
+    </div>
+</div>
+
+<div id="open-modal-yes-no" class="modal-form">
+    <div class="col-5 container">
+        <div class="row border-bottom modal-form__header">Are you sure?
+            <a href="#" class="float-right close-modal-form">
+                <span>&times;</span></a>
+        </div>
+        <p class="modal-yes-no-text">Are you sure you want to delete <span class="product-name">the product</span></p>
+
+        <a href="#"><button type="button" class="btn btn-secondary" id="delete-agree">Yes</button></a>
+        <a href="#"><button type="button" class="btn btn-primary" id="delete-reject">No</button></a>
+</div>
+</div>
+
+</body>
+</html>
