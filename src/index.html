@@ -36,62 +36,7 @@
     </main>
 
     <!-- Modals -->
-    <div class="b-modals">
-      <!-- Product form -->
-      <div id="product" class="b-modal">
-        <h2>Chrysocolla</h2>
-        <form>
-          <label>
-            <h3>Name*:</h3>
-            <input name="name" type="text" />
-          </label>
-          <label>
-            <h3>Supplier mail*:</h3>
-            <input name="name" type="text" />
-          </label>
-          <label>
-            <h3>Count*:</h3>
-            <input name="name" type="text" />
-          </label>
-          <label>
-            <h3>Price*:</h3>
-            <input name="name" type="text" />
-          </label>
-          <div>
-            <h3>Delivery:</h3>
-            <div>
-              <select name="country">
-                <option value="russia">Russia</option>
-                <option value="belarus">Belarus</option>
-                <option value="usa">USA</option>
-              </select>
-              <div>
-                <label>
-                  <input name="selectall" type="checkbox" />
-                  <span>Select all</span>
-                </label>
-                <label>
-                  <input name="saratov" type="checkbox" />
-                  <span>Saratov</span>
-                </label>
-                <label>
-                  <input name="moskow" type="checkbox" />
-                  <span>Moskow</span>
-                </label>
-                <label>
-                  <input name="saintpetersburg" type="checkbox" />
-                  <span>Saint-Petersburg</span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <button type="submit">Save changes</button>
-            <button type="cancel">Cancel</button>
-          </div>
-        </form>
-      </div>
-
+    <div class="b-modals js-modal-container" style="display: none">
       <!-- Confirm deletion -->
       <div id="confirm" class="b-modal">
         <h2>Are you sure?</h2>
@@ -102,6 +47,108 @@
         </div>
       </div>
     </div>
+
+    <!-- Product form -->
+    <script type="text/template" id="form-template">
+      <div id="product-form" class="b-modal shadow rounded px-4 py-3">
+        <h2 class="mb-3"><%- name %></h2>
+        <form class="js-form">
+          <div class="form-group">
+            <label for="product-name">Name*:</label>
+            <input
+              name="name"
+              type="text"
+              id="product-name"
+              class="form-control js-focus-target"
+              value=<%- name %>
+            />
+          </div>
+          <div class="form-group">
+            <label for="product-email">Supplier mail*:</label>
+            <input
+              name="email"
+              type="text"
+              id="product-email"
+              class="form-control"
+              value=<%- email %>
+            />
+          </div>
+          <div class="form-row">
+            <div class="col form-group">
+              <label for="product-amount">Count*:</label>
+              <input
+                name="amount"
+                type="text"
+                id="product-amount"
+                class="form-control"
+                value=<%- amount %>
+              />
+            </div>
+            <div class="col form-group">
+              <label for="product-price">Price*:</label>
+              <input
+                name="price"
+                type="text"
+                id="product-price"
+                class="form-control"
+                value=<%- price %>
+              />
+            </div>
+          </div>
+          <h4>Delivery:</h4>
+          <div class="form-row js-delivery">
+          </div>
+          <div class="d-flex mt-2">
+            <button type="submit" class="js-submit btn btn-success mr-2">Save changes</button>
+            <button type="cancel" class="js-cancel btn btn-secondary">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </script>
+
+    <!-- Delivery -->
+    <script type="text/template" id="delivery-template">
+      <div class="col form-group custom-control">
+        <select name="country" class="custom-select">
+          <% countries.forEach(c => { %>
+            <option value=<%= c.key %> <%- c.isSelected ? 'selected' : '' %> >
+              <%- c.value %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col form-group">
+        <div class="border p-2 rounded">
+          <div class="custom-control custom-checkbox">
+            <input
+              name="cities"
+              value="selectall"
+              id="cities-selectall"
+              type="checkbox"
+              class="custom-control-input js-selectall"
+            />
+            <label for="cities-selectall" class="custom-control-label">Select all</label>
+          </div>
+          <hr />
+          <% cities.forEach(city => { %>
+            <div class="custom-control custom-checkbox">
+              <input
+                name="cities"
+                value=<%- city.key %>
+                id="cities-<%- city.key %>"
+                type="checkbox"
+                class="custom-control-input js-city"
+              />
+              <label for="cities-<%- city.key %>" class="custom-control-label">
+                <%- city.value %>
+              </label>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </script>
+
+    <!-- Products list -->
     <script type="text/template" id="table-template">
       <thead>
         <tr>
