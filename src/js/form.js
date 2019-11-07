@@ -55,7 +55,7 @@ export class Form extends Modal {
     this.formData.amount = parseInt(e.target.value);
   }
   handleNameChange(e) {
-    this.formData.name = e.target.value;
+    this.formData.name = e.target.value.replace(/\s/g, "");
   }
   handleEmailChange(e) {
     this.formData.email = e.target.value;
