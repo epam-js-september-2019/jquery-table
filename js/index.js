@@ -218,7 +218,9 @@ $(document).ready(function(){
 			})
 			.on("click", ".js-delete-submit", (event) => {
 				this.#modals.delete.fadeOut(300);
+				$(".spinner").fadeIn(300);
 				this.list.deleteProduct(this.#modals.delete.data("id")).then((list) => {
+					$(".spinner").hide();
 					this.render();
 				});
 
@@ -330,7 +332,9 @@ $(document).ready(function(){
 				})
 				if (!onValidationError){
 					this.#modals.common.fadeOut(300);
+					$(".spinner").fadeIn(300);
 					this.list.addProduct(res, this.#modals.edit.data("id")).then((list) => {
+						$(".spinner").hide();
 						this.render();
 						onClose(this.#modals.edit.find("form")[0]);
 					})
