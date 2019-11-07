@@ -22,13 +22,13 @@ export class App {
       edit: this.editProduct.bind(this),
       remove: this.removeProduct.bind(this)
     });
-    this.table.render({ items: this.model.getAll() });
+    this.table.render(this.model.getAll());
     this.model.subscribe(this.renderList.bind(this));
     this.model.init();
   }
   renderList(data) {
     const products = this.search ? searchByName(data, this.search) : data;
-    this.table.render({ items: products });
+    this.table.render(products);
   }
   showDetails(id) {
     console.log("Show details: " + id);
