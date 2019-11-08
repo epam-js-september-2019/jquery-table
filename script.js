@@ -138,13 +138,13 @@ $(function() {
         this.value = this.value.replace('$','').replace(',','');
     });
 
-    let createProduct = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr) => {
+    let createProduct = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr, priceData = parseInt(priceInput.val().replace(/[$,.]/g,''))) => {
           return `<tr class="table-row" data-row="${name}">
-                <td class="align-middle table-data">
+                <td class="align-middle table-data" data-name="name-sort" data-value="${name}">
                     <a href="#" class="name-link">${name}</a>
                     <span class="float-right product-count border border-info rounded px-2">${count}</span>
                 </td>
-                <td class="align-middle">${price}</td>
+                <td class="align-middle" data-name="price-sort" data-value="${priceData}">${price}</td>
                 <td class="align-middle">
                     <button class="btn btn-primary button-edit" type="button" data="${name}">Edit</button>
                     <button class="btn btn-danger button-delete float-right" type="button" data="${name}">Delete</button>
@@ -254,6 +254,37 @@ $(function() {
         });
     });
     searchButton.on('click', tableFilter);
+    
+    let tableSort = function (element) {
+        tableRows = $('table.table').find('.table-row');
+        tableRows.sort(function (a,b) {
+            return +$(b).find('.name-link')[0].textContent - +$(a).find('.name-link')[0].textContent;
+        }).appendTo('table > tbody');
+    };
+
+    let nameSortUp = true;
+
+    $('.header-link').on('click', function (evt) {
+        nameSortUp = !nameSortUp;
+        evt.preventDefault();
+        tableRows = $('table.table').find('.table-row');
+        tableRows.sort(function (a,b) {
+            return nameSortUp ? $(a).find('[data-name=name-sort]').attr('data-value').toUpperCase().localeCompare($(b).find('[data-name=name-sort]').attr('data-value').toUpperCase()) :
+                $(b).find('[data-name=name-sort]').attr('data-value').toUpperCase().localeCompare($(a).find('[data-name=name-sort]').attr('data-value').toUpperCase());
+        }).appendTo('table');
+    });
+
+    let up = true;
+
+    $('.price-link').on('click', function (evt) {
+        up = !up;
+        evt.preventDefault();
+        tableRows = $('table.table').find('.table-row');
+        tableRows.sort(function (a,b) {
+           return up ? $(b).find('[data-name=price-sort]').attr('data-value') - $(a).find('[data-name=price-sort]').attr('data-value') :
+                $(a).find('[data-name=price-sort]').attr('data-value') - $(b).find('[data-name=price-sort]').attr('data-value');
+        }).appendTo('table');
+    });
 });
 
 
