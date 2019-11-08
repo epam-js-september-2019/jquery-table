@@ -10,13 +10,17 @@ async function searchProduct() {
   $("tbody tr ").show();
   let inputSearch = await $(".product-search").val().trim();
   let arrForSearch = [];
-   
+   let searchStr;
   for (let i in storedNames) {
-    arrForSearch.push(inputSearch.toLowerCase() == storedNames[i].name.toLowerCase()); 
+    arrForSearch.push(inputSearch.toLowerCase() == storedNames[i].name.toLowerCase());
+    if (inputSearch.toLowerCase() == storedNames[i].name.toLowerCase()) {
+      searchStr = storedNames[i].name;
+    }
   }
  let search = inputSearch.toLowerCase()
   if (arrForSearch.includes(true)) {
-    $(`tbody tr:not(:contains("${search}"))`).hide();
+    console.log(search)
+    $(`tbody tr:not(:contains("${searchStr}"))`).hide();
   } else {
     $("tbody tr ").show();
   }
@@ -51,8 +55,7 @@ async function appendProductInTable(arg) {
     $("#myTable tr:last").after(htmlTemplaete);
   }
   setTimeout(editProduct, 1000);
-  deleteProduct();
-
+ 
   $(".btn-search ").click(function(event) {
     event.preventDefault();
     searchProduct();
@@ -63,6 +66,44 @@ async function appendProductInTable(arg) {
       searchProduct();
     }
   });
+ deleteProduct();
+  showInfo()
+}
+
+function showInfo() {
+  $('.info').click(function (event) {
+    event.preventDefault();
+    $('.add-product-modal').show();
+    $('input').hide()
+    $('.btn-save').hide()
+    $('.btn-cancel').hide()
+    $('select').hide()
+    $('#countriesForSelect').hide()
+
+    let productId = $(this).parents('.product-row').find('.val-product').attr('id');
+    let thisProduct = JSON.parse(localStorage.getItem('products'));
+    let infoName = thisProduct[productId].name,
+        infoPrice = thisProduct[productId].price,
+        infoCount = thisProduct[productId].count,
+        infoEmail = thisProduct[productId].email;
+
+    $('.name-for-input:eq(0)').after(`<p class='info-name'> </p>`)
+    $('h3').text(`${infoName}`);
+    $('.info-name').text(`${infoName}`);
+    $('.name-for-input:eq(1)').after(`<p class='info-email'> </p>`)
+    $('.info-email').text(`${infoEmail}`);
+    $('.name-for-input:eq(2)').after(`<p class='info-count'> </p>`)
+    $('.info-count').text(`${infoCount}`);
+    $('.name-for-input:eq(3)').after(`<p class='info-price'> </p>`)
+    $('.info-price').text(`${infoPrice}`);
+    $('.name-for-input:eq(4)').after('<button type="button" class="close-info">Close</button>')
+
+    $('.close-info').click(function () {
+      $('.add-product-modal').hide();
+      $('.name-for-input').next().remove();
+    })
+
+  })
 }
 
 function validation() {
@@ -81,8 +122,7 @@ function validation() {
           errorObject.resetError(".error")
           errorObject.invalidClass($(".product-name"));
           $(".product-name").after("<p class='error'> </p>")
-         // errorObject.resetClass('error')
-         $('.error').attr('class', 'error');
+          $('.error').attr('class', 'error');
           $(".error").addClass('nameIsNull')
           $(".nameIsNull").text("You should enter text");
 
@@ -193,6 +233,7 @@ function selectDelivery() {
 }
 
 async function addNewProduct() {
+  $(".btn-save").unbind("click");
   $(".count").on("input change", function() {
     let validCount = $(".count").val();
     $(".count").val(validCount.replace(/[\W_a-zA-Zа-яА-Я]/g, ""));
@@ -276,6 +317,12 @@ function editProduct() {
   $(".btn-edit").click(function() {
     $(".add-product-modal").show();
     $(".btn-save").unbind("click");
+    $('input').show()
+    $('.btn-save').show()
+    $('.btn-cancel').show()
+    $('select').show()
+    $('#countriesForSelect').show()
+     
     selectCity();
 
     let thisProductId = $(this).parents(".product-row").find(".val-product").attr("id");
@@ -394,14 +441,14 @@ function selectCity() {
   $("#select-country").change(function() {
     selectDelivery();
     $("#select-all").change(function()  {
-      var group = $(this).attr('data-group');
-      $('.one[data-group="' + group + '"]').prop("checked", this.checked);
+      let group = $(this).attr('data-group');
+      $(`.one[data-group="${group}"]`).prop("checked", this.checked);
   });
 
   $(".one").change(function()  {
-      var group = $(this).attr('data-group');
-      var allChecked = $('.one[data-group="' + group + '"]:not(:checked)').length == 0;
-      $('.all[data-group="' + group + '"]').prop("checked", allChecked);
+      let group = $(this).attr('data-group');
+      let allChecked = $(`.one[data-group="${group}"]:not(:checked)`).length == 0;
+      $(`.all[data-group="${group}"]`).prop("checked", allChecked);
       console.log($("input[type='checkbox']").text())
   });
      

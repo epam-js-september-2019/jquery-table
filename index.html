@@ -58,7 +58,7 @@
     <tr class="product-row"> 
         <td class='align-middle'>
             <div class='name-row row justify-content-between  no-gutters'>
-        <span  class="val-product" id='<%= id %>' > <%= name %> </span> <span class="forSearch"><%= nameForSearch %></span>
+        <span  class="val-product" id='<%= id %>' ><a class ="info" href=""> <%= name %> </a> </span> <span class="forSearch"><%= nameForSearch %></span>
         <span class='val-count badge badge-pill badge-secondary px-3 py-2'><%= count %></span>
     </div>
 </td>
@@ -99,7 +99,7 @@
 <!--temp for select----->
             <script type="text/template" id="devivery">
                 <input type="checkbox" data-group="groupSelect" class="all" id="select-all"> <label for="all" class='selectAll'>Select all</label> <br>
-            <input type="checkbox" data-group="groupSelect" class="one" id="0"> <label for="0"><%= city1 %>!</label><br>
+            <input type="checkbox" data-group="groupSelect" class="one" id="0"> <label for="0"><%= city1 %></label><br>
             <input type="checkbox" data-group="groupSelect" class="one" id="1"> <label for="1"><%= city2 %></label><br>
             <input type="checkbox" data-group="groupSelect" class="one" id="2"> <label for="2"><%= city3 %></label><br>
         </script>

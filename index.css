@@ -52,6 +52,28 @@
     display:none
 }
 
+.info-name, .info-count,.info-price,.info-email{
+  font-weight:bold
+} 
+
+.close-info{
+  background:#292e33;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 0px solid;  
+  color:#FFF;
+  font-family: 'Open Sans', sans-serif;  
+  font-weight:200;  
+  font-size: 13pt;
+  cursor:pointer;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  bottom: 20px;  
+  left: 100px;
+}
+
 #countriesForSelect {
   float: right;
   border: 3px solid rgb(121, 187, 204);
