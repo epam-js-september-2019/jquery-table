@@ -7,12 +7,13 @@ $(function() {
     let infoContainer = $('div.info-container');
     let countrySelect = $('#country');
     let productNameEdit;
+    let editableElement;
+    let editableInfo;
 
-    // console.log(formBox[0].name.value);
-    // let productName;
+    let isEdit;
+
     let priceStr;
-    // let count;
-    // let email;
+
 
     let isCorrect;
     let tableRow;
@@ -42,9 +43,7 @@ $(function() {
             $('#russia').removeClass('d-flex').addClass('d-none');
             $('#usa').removeClass('d-flex').addClass('d-none');
         }
-
     });
-    console.log(countrySelect.val());
 
     let numbersInputCheck = (element) => {
         element.bind("change keyup input click", function() {
@@ -85,12 +84,6 @@ $(function() {
         element.css('box-shadow', 'none');
         message.hide();
     };
-
-    let editHandler = () => {
-        $(`[data-row=${productNameEdit}]`).replaceAll(createProduct());
-        $('button.product-form__save').unbind('click', editHandler);
-    };
-
 
     let formValuesCheck = () => {
         isCorrect = true;
@@ -171,64 +164,131 @@ $(function() {
     };
 
 
-    $('button.product-form__save').on('click', function () {
+    let onFormActivate = () => {
         if(!reqInput.val()) {
             return false;
         }
         if(!formValuesCheck()) {
             return false;
         }
-        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceData: parseInt(priceInput.val().replace(/[$,.]/g,''))};
+        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceNumberData: parseInt(priceInput.val().replace(/[$,.]/g,'')), priceData: priceInput.val()};
         console.log(DATA);
         priceStr = priceInput.val();
-        // let productName = nameInput.val();
-        // let count = countInput.val();
-        // let email = emailInput.val();
-        productTable.append(createProduct());
-        infoContainer.append(createProductInfo());
+
+        if (isEdit) {
+            editableElement.html(createProduct().replace(/(<tr[^>]+>|<\/tr>)/gi, ''));
+            editableInfo.remove();
+            infoContainer.append(createProductInfo());
+        } else {
+            productTable.append(createProduct());
+            infoContainer.append(createProductInfo());
+        }
+
         formBox.removeClass('product-form--show');
         overlay.hide();
         reqInput.val('');
-            $('a.name-link').on('click', function () {
-                // console.log(this.text());
-                $('#' + $(this).text()).addClass('d-flex');
-                overlay.show();
-                $('button.close-button').on('click', function () {
-                    overlay.hide();
-                    $('div.product-info').removeClass('d-flex');
-                })
-            });
+        $('a.name-link').on('click', function () {
+            // console.log(this.text());
+            $('#' + $(this).text()).addClass('d-flex');
+            overlay.show();
+            $('button.close-button').on('click', function () {
+                overlay.hide();
+                $('div.product-info').removeClass('d-flex');
+            })
+        });
 
-            $('button.button-edit').on("click", function () {
-                formBox.addClass('product-form--show');
-                overlay.show();
-                productNameEdit = $(this).attr('data');
-                console.log($(this).parent().parent());
-                formBox[0].name.value = DATA[productNameEdit].name;
-                formBox[0].email.value = DATA[productNameEdit].email;
-                formBox[0].count.value = DATA[productNameEdit].count;
-                formBox[0].price.value = DATA[productNameEdit].priceData;
-                $('button.product-form__save').on('click', editHandler);
-            });
+        $('button.button-edit').on("click", function () {
+            formBox.addClass('product-form--show');
+            overlay.show();
+            productNameEdit = $(this).attr('data');
+            isEdit = true;
+            editableElement = $(this).parent().parent();
+            editableInfo = $(`#${productNameEdit}`);
+            formBox[0].name.value = DATA[productNameEdit].name;
+            formBox[0].email.value = DATA[productNameEdit].email;
+            formBox[0].count.value = DATA[productNameEdit].count;
+            formBox[0].price.value = DATA[productNameEdit].priceData;
+        });
 
-            $('button.button-delete').on("click", function () {
-                productNameDelete.text($(this).attr('data'));
-                popup.addClass('popup--show');
-                overlay.show();
-                tableRow = $(this).parent().parent();
-                $('button.popup__button--yes').on('click', function () {
-                    setTimeout(function () {
-                        tableRow.remove();
-                    });
-                    popup.removeClass('popup--show');
-                    overlay.hide();
+        $('button.button-delete').on("click", function () {
+            productNameDelete.text($(this).attr('data'));
+            popup.addClass('popup--show');
+            overlay.show();
+            tableRow = $(this).parent().parent();
+            $('button.popup__button--yes').on('click', function () {
+                setTimeout(function () {
+                    tableRow.remove();
                 });
-                $('button.popup__button--no').on('click', function () {
-                    popup.removeClass('popup--show');
-                    overlay.hide();
-                });
+                popup.removeClass('popup--show');
+                overlay.hide();
             });
-    });
+            $('button.popup__button--no').on('click', function () {
+                popup.removeClass('popup--show');
+                overlay.hide();
+            });
+        });
+        isEdit = false;
+    };
+    $('button.product-form__save').bind('click', onFormActivate);
+    // $('button.product-form__save').on('click', function () {
+    //     if(!reqInput.val()) {
+    //         return false;
+    //     }
+    //     if(!formValuesCheck()) {
+    //         return false;
+    //     }
+    //     DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceData: parseInt(priceInput.val().replace(/[$,.]/g,''))};
+    //     console.log(DATA);
+    //     priceStr = priceInput.val();
+    //
+    //     productTable.append(createProduct());
+    //     infoContainer.append(createProductInfo());
+    //     formBox.removeClass('product-form--show');
+    //     overlay.hide();
+    //     reqInput.val('');
+    //         $('a.name-link').on('click', function () {
+    //             // console.log(this.text());
+    //             $('#' + $(this).text()).addClass('d-flex');
+    //             overlay.show();
+    //             $('button.close-button').on('click', function () {
+    //                 overlay.hide();
+    //                 $('div.product-info').removeClass('d-flex');
+    //             })
+    //         });
+    //
+    //         $('button.button-edit').on("click", function () {
+    //             formBox.addClass('product-form--show');
+    //             overlay.show();
+    //             productNameEdit = $(this).attr('data');
+    //             console.log($(this).parent().parent());
+    //             formBox[0].name.value = DATA[productNameEdit].name;
+    //             formBox[0].email.value = DATA[productNameEdit].email;
+    //             formBox[0].count.value = DATA[productNameEdit].count;
+    //             formBox[0].price.value = DATA[productNameEdit].priceData;
+    //             $('button.product-form__save').bind('click', function () {
+    //                 $(`[data-row=${productNameEdit}]`).innerHTML.replaceAll(createProduct());
+    //                 $('button.product-form__save').unbind('click', editHandler);
+    //             });
+    //         });
+    //
+    //         $('button.button-delete').on("click", function () {
+    //             productNameDelete.text($(this).attr('data'));
+    //             popup.addClass('popup--show');
+    //             overlay.show();
+    //             tableRow = $(this).parent().parent();
+    //             $('button.popup__button--yes').on('click', function () {
+    //                 setTimeout(function () {
+    //                     tableRow.remove();
+    //                 });
+    //                 popup.removeClass('popup--show');
+    //                 overlay.hide();
+    //             });
+    //             $('button.popup__button--no').on('click', function () {
+    //                 popup.removeClass('popup--show');
+    //                 overlay.hide();
+    //             });
+    //         });
+    // });
 });
 
 
