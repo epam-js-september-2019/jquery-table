@@ -442,13 +442,18 @@ function selectCity() {
     selectDelivery();
     $("#select-all").change(function()  {
       let group = $(this).attr('data-group');
+
       $(`.one[data-group="${group}"]`).prop("checked", this.checked);
+      $('.one[data-group="' + group + '"]').prop("checked", this.checked);
+
   });
 
   $(".one").change(function()  {
       let group = $(this).attr('data-group');
       let allChecked = $(`.one[data-group="${group}"]:not(:checked)`).length == 0;
       $(`.all[data-group="${group}"]`).prop("checked", allChecked);
+      
+
       console.log($("input[type='checkbox']").text())
   });
      
