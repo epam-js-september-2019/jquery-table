@@ -59,11 +59,11 @@
         </label>
         <p class="warning-message warning-message--price m-0">Invalid price</p>
         <label class="w-25 mr-5">Delivery</label>
-        <div class="m-0 d-flex">
+        <div class="m-0 d-flex delivery">
             <select class="form-control mr-5 w-25" id="country">
-                <option value="russia">Russia</option>
-                <option value="belarus">Belarus</option>
-                <option value="usa">USA</option>
+                <option value="Russia" selected>Russia</option>
+                <option value="Belarus">Belarus</option>
+                <option value="USA">USA</option>
             </select>
             <div class="form-check d-flex flex-column flex-shrink-1 border pl-5 py-2 w-50">
                 <label class="form-check-label product-form__select-all" for="selectAll">
@@ -71,43 +71,43 @@
                 </label>
                 <div class="d-flex flex-column" id="russia">
                     <label class="form-check-label" for="saratov">
-                        <input class="form-check-input" type="checkbox" value="" id="saratov">
+                        <input class="form-check-input" type="checkbox" value="" id="saratov" data-city="Saratov" data="Russia">
                         Saratov
                     </label>
                     <label class="form-check-label" for="moscow">
-                        <input class="form-check-input" type="checkbox" value="" id="moscow">
+                        <input class="form-check-input" type="checkbox" value="" id="moscow" data-city="Moscow" data="Russia">
                         Moscow
                     </label>
                     <label class="form-check-label" for="petersburg">
-                        <input class="form-check-input" type="checkbox" value="" id="petersburg">
+                        <input class="form-check-input" type="checkbox" value="" id="petersburg" data-city="St. Petersburg" data="Russia">
                         St. Petersburg
                     </label>
                 </div>
                 <div class="flex-column d-none" id="usa">
-                    <label class="form-check-label" for="los-angeles">
-                        <input class="form-check-input" type="checkbox" value="" id="los-angeles">
+                    <label class="form-check-label" for="los-angeles" data="USA">
+                        <input class="form-check-input" type="checkbox" value=""  id="los-angeles" data-city="Los Angeles" data="USA">
                         Los Angeles
                     </label>
                     <label class="form-check-label" for="new-york">
-                        <input class="form-check-input" type="checkbox" value="" id="new-york">
+                        <input class="form-check-input" type="checkbox" value="" id='new-york' data-city="New York" data="USA">
                         New York
                     </label>
                     <label class="form-check-label" for="ostin">
-                        <input class="form-check-input" type="checkbox" value="" id="ostin">
+                        <input class="form-check-input" type="checkbox" value="" id="ostin" data-city="Ostin" data="USA">
                         Ostin
                     </label>
                 </div>
                 <div class="flex-column d-none" id="belarus">
                     <label class="form-check-label" for="mogilev" id="belarus">
-                        <input class="form-check-input" type="checkbox" value="" id="mogilev">
+                        <input class="form-check-input" type="checkbox" value="" id="mogilev" data-city="Mogilev" data="Belarus">
                         Mogilev
                     </label>
                     <label class="form-check-label" for="minsk">
-                        <input class="form-check-input" type="checkbox" value="" id="minsk">
+                        <input class="form-check-input" type="checkbox" value="" id="minsk" data-city="Minsk" data="Belarus">
                         Minsk
                     </label>
                     <label class="form-check-label" for="bobruisk">
-                        <input class="form-check-input" type="checkbox" value="" id="bobruisk">
+                        <input class="form-check-input" type="checkbox" value="" id="bobruisk" data-city="Bobruisk" data="Belarus">
                         Bobruisk
                     </label>
                 </div>

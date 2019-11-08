@@ -25,25 +25,43 @@ $(function() {
     let productNameDelete = $('#product');
     let regEmail = /[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]+/;
     let reNumbers = /[0-9]+/;
+    let checkedCheckboxes;
+    let deliveryCheckboxes;
 
     const DATA = [];
+
+    let selectAll = $('#selectAll');
+
     countrySelect.on('change', function () {
-        if (countrySelect.val() === 'russia') {
+        if (countrySelect.val() === 'Russia') {
             $('#russia').addClass('d-flex').removeClass('d-none');
             $('#usa').removeClass('d-flex').addClass('d-none');
             $('#belarus').removeClass('d-flex').addClass('d-none');
         }
-        if (countrySelect.val() === 'usa') {
+        if (countrySelect.val() === 'USA') {
             $('#usa').addClass('d-flex').removeClass('d-none');
             $('#russia').removeClass('d-flex').addClass('d-none');
             $('#belarus').removeClass('d-flex').addClass('d-none');
         }
-        if (countrySelect.val() === 'belarus') {
+        if (countrySelect.val() === 'Belarus') {
             $('#belarus').addClass('d-flex').removeClass('d-none');
             $('#russia').removeClass('d-flex').addClass('d-none');
             $('#usa').removeClass('d-flex').addClass('d-none');
         }
+        selectAll.prop('checked', false);
+        deliveryCheckboxes = $('.delivery input');
+        deliveryCheckboxes.prop('checked', false);
     });
+
+    selectAll.on('change', function () {
+            if(selectAll.prop('checked')) {
+                $(`[data=${countrySelect.val()}]`).prop('checked', true);
+            } else {
+                $(`[data=${countrySelect.val()}]`).prop('checked', false);
+            }
+    });
+
+
 
     let numbersInputCheck = (element) => {
         element.bind("change keyup input click", function() {
@@ -53,9 +71,18 @@ $(function() {
         });
     };
 
+    let priceInputCheck = (element) => {
+        element.bind("change keyup input click", function() {
+            if (this.value.match(/[^0-9]/g)) {
+                this.value = this.value.replace(/[^0-9$,\.]/g, '');
+            }
+        });
+    };
+
+
     $( "button.product-list__add-button" ).on( "click", function( event ) {
         numbersInputCheck(countInput);
-        // numbersInputCheck(priceInput);
+        priceInputCheck(priceInput);
         formBox.addClass('product-form--show');
         overlay.show();
     });
@@ -66,12 +93,14 @@ $(function() {
             formBox.removeClass('product-form--show');
             popup.removeClass('popup--show');
             $('div.product-info').removeClass('d-flex');
+            reqInput.val('');
             overlay.hide();
         }
     });
 
     $( "button.product-form__cancel" ).on( "click", function( event ) {
         formBox.removeClass('product-form--show');
+        reqInput.val('');
         overlay.hide();
     });
 
@@ -111,7 +140,9 @@ $(function() {
         } else {
             warningHide(countInput, $('p.warning-message--count'));
         }
-        if(priceInput.val() === '' || priceInput.val()[0] === '0' || priceInput.val().length < 3 || priceInput.val().length > 21) {
+        if(priceInput.val() === '' ||
+            priceInput.val()[0] === '0' ||
+            priceInput.val().length > 21) {
             warningShow(priceInput, $('p.warning-message--price'));
             isCorrect = false;
         } else {
@@ -122,8 +153,8 @@ $(function() {
     };
 
     priceInput.on('keyup', function () {
-        if(this.value.length > 2) {
-            this.value = this.value.replace('.','');
+        this.value = this.value.replace('.','');
+        if(this.value.length > 2) {;
             this.value = this.value.substring(0, this.value.length - 2) + '.' + this.value.substring(this.value.length - 2, this.value.length);
         }
     });
@@ -152,43 +183,61 @@ $(function() {
             </tr>`;
     };
 
-    let createProductInfo = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr) => {
+    let createProductInfo = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr, country = countrySelect.val(), cities = checkedCheckboxes.join(', ')) => {
         return  `<div class="product-info flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white w-25" id="${name}">
                     <p class="my-2">Name: ${name}</p>
                     <p class="my-2">Email: <span>${email}</span></p>
                     <p class="my-2">Count: <span>${count}</span></p>
                     <p class="my-2">Price: <span>${price}</span></p>
-                    <p class="my-2">Delivery: <span>Russia</span></p>
+                    <p class="my-2">Delivery: <span>${country}</span></p>
+                    <p class="my-2">Cities: <span>${cities}</span></p>
                     <button class="align-self-start btn btn-primary mt-2 w-100 close-button" type="button">Close</button>
                 </div>`;
     };
 
     let onFormActivate = () => {
+        deliveryCheckboxes = $('.delivery input');
+        console.log(deliveryCheckboxes);
+        checkedCheckboxes = [];
         if(!reqInput.val()) {
             return false;
         }
         if(!formValuesCheck()) {
             return false;
         }
-        DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceNumberData: parseInt(priceInput.val().replace(/[$,.]/g,'')), priceData: priceInput.val()};
+        deliveryCheckboxes.map(function (element) {
+            if (deliveryCheckboxes[element].checked && deliveryCheckboxes[element].dataset.city !== undefined) {
+                checkedCheckboxes.push(deliveryCheckboxes[element].dataset.city);
+               return element;
+            }
+        });
+        console.log(checkedCheckboxes);
+        DATA[nameInput.val()] = {
+            name: nameInput.val(),
+            email: emailInput.val(),
+            count: parseInt(countInput.val()),
+            priceNumberData: parseInt(priceInput.val().replace(/[$,.]/g,'')),
+            priceData: priceInput.val(),
+            delivery: checkedCheckboxes
+        };
         console.log(DATA);
         priceStr = priceInput.val();
 
         if (isEdit) {
             editableElement.html(createProduct().replace(/(<tr[^>]+>|<\/tr>)/gi, ''));
-            delete DATA[productNameEdit];
+            if (productNameEdit !== nameInput.val()) {
+                delete DATA[productNameEdit];
+            }
             editableInfo.remove();
             infoContainer.append(createProductInfo());
         } else {
             productTable.append(createProduct());
             infoContainer.append(createProductInfo());
         }
-        console.log(DATA);
         formBox.removeClass('product-form--show');
         overlay.hide();
         reqInput.val('');
         $('a.name-link').on('click', function () {
-            // console.log(this.text());
             $('#' + $(this).text()).addClass('d-flex');
             overlay.show();
             $('button.close-button').on('click', function () {
@@ -254,16 +303,8 @@ $(function() {
         });
     });
     searchButton.on('click', tableFilter);
-    
-    let tableSort = function (element) {
-        tableRows = $('table.table').find('.table-row');
-        tableRows.sort(function (a,b) {
-            return +$(b).find('.name-link')[0].textContent - +$(a).find('.name-link')[0].textContent;
-        }).appendTo('table > tbody');
-    };
 
     let nameSortUp = true;
-
     $('.header-link').on('click', function (evt) {
         nameSortUp = !nameSortUp;
         evt.preventDefault();
@@ -274,14 +315,13 @@ $(function() {
         }).appendTo('table');
     });
 
-    let up = true;
-
+    let priceSortUp = true;
     $('.price-link').on('click', function (evt) {
-        up = !up;
+        priceSortUp = !priceSortUp;
         evt.preventDefault();
         tableRows = $('table.table').find('.table-row');
         tableRows.sort(function (a,b) {
-           return up ? $(b).find('[data-name=price-sort]').attr('data-value') - $(a).find('[data-name=price-sort]').attr('data-value') :
+           return priceSortUp ? $(b).find('[data-name=price-sort]').attr('data-value') - $(a).find('[data-name=price-sort]').attr('data-value') :
                 $(a).find('[data-name=price-sort]').attr('data-value') - $(b).find('[data-name=price-sort]').attr('data-value');
         }).appendTo('table');
     });
