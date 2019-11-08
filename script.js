@@ -10,6 +10,9 @@ $(function() {
     let editableElement;
     let editableInfo;
 
+    let ESC_BUTTON = 27;
+    let ENTER_BUTTON = 13;
+
     let isEdit;
 
     let priceStr;
@@ -89,7 +92,7 @@ $(function() {
 
 
     $(document).keyup(function( event ) {
-        if(event.which === 27) {
+        if(event.which === ESC_BUTTON) {
             formBox.removeClass('product-form--show');
             popup.removeClass('popup--show');
             $('div.product-info').removeClass('d-flex');
@@ -197,7 +200,6 @@ $(function() {
 
     let onFormActivate = () => {
         deliveryCheckboxes = $('.delivery input');
-        console.log(deliveryCheckboxes);
         checkedCheckboxes = [];
         if(!reqInput.val()) {
             return false;
@@ -211,7 +213,6 @@ $(function() {
                return element;
             }
         });
-        console.log(checkedCheckboxes);
         DATA[nameInput.val()] = {
             name: nameInput.val(),
             email: emailInput.val(),
@@ -220,7 +221,6 @@ $(function() {
             priceData: priceInput.val(),
             delivery: checkedCheckboxes
         };
-        console.log(DATA);
         priceStr = priceInput.val();
 
         if (isEdit) {
@@ -297,7 +297,7 @@ $(function() {
     };
     searchInput.on('input', function () {
         searchInput.keyup(function( event ) {
-            if(event.which === 13) {
+            if(event.which === ENTER_BUTTON) {
                 tableFilter();
             }
         });
@@ -307,6 +307,7 @@ $(function() {
     let nameSortUp = true;
     $('.header-link').on('click', function (evt) {
         nameSortUp = !nameSortUp;
+        nameSortUp ? $('#sort-symbol').text('↑') : $('#sort-symbol').text('↓');
         evt.preventDefault();
         tableRows = $('table.table').find('.table-row');
         tableRows.sort(function (a,b) {
@@ -318,6 +319,7 @@ $(function() {
     let priceSortUp = true;
     $('.price-link').on('click', function (evt) {
         priceSortUp = !priceSortUp;
+        priceSortUp ? $('#sort-symbol-price').text('↑') : $('#sort-symbol-price').text('↓');
         evt.preventDefault();
         tableRows = $('table.table').find('.table-row');
         tableRows.sort(function (a,b) {
