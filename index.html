@@ -66,7 +66,7 @@
     <tr class="product-row"> 
         <td class='align-middle'>
             <div class='name-row row justify-content-between  no-gutters'>
-        <span  class="val-product" id='<%= id %>' > <%= name %></span>
+        <span  class="val-product" id='<%= id %>' > <%= name %> </span> <span class="forSearch"><%= nameForSearch %></span>
         <span class='val-count badge badge-pill badge-secondary px-3 py-2'><%= count %></span>
     </div>
 </td>
@@ -89,15 +89,15 @@
             <div class="product-modal-header">
                 <h3>Product name</h3>
             </div>
-            <p>Name:</p>
+            <p class='name-for-input'>Name:</p>
             <input name="name" class="product-name valid" id='name' type="text" placeholder="Some product name" />
-            <p>supplier email:</p>
+            <p class='name-for-input'>supplier email:</p>
             <input name="mail" class="mail valid" id='email' type="text" placeholder="rd.saratov@epam.com" />
-            <p>Count:</p>
+            <p class='name-for-input'>Count:</p>
             <input name="valid count " class="count" id='count' type="text" />
-            <p>Price:</p>
+            <p class='name-for-input'>Price:</p>
             <input name="price" class="price valid" id='price' type="text" />
-            <p>Delivery:</p>
+            <p class='name-for-input'>Delivery:</p>
             <select id="select-country">
                 <option value=""> </option>
                 <option value="ru">Russia</option>
@@ -124,7 +124,8 @@
 <!-------------------modal for delete---------------------------------------------------->
     <div class="space-for-delete-product-modal">
         <div class="delete-product-modal">
-            <h3> Are you sure?</h3>
+            <div class="header-for-delete">
+            <h3> Are you sure?</h3></div>
             <p class='delete-product-name'> </p>
             <button type="button" class="btn-yes">Yes</button>
             <button type="button" class="btn-no">No</button>

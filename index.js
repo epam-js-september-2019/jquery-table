@@ -7,15 +7,16 @@ let errorObject = {
 };
 
 async function searchProduct() {
+  $("tbody tr ").show();
   let inputSearch = await $(".product-search").val().trim();
   let arrForSearch = [];
-
+   
   for (let i in storedNames) {
-    arrForSearch.push(inputSearch == storedNames[i].name);
+    arrForSearch.push(inputSearch.toLowerCase() == storedNames[i].name.toLowerCase()); 
   }
-
+ let search = inputSearch.toLowerCase()
   if (arrForSearch.includes(true)) {
-    $(`tbody tr:not(:contains("${inputSearch}"))`).hide();
+    $(`tbody tr:not(:contains("${search}"))`).hide();
   } else {
     $("tbody tr ").show();
   }
@@ -29,7 +30,8 @@ async function appendProductInTable(arg) {
       name: product.name,
       count: product.count,
       price: product.price,
-      id: product.id
+      id: product.id,
+      nameForSearch:product.nameForSearch
     };
   };
 
@@ -76,18 +78,20 @@ function validation() {
         const nameSpace = $(".product-name").val().replace(/ /g, "");
 
         if (!nameSpace) {
+          errorObject.resetError(".error")
           errorObject.invalidClass($(".product-name"));
           $(".product-name").after("<p class='error'> </p>")
-          errorObject.resetClass('error')
+         // errorObject.resetClass('error')
+         $('.error').attr('class', 'error');
           $(".error").addClass('nameIsNull')
-          $(".nameIsNull").text("Value is null");
+          $(".nameIsNull").text("You should enter text");
 
         } else if (nameSpace.length < 5) {
           errorObject.resetError(".error")
           $(".product-name").after("<p class='error'> </p>")
           $('.error').attr('class', 'error');
           $(".error").addClass('minLength')
-          $(".minLength").text("minLength");
+          $(".minLength").text("Min length must be more then 5");
           errorObject.invalidClass($(".product-name"));
 
         } else if (nameSpace.length > 15) {
@@ -95,7 +99,7 @@ function validation() {
           $(".product-name").after("<p class='error'> </p>")
           $('.error').attr('class', 'error');
           $(".error").addClass('maxLength')
-          $(".maxLength").text("maxLength");
+          $(".maxLength").text("Max length must be less then 15");
           errorObject.invalidClass($(".product-name"));
 
         } else {
@@ -113,7 +117,7 @@ function validation() {
           $(".mail").after("<p class='errorEmail'> </p>")
           $('.errorEmail').attr('class', 'errorEmail');
           $(".errorEmail").addClass('nullEmail')
-          $(".nullEmail").text("nullEmail");
+          $(".nullEmail").text("You should enter text");
           errorObject.invalidClass($(".mail"));
 
         } else if (!emaqlReg.test(validEmail)) {
@@ -121,7 +125,7 @@ function validation() {
           $(".mail").after("<p class='errorEmail'> </p>")
           $('.errorEmail').attr('class', 'errorEmail');
           $(".errorEmail").addClass('invalidEmail')
-          $(".invalidEmail").text("invalidEmail");
+          $(".invalidEmail").text("Please enter valid email");
           errorObject.invalidClass($(".mail"));
 
         } else {
@@ -136,7 +140,7 @@ function validation() {
         if (!validdCount) {
           errorObject.resetError(".errorCount")
           $(".count").after("<p class='errorCount'> </p>");
-          $(".errorCount").text("errorCount");
+          $(".errorCount").text("You should enter text");
           errorObject.invalidClass($(".count"));
 
         } else {
@@ -152,12 +156,12 @@ function validation() {
       if (!validPrice) {
         errorObject.resetError(".errorPrice");
         $(".price").after("<p class='errorPrice'> </p>");
-        $(".errorPrice").text("errorPricet");
+        $(".errorPrice").text("You should enter text");
         errorObject.invalidClass($(".price"));
 
       } else {
         errorObject.validClass($(".price"));
-        errorObject.resetError(".errorPrice")
+        errorObject.resetError(".errorPrice");
       }
     }
     }
@@ -238,13 +242,14 @@ async function addNewProduct() {
        
     } else {
       localStorage.setItem("id", newId);
-
+      nameForSearch =  productName.toLowerCase()
       products = {
         name: productName,
         count: productCount,
         price: productPrice,
         email: supplierEmail,
-        id: newId
+        id: newId,
+        nameForSearch
       };
 
       let existingObject = localStorage.getItem("products");
@@ -380,8 +385,8 @@ function sortAction(name, column) {
 function sortTable(name, column) {
   $(name).click(sortAction(name, column));
 }
-sortTable(".col-name", "td:eq(0)");
-sortTable(".col-price", "td:eq(1)");
+sortTable("th .col-name", "td:eq(0)");
+sortTable("th .col-price", "td:eq(1)");
 
 let arrForDelivery = [];
 
