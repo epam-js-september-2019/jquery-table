@@ -98,10 +98,10 @@
 
 <!--temp for select----->
             <script type="text/template" id="devivery">
-                <input type="checkbox"  id="select-all"> <label for="all" class='selectAll'>Select all</label> <br>
-            <input type="checkbox" class=" " id="0"> <label for="0"><%= city1 %>!</label><br>
-            <input type="checkbox" id="1"> <label for="1"><%= city2 %></label><br>
-            <input type="checkbox" id="2"> <label for="2"><%= city3 %></label><br>
+                <input type="checkbox" data-group="groupSelect" class="all" id="select-all"> <label for="all" class='selectAll'>Select all</label> <br>
+            <input type="checkbox" data-group="groupSelect" class="one" id="0"> <label for="0"><%= city1 %>!</label><br>
+            <input type="checkbox" data-group="groupSelect" class="one" id="1"> <label for="1"><%= city2 %></label><br>
+            <input type="checkbox" data-group="groupSelect" class="one" id="2"> <label for="2"><%= city3 %></label><br>
         </script>
  <!------------------>
             <div class="modal-content-btns">

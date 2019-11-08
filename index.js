@@ -393,20 +393,18 @@ let arrForDelivery = [];
 function selectCity() {
   $("#select-country").change(function() {
     selectDelivery();
+    $("#select-all").change(function()  {
+      var group = $(this).attr('data-group');
+      $('.one[data-group="' + group + '"]').prop("checked", this.checked);
+  });
 
-    $("input:checkbox").change(function() {
-      const selectCity = $(this).next().text();
-      if (selectCity === "Select all") {
-        $(":checkbox").each(function() {
-          this.checked = true;
-        });
-      } else {
-        $(":checkbox").each(function() {
-          this.checked = false;
-        });
-        this.checked = true;
-      }
-    });
+  $(".one").change(function()  {
+      var group = $(this).attr('data-group');
+      var allChecked = $('.one[data-group="' + group + '"]:not(:checked)').length == 0;
+      $('.all[data-group="' + group + '"]').prop("checked", allChecked);
+      console.log($("input[type='checkbox']").text())
+  });
+     
   });
 }
 
