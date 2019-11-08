@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, height=device-height, initial-scale=1.0"
+    />
+    <title>Minerals shop</title>
+  </head>
+  <body>
+    <!-- Search and controls -->
+    <header class="b-header container mb-3 mt-5">
+      <div class="row justify-content-between">
+        <form class="d-flex justify-content-between js-search">
+          <input
+            name="search"
+            class="form-control form-control mr-3"
+            placeholder="Enter product name.."
+          />
+          <button
+            type="reset"
+            class="btn btn-danger btn px-3 js-clear-search mr-3"
+            style="display: none"
+          >
+            Clear
+          </button>
+          <button type="submit" class="btn btn-success btn px-3">
+            Search
+          </button>
+        </form>
+        <div>
+          <button type="button" class="btn btn-primary btn px-3 js-addnew">
+            Add new
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="b-block container">
+      <!-- Products -->
+      <table class="table js-table"></table>
+    </main>
+
+    <!-- Modals -->
+    <div class="b-modals js-modal-container" style="display: none"></div>
+
+    <!-- Product form -->
+    <script type="text/template" id="form-template">
+      <div id="product-form" class="b-modal shadow rounded px-4 py-3">
+        <h2 class="mb-3"><%- title %></h2>
+        <form class="js-form">
+          <div class="form-group">
+            <label for="product-name">Name*:</label>
+            <input
+              name="name"
+              type="text"
+              id="product-name"
+              class="form-control js-focustarget"
+              <%- name ? `value=${name}` : "" %>
+            />
+          </div>
+          <div class="form-group">
+            <label for="product-email">Supplier mail*:</label>
+            <input
+              name="email"
+              type="text"
+              id="product-email"
+              class="form-control"
+              <%- email ? `value=${email}` : "" %>
+            />
+          </div>
+          <div class="form-row">
+            <div class="col form-group">
+              <label for="product-amount">Count*:</label>
+              <input
+                name="amount"
+                type="text"
+                id="product-amount"
+                class="form-control"
+                <%- amount ? `value=${amount}` : "" %>
+              />
+            </div>
+            <div class="col form-group">
+              <label for="product-price">Price*:</label>
+              <input
+                name="price"
+                type="text"
+                id="product-price"
+                class="form-control"
+                <%- price ? `value=${price}` : "" %>
+              />
+            </div>
+          </div>
+          <h4>Delivery:</h4>
+          <div class="form-row js-delivery">
+          </div>
+          <div class="d-flex mt-2">
+            <button type="submit" class="js-submit btn btn-success mr-2">Save changes</button>
+            <button type="cancel" class="js-cancel btn btn-secondary">Cancel</button>
+          </div>
+        </form>
+        <button class="close b-close js-close js-focustarget">x</button>
+      </div>
+    </script>
+
+    <!-- Delivery -->
+    <script type="text/template" id="delivery-template">
+      <div class="col form-group custom-control">
+        <select name="country" class="custom-select">
+          <% countries.forEach(c => { %>
+            <option value=<%= c.key %> <%- c.isSelected ? 'selected' : '' %> >
+              <%- c.value %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col form-group">
+        <div class="border p-2 rounded">
+          <div class="custom-control custom-checkbox">
+            <input
+              name="cities"
+              value="selectall"
+              id="cities-selectall"
+              type="checkbox"
+              class="custom-control-input js-selectall"
+            />
+            <label for="cities-selectall" class="custom-control-label">Select all</label>
+          </div>
+          <hr />
+          <% cities.forEach(city => { %>
+            <div class="custom-control custom-checkbox">
+              <input
+                name="cities"
+                value=<%- city.key %>
+                id="cities-<%- city.key %>"
+                type="checkbox"
+                class="custom-control-input js-city"
+              />
+              <label for="cities-<%- city.key %>" class="custom-control-label">
+                <%- city.value %>
+              </label>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </script>
+
+    <!-- Table -->
+    <script type="text/template" id="table-template">
+      <thead>
+        <tr>
+          <th
+            class="w-50 b-th js-th <%= thClasses.name %>"
+            data-sort-field="name"
+          >
+            <span>Name</span>
+             <span class="b-arrow">&#9660;</span>
+          </th>
+          <th
+            class="b-th js-th <%= thClasses.price %>"
+            data-sort-field="price"
+          >
+             <span>Price</span>
+             <span class="b-arrow">&#9660;</span>
+          </th>
+          <th scope="col" class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+          <tr class="js-product" data-id="<%- item.id %>">
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <a href="#" class="js-details"><%- item.name %></a>
+                <span class="badge badge-pill badge-secondary px-3 py-2">
+                  <%- item.amount %>
+                </span>
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-between no-gutters">
+                <%= formatPrice(item.price) %>
+              </div>
+            </td>
+            <td class="align-middle">
+              <div class="row justify-content-end no-gutters">
+                <button type="button" class="js-edit btn btn-warning mr-1">Edit</button>
+                <button type="button" class="js-remove btn btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </script>
+
+    <!-- Dialog -->
+    <script type="text/template" id="dialog-template">
+      <!-- Confirm deletion -->
+      <div id="confirm" class="b-modal shadow rounded px-4 py-3 d-flex flex-column justify-content-center align-items-center js-dialog">
+        <h2 class="row text-center mb-4">Are you sure?</h2>
+        <p class="pb-3"><%- message %></p>
+        <div class="d-flex flex-row-reverse text-center">
+          <button class="btn btn-success js-yes px-6 js-focustarget" type="button">Yes</button>
+          <button class="btn btn-secondary js-no px-6 mr-3" type="button">No</button>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="details-template">
+      <div class="b-modal shadow rounded px-4 py-3 js-details">
+        <h2 class="mb-3"><%- name %></h2>
+        <div>
+          <small>Name:</small>
+          <p><%- name %></p>
+        </div>
+        <div>
+          <small>Email:</small>
+          <p><%- email %></p>
+        </div>
+        <div>
+          <small>Count:</small>
+          <p><%- amount %></p>
+        </div>
+        <div>
+          <small>Price:</small>
+          <p><%- price %></p>
+        </div>
+        <div>
+          <small>Delivery cities:</small>
+          <p>
+            <% if (cities.length > 0) { %>
+              <span><%= cities.join(", ") %></span>
+            <% } else { %>
+              <span class="text-secondary">No cities selected</span>
+            <% } %>
+          </p>
+        </div>
+        <button class="close b-close js-close js-focustarget">x</button>
+      </div>
+    </script>
+
+    <script type="text/template" id="loading-template">
+      <span class="spinner-border spinner-border-sm mr-2"></span>
+      <span>Loading...</span>
+    </script>
+  </body>
+</html>

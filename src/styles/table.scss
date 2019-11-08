@@ -1,0 +1,17 @@
+.b-th {
+  cursor: pointer;
+}
+.b-arrow {
+  display: inline-block;
+  opacity: 0;
+  transition-duration: .3s;
+}
+.b-th--sort--asc .b-arrow,
+.b-th--sort--desc .b-arrow,
+.b-th:hover .b-arrow {
+  opacity: 1;
+}
+.b-th--sort--desc .b-arrow {
+  transform: rotate(180deg);
+}
+

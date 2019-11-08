@@ -1,5 +1,13 @@
-## Functions
+## JQuery Table
 
-## Deadline 07.11 EOD
+### Demo
+[View demo](https://jquery-table-ten-pi.now.sh/)
 
-#### Description of the task can be found in uploaded pdf
+### Local deployment
+Run this commands to deploy project in your machine (Linux or MacOS are assumed).
+```bash
+npm install
+npm start
+```
+App will be available on localhost:8080
+
