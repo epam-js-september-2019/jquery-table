@@ -1,0 +1,221 @@
+  .add-product-modal{
+    width: 100%; 
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+      z-index: 1;  
+    background-color: rgba(0, 0, 0, 0.616);  
+}
+ 
+.add-product-modal-content {
+  border-radius: 5px;
+      padding: 2rem;
+      width: 24rem;
+      background-color: white;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+     
+}
+
+.error, .errorEmail, .errorCount, .errorPrice{
+  color: rgb(248, 58, 58);
+ 
+} 
+.name-for-input{
+  margin-top: 25px; 
+  margin-bottom: 0;
+}
+ 
+
+.product-modal-header{
+  border-radius: 5px 5px 0px 0px;
+  background-color: rgb(70, 190, 238);
+  color: rgb(253, 253, 253);
+  width: inherit;
+    margin:0;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  position: absolute;
+      top: -0px;  
+      left: -0px;  
+}
+
+#name, #email,#count,#price {
+  width: 250px;
+  border-radius: 4px;
+}
+.add-product-modal ,.space-for-delete-product-modal,.first,.forSearch { 
+    display:none
+}
+
+.info-name, .info-count,.info-price,.info-email{
+  font-weight:bold
+} 
+
+.close-info{
+  background:#292e33;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 0px solid;  
+  color:#FFF;
+  font-family: 'Open Sans', sans-serif;  
+  font-weight:200;  
+  font-size: 13pt;
+  cursor:pointer;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  bottom: 20px;  
+  left: 100px;
+}
+
+#countriesForSelect {
+  float: right;
+  border: 3px solid rgb(121, 187, 204);
+    border-radius: 4px;
+  width: 150px;
+   
+}
+
+.selectAll{ 
+  border-bottom:solid 1px;
+   
+}
+.modal-content-btns {
+  margin-top: 120px
+}
+.btn-save, .btn-yes {
+  background:#47acca;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 0px solid;
+  box-sizing:border-box;
+  color:#FFF;
+  font-family: 'Open Sans', sans-serif;  
+  font-weight:200;
+  font-size: 13pt;
+  transition:background .4s;
+  cursor:pointer;
+  padding-bottom: 3px;
+  padding-top: 3px;
+   
+}
+.btn-save:hover, .btn-yes:hover{
+  background:#309982;
+}
+.btn-save, .btn-cancel{
+  width: 150px;
+}
+.btn-yes, .btn-no {
+  width: 170px;
+}
+ 
+.col-actions {
+  width: 300px;
+}
+
+
+
+.btn-cancel, .btn-no {
+  background:#292e33;
+  border-radius:3px;
+  border:rgba(0,0,0,.3) 0px solid;
+  box-sizing:border-box;
+  color:#FFF;
+  font-family: 'Open Sans', sans-serif;  
+  font-weight:200;
+  font-size: 13pt;
+  transition:background .4s;
+  cursor:pointer;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  float: right; 
+}
+.btn-cancel:hover, .btn-no:hover{
+  background:#6e2f2f;
+}
+select {
+  border: 1px solid grey;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  width: 120px;
+}
+
+th {
+  cursor:pointer;
+}
+ .space-for-delete-product-modal{
+  width: 100%; 
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0; 
+  background-color: rgba(0, 0, 0, 0.616); 
+ }
+
+
+
+.delete-product-modal {
+    border-radius: 5px;
+    padding: 2rem;
+    width: 27rem;
+    height:12rem;
+    background-color: white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+   
+}
+
+.header-for-delete {
+  border-radius: 5px 5px 0px 0px;
+  background-color: rgb(70, 190, 238);
+  color: rgb(253, 253, 253);
+  width: inherit;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  position: absolute;
+      top: -0px;  
+      left: -0px;  
+}
+.delete-product-name{
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.col-name, .col-price {
+	position: relative;	 
+}
+
+  .col-name:after, .col-price:after  {
+	display: block;
+	position: absolute;
+	left: 0; 
+	width: 0;
+	height: 3px; 
+	background-color: #30dbf1; 
+	content: "";
+	transition: width 0.2s ease-out; 
+}
+
+ 
+
+.col-name:hover:after, .col-price:hover:after, 
+.col-name:focus:after, .col-price:focus:after {
+	width: 100%; 
+}
+
+.invalid{
+  border-color: rgb(241, 67, 51); 
+}
+.valid{
+  border: 1px solid grey;
+}
