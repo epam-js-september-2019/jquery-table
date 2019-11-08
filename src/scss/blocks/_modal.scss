@@ -1,53 +1,4 @@
-.product__name {
-	border-right: 0 !important;
-	cursor: pointer;
-}
-
-.product__count {
-	border-left: 0 !important;	
-}
-
-th.product__price {
-	cursor: pointer;
-}
-
-#products th {
-	position: relative;
-}
-
-.table-info__icon {
-	position: absolute;
-	content: "";
-	top: 17px;
-	right: 10px;
-	width: 0;
-  height: 0;
-	cursor: pointer;
-	opacity: 0;
-	transition: transform, opacity, 0.3s;
-}
-
-.down > .table-info__icon {
-	opacity: 1;
-	border: 8px solid transparent;
-	border-top: 10px solid #212529;
-}
-
-.up > .table-info__icon {
-	top: 9px;
-	border: 8px solid transparent;
-	border-top: 10px solid #212529;
-	opacity: 1;
-	transform: rotate(180deg);
-}
-
-.product__count span {
-	padding: 3px 14px;
-	font-weight: 700;
-	border-radius: 50%;
-	background-color: #bee5eb;
-	color: #212529; 
-}
+@import "mixins";
 
 .overlay {
 	position: fixed;
@@ -66,7 +17,7 @@ th.product__price {
 
 .overlay.active {
 	opacity: 2;
-	z-index: 2;
+	z-index: 1000;
 	pointer-events: auto;
 }
 
@@ -76,7 +27,7 @@ th.product__price {
   top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
-  z-index: 3;
+  z-index: 1001;
 
   background-color: white;
 	border: 2px solid #212529;

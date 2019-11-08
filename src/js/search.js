@@ -42,6 +42,7 @@ function search() {
         overlay,
         "Product '" + value + "' is not found"
       );
+      $("#search").val("");
     }
   }
 }

@@ -4,7 +4,8 @@ let modalDelete = $(".modal-window--delete"),
   body = $("body"),
   overlay = $(".overlay"),
   currentItemId = null,
-  currentItemName = "";
+  currentItemName = "",
+  newProduct = false;
 
 $(document).click(e => {
   let target = $(e.target);
@@ -35,6 +36,7 @@ $(document).click(e => {
       break;
 
     case target.hasClass("product__buttons-edit"):
+      newProduct = false;
       currentItemId = target
         .closest("tr")
         .find(".product__id")
@@ -62,6 +64,7 @@ $(document).click(e => {
 
     case target.hasClass("product__name") &&
       !target.closest("tr").hasClass("table-info"):
+      newProduct = false;
       currentItemId = target
         .closest("tr")
         .find(".product__id")
@@ -73,12 +76,23 @@ $(document).click(e => {
       break;
 
     case target.hasClass("modal__button-save"):
-      onSaveChanges(currentItemId);
+      onSaveChanges(currentItemId, newProduct);
+      modals.fadeOut();
+      overlay.removeClass("active");
+      body.css("overflow", "auto");
+      currentItemId = null;
+      break;
+
+    case target.hasClass("button-new"):
+      modalEditDefault();
+      modalEdit.fadeIn();
+      overlay.addClass("active");
+      body.css("overflow", "hidden");
+      currentItemId = productsArray.length;
+      newProduct = true;
       break;
   }
 });
-
-function deleteItem() {}
 
 function deleteData(id, callback) {
   productsArray.splice(id, 1);
@@ -89,28 +103,32 @@ function deleteData(id, callback) {
 
 function updateData() {
   productsArray.forEach((item, index) => {
-    item.id = index;
+    item.id = +index;
   });
   localStorage.setItem("products", JSON.stringify(productsArray));
   renderItems(productsArray);
 }
 
 function putData(id) {
-  modalEdit.find("h2").html(productsArray[id].name);
-  modalEdit.find("#product-name").val(productsArray[id].name);
-  modalEdit.find("#email").val(productsArray[id].email);
-  modalEdit.find("#count").val(productsArray[id].count);
-  modalEdit.find("#product-price").val("$" + productsArray[id].price);
-  modalEdit.find("#select").html("");
-  let countries = [];
+  productsArray.map(item => {
+    if (+item.id === +id) {
+      modalEdit.find("h2").html(item["name"]);
+      modalEdit.find("#product-name").val(item["name"]);
+      modalEdit.find("#email").val(item["email"]);
+      modalEdit.find("#count").val(item["count"]);
+      modalEdit.find("#product-price").val("$" + item["price"]);
+      modalEdit.find("#select").html("");
+      let countries = [];
 
-  for (var item in productsArray[id].delivery) {
-    let [country] = Object.keys(productsArray[id].delivery[item]);
-    countries.push(country);
-    let compiled = _.template("<option><%= country %></option>");
-    $("#select").append(compiled({ country }));
-  }
-  setCities(countries[0]);
+      for (var item in productsArray[id].delivery) {
+        let [country] = Object.keys(productsArray[id].delivery[item]);
+        countries.push(country);
+        let compiled = _.template("<option><%= country %></option>");
+        $("#select").append(compiled({ country }));
+      }
+      setCities(countries[0]);
+    }
+  });
 }
 
 function setCities(c) {
@@ -130,13 +148,30 @@ function setCities(c) {
   });
 }
 
-function onSaveChanges(id) {
-  let shouldRerender = false;
-  const [filteredArray] = productsArray.filter(item => item.id === id);
-  let changedName = modalEdit.find("#product-name").val();
-  let changedEmail = modalEdit.find("#email").val();
-  let changedCount = modalEdit.find("#count").val();
-  let changedPrice = modalEdit.find("#product-price").val();
+function onSaveChanges(id, newProduct) {
+  let shouldRerender = false,
+    changedName = modalEdit.find("#product-name").val(),
+    changedEmail = modalEdit.find("#email").val(),
+    changedCount = +modalEdit.find("#count").val(),
+    changedPrice = +modalEdit
+      .find("#product-price")
+      .val()
+      .split("")
+      .slice(1)
+      .join("");
+  filteredArray = {};
+
+  if (!newProduct) {
+    [filteredArray] = productsArray.filter(item => +item.id === +id);
+  } else {
+    filteredArray["id"] = id;
+    filteredArray["name"] = changedName;
+    filteredArray["email"] = changedEmail;
+    filteredArray["count"] = changedCount;
+    filteredArray["price"] = changedPrice;
+    productsArray.push(filteredArray);
+  }
+
   if (filteredArray.name !== name) {
     changeArrayData("name", changedName, false);
     shouldRerender = true;
@@ -156,7 +191,7 @@ function onSaveChanges(id) {
 
   function changeArrayData(key, value, number) {
     productsArray.map(item => {
-      if (item.id === id) {
+      if (+item.id === +id) {
         if (number) {
           item[key] = +value;
         } else {
@@ -166,5 +201,16 @@ function onSaveChanges(id) {
     });
   }
 
-  return shouldRerender ? renderItems(productsArray) : false;
+  if (shouldRerender) {
+    renderItems(productsArray);
+    localStorage.setItem("products", JSON.stringify(productsArray));
+  } else false;
+}
+
+function modalEditDefault() {
+  modalEdit.find("h2").html("Product name");
+  modalEdit.find("#product-name").val("");
+  modalEdit.find("#email").val("");
+  modalEdit.find("#count").val("");
+  modalEdit.find("#product-price").val("");
 }

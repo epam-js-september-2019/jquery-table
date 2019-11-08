@@ -1,0 +1,25 @@
+@import "mixins";
+.product__name {
+	border-right: 0 !important;
+	cursor: pointer;
+}
+
+.product__count {
+	border-left: 0 !important;
+}
+
+th.product__price {
+	cursor: pointer;
+}
+
+#products th {
+	position: relative;
+}
+
+.product__count span {
+	padding: 3px 14px;
+	font-weight: 700;
+	border-radius: 50%;
+	background-color: #bee5eb;
+	color: #212529;
+}

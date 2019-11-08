@@ -1,6 +1,6 @@
 const buttons = `<td class="product__buttons text-center">
 										<button type="button" class="product__buttons-edit btn 		btn-outline-info mr-4">Edit</button>
-										<button type="button" class="product__buttons-delete btn btn-outline-danger">Delete</button>		
+										<button type="button" class="product__buttons-delete btn btn-outline-danger">Delete</button>
 								</td>`;
 let productsArray = [];
 
@@ -10,7 +10,7 @@ const checkLocalStorage = type => {
 };
 
 const getData = async () => {
-  const response = await fetch("https://api.myjson.com/bins/mupzw")
+  const response = await fetch("https://api.myjson.com/bins/rmwas")
     .then(response => response.json())
     .then(data => {
       setTimeout(() => {
@@ -41,7 +41,7 @@ function renderItems(data) {
 									<td class="product__name" colspan="2">${name}</td>
 									<td class="product__count text-right">
 										<span class="mr-1">${count}</span>
-									</td>											
+									</td>
 									<td class="product__price">&#36;${price}</td>
 										${buttons}
 				 					</tr>`;

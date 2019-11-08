@@ -1,0 +1,35 @@
+@mixin clear {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin pseudo-el {
+  position: absolute;
+  content: "";
+}
+
+@mixin button-hover {
+  border-color: $color-accent;
+
+  &::after {
+    @include pseudo-el;
+    background-color: $color-accent;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 100%;
+    z-index: -1;
+    transition: bottom, border-color, background-color, 0.2s ease-in;
+  }
+
+  &:hover::after {
+    bottom: 0;
+  }
+}
+
+@mixin title {
+  font-family: $font-semibold;
+  font-size: 6rem;
+  line-height: 1.9rem;
+}
