@@ -140,7 +140,7 @@ $(function() {
 
     let createProduct = (name = nameInput.val(), email = emailInput.val(), count = countInput.val(), price = priceStr) => {
           return `<tr class="table-row" data-row="${name}">
-                <td class="align-middle">
+                <td class="align-middle table-data">
                     <a href="#" class="name-link">${name}</a>
                     <span class="float-right product-count border border-info rounded px-2">${count}</span>
                 </td>
@@ -163,7 +163,6 @@ $(function() {
                 </div>`;
     };
 
-
     let onFormActivate = () => {
         if(!reqInput.val()) {
             return false;
@@ -177,13 +176,14 @@ $(function() {
 
         if (isEdit) {
             editableElement.html(createProduct().replace(/(<tr[^>]+>|<\/tr>)/gi, ''));
+            delete DATA[productNameEdit];
             editableInfo.remove();
             infoContainer.append(createProductInfo());
         } else {
             productTable.append(createProduct());
             infoContainer.append(createProductInfo());
         }
-
+        console.log(DATA);
         formBox.removeClass('product-form--show');
         overlay.hide();
         reqInput.val('');
@@ -230,65 +230,30 @@ $(function() {
         isEdit = false;
     };
     $('button.product-form__save').bind('click', onFormActivate);
-    // $('button.product-form__save').on('click', function () {
-    //     if(!reqInput.val()) {
-    //         return false;
-    //     }
-    //     if(!formValuesCheck()) {
-    //         return false;
-    //     }
-    //     DATA[nameInput.val()] = {name: nameInput.val(), email: emailInput.val(), count: parseInt(countInput.val()), priceData: parseInt(priceInput.val().replace(/[$,.]/g,''))};
-    //     console.log(DATA);
-    //     priceStr = priceInput.val();
-    //
-    //     productTable.append(createProduct());
-    //     infoContainer.append(createProductInfo());
-    //     formBox.removeClass('product-form--show');
-    //     overlay.hide();
-    //     reqInput.val('');
-    //         $('a.name-link').on('click', function () {
-    //             // console.log(this.text());
-    //             $('#' + $(this).text()).addClass('d-flex');
-    //             overlay.show();
-    //             $('button.close-button').on('click', function () {
-    //                 overlay.hide();
-    //                 $('div.product-info').removeClass('d-flex');
-    //             })
-    //         });
-    //
-    //         $('button.button-edit').on("click", function () {
-    //             formBox.addClass('product-form--show');
-    //             overlay.show();
-    //             productNameEdit = $(this).attr('data');
-    //             console.log($(this).parent().parent());
-    //             formBox[0].name.value = DATA[productNameEdit].name;
-    //             formBox[0].email.value = DATA[productNameEdit].email;
-    //             formBox[0].count.value = DATA[productNameEdit].count;
-    //             formBox[0].price.value = DATA[productNameEdit].priceData;
-    //             $('button.product-form__save').bind('click', function () {
-    //                 $(`[data-row=${productNameEdit}]`).innerHTML.replaceAll(createProduct());
-    //                 $('button.product-form__save').unbind('click', editHandler);
-    //             });
-    //         });
-    //
-    //         $('button.button-delete').on("click", function () {
-    //             productNameDelete.text($(this).attr('data'));
-    //             popup.addClass('popup--show');
-    //             overlay.show();
-    //             tableRow = $(this).parent().parent();
-    //             $('button.popup__button--yes').on('click', function () {
-    //                 setTimeout(function () {
-    //                     tableRow.remove();
-    //                 });
-    //                 popup.removeClass('popup--show');
-    //                 overlay.hide();
-    //             });
-    //             $('button.popup__button--no').on('click', function () {
-    //                 popup.removeClass('popup--show');
-    //                 overlay.hide();
-    //             });
-    //         });
-    // });
+
+    let tableData;
+    let tableRows;
+    let searchInput = $('#search');
+    let searchButton = $('#search-button');
+    let reg;
+
+    let tableFilter = function () {
+        tableData = $('table.table').find('.table-data');
+        tableRows = $('table.table').find('.table-row');
+        reg = new RegExp(searchInput.val(), 'i');
+        if(!searchInput.val()) return tableRows.show();
+        tableRows.hide().filter(function () {
+            return reg.test(this.textContent);
+        }).show();
+    };
+    searchInput.on('input', function () {
+        searchInput.keyup(function( event ) {
+            if(event.which === 13) {
+                tableFilter();
+            }
+        });
+    });
+    searchButton.on('click', tableFilter);
 });
 
 
