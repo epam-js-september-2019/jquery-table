@@ -1,4 +1,5 @@
 import compileTemplate from "lodash.template";
+import { formatPrice } from "./helpers.js";
 
 export class Table {
   constructor({ showDetails, edit, remove }) {
@@ -13,7 +14,8 @@ export class Table {
       sortField: this.sort.field,
       sortDirection: this.sort.direction,
       items: items.sort(this._getCompareFunction()),
-      thClasses: this._getThClasses()
+      thClasses: this._getThClasses(),
+      formatPrice: formatPrice
     });
     this.table.html(html);
     this.items = items;
