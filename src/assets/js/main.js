@@ -158,7 +158,7 @@ $(document).ready(function(){
         for(let key in obj) {
             this[key] = obj[key];
         };
-    }
+    };
 
     const renderTableItem = (product, index) => {
         return `
@@ -291,9 +291,21 @@ $(document).ready(function(){
             };
         });
 
+        $('#js-form-search').on('keypress click', (e) => {
+            if (e.which === 13 || e.target.id === 'js-search-btn') {
+                const value = $('#js-search-input').val();
+                renderTable(searchByName(value));
+            }
+        });
 
         $('.js-product-more-info').click((e) => productMoreInfo(e));
     };
+
+    const searchByName = (word) => {
+        return products.filter(i =>
+            i.name.toLowerCase().includes(word.toLowerCase())
+        );
+    }
 
     const SortByName = (a, b) => {
         let aName = a.name.toLowerCase();
@@ -321,12 +333,17 @@ $(document).ready(function(){
     };
 
     const modal = (content, type = '') => {
-        $('body').append('<div class="modal-wrapper"><div class="modal--custom ' + (type !== "" ? "modal--" + type : "") + '">' + content + '</div></div>');
+        $('body').append(`
+            <div class="modal-wrapper">
+                <div class="modal--custom ${ type !== "" ? "modal--" + type : "" }">${ content }</div>
+            </div>`);
 
         $('.modal-wrapper').hide().fadeIn();
         $('.modal').hide().fadeIn();
 
-        $('.close-modal').click(() => modalClose());
+        $('.close-modal').on('click', (e) => {
+            modalClose();
+        });
 
     };
 
@@ -532,16 +549,20 @@ $(document).ready(function(){
         dataBind(product);
     };
 
+    const validationEmail = (email) => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email.toLowerCase());
+    };
+
+    function formatPrice(price) {
+        return price.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD"
+        });
+    }
+
+
     const productSave = () => {
-        // form.find('.field-error').remove();
-        //
-        // const regexEmail = new RegExp('/^[A-Z0-9][A-Z0-9._%+-]{0,63}@(?:[A-Z0-9-]{1,63}.){1,125}[A-Z]{2,63}$/');
-        //
-        // if (form.find('input[name=name]').val() === '') {
-        //     form.find('input[name=name]')
-        //         .after('<small class="field-error form-text text-danger ">The field is wrong.</small>');
-        //     return false;
-        // }
         if(isProductNew()) {
             data.tempProduct.id = products.length + 1;
             const productClone = new Clone(data.tempProduct);
