@@ -152,7 +152,24 @@ $(document).ready(function(){
         },
     };
 
-    const app = $('#js-product-table');
+    const valid = {
+        email: {
+            re: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            errorMessage: 'Email is wrong',
+        },
+        name: {
+            re: /^(?:\s*[.\-_]*[a-zA-Z0-9\s]{5,15}[.\-_]*\s*)$/,
+            errorMessage: 'Name must be 5-15 symbols and doesn\'t contain only spaces',
+        },
+        count: {
+            re: /^\d+$/,
+            errorMessage: 'This field must contains only numbers'
+        },
+        price: {
+            re: /^(0$|-?[0-9]{1,})$/,
+            errorMessage: 'Price is not correct',
+        },
+    };
 
     function Clone(obj) {
         for(let key in obj) {
@@ -360,6 +377,19 @@ $(document).ready(function(){
         return ( (product.id === '') || (product.id === undefined) );
     };
 
+    const validation = (field) => {
+        const type = field.getAttribute('data-valid');
+        const re = valid[type].re;
+
+        $(field).parent().find('.field-error').remove();
+        if(!re.test(field.value.toLowerCase())) {
+            $(field).after(`<small class="field-error text-danger">${ valid[type].errorMessage }</small>`);
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     const productForm = (product) => {
         const delivery = (product) => {
             const checkAllCities = (country) => {
@@ -507,6 +537,7 @@ $(document).ready(function(){
                             <input class="form-control"
                                    id="product-name" placeholder="Product name..."
                                    name="name"
+                                   data-valid="name"
                                    data-bind="name"
                                    value="${product.name}">
                         </div>
@@ -515,6 +546,7 @@ $(document).ready(function(){
                             <input class="form-control"
                                    id="product-email" placeholder="Supplier email..."
                                    name="email"
+                                   data-valid="email"
                                    data-bind="email"
                                    value="${product.email}">
                         </div>
@@ -524,6 +556,7 @@ $(document).ready(function(){
                                    id="product-quantity"
                                    placeholder="Quantity..."
                                    name="count"
+                                   data-valid="count"
                                    data-bind="count"
                             value="${ product.count }">
                         </div>
@@ -533,6 +566,7 @@ $(document).ready(function(){
                                    id="product-price"
                                    placeholder="Price"
                                    name="price"
+                                   data-valid="price"
                                    data-bind="price"
                             value="${product.price}">
                         </div>
@@ -547,35 +581,37 @@ $(document).ready(function(){
         `;
         modal(content);
         dataBind(product);
-    };
 
-    const validationEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email.toLowerCase());
-    };
-
-    function formatPrice(price) {
-        return price.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD"
+        $('[data-valid]').on('input', (e) => {
+            const elem = e.target;
+            validation(elem);
         });
-    }
-
+    };
 
     const productSave = () => {
-        if(isProductNew()) {
-            data.tempProduct.id = products.length + 1;
-            const productClone = new Clone(data.tempProduct);
-            products.push(productClone);
-            resetTempProduct();
-        } else {
-            let index = products.findIndex((i) => i.id === data.tempProduct.id);
-            products[index] = new Clone(data.tempProduct);
-            resetTempProduct();
-        }
-        renderTable(products);
+        const validateForm = () => {
+            let accept = true;
+            $('[data-valid]').map(function(idx, elem) {
+                accept = accept * validation(elem);
+            });
+            return accept;
+        };
 
-        modalClose();
+        if (validateForm()) {
+            if(isProductNew()) {
+                data.tempProduct.id = products.length + 1;
+                const productClone = new Clone(data.tempProduct);
+                products.push(productClone);
+                resetTempProduct();
+            } else {
+                let index = products.findIndex((i) => i.id === data.tempProduct.id);
+                products[index] = new Clone(data.tempProduct);
+                resetTempProduct();
+            }
+            renderTable(products);
+
+            modalClose();
+        }
     };
 
     const productEdit = () => {
@@ -615,6 +651,8 @@ $(document).ready(function(){
             });
         });
     };
+
+    const app = $('#js-product-table');
 
     renderTable(products);
     productEdit();
