@@ -165,7 +165,7 @@ $(document).ready(function(){
             <tr>
                 <td>${ index+1 }</td>
                 <td class="d-flex justify-content-between align-items-center">
-                    <span>${ product.name }</span>
+                    <a href="#" class="js-product-more-info" data-product-id="${ product.id }" >${ product.name }</a>
                     <span class="badge badge-secondary badge-pill">${ product.count }</span>
                 </td>
                 <td>${ product.price }</td>
@@ -176,6 +176,74 @@ $(document).ready(function(){
             </tr>
            
         `
+    };
+
+    const productMoreInfo = (e) => {
+        const id = e.target.getAttribute('data-product-id');
+        const product = products.find((item) => item.id === Number(id));
+
+        const renderDelivery = (delivery) => {
+
+            const renderCity = (cityName) => {
+                return `
+                        <p>${ cityName }</p>
+                    `;
+            };
+
+            return `
+                    <div>
+                      <small>Delivery country:</small>
+                      <p>
+                          ${ product.delivery.country.name !== '' ?
+                `<p>${ product.delivery.country.name }</p>`
+                : '<span class="text-secondary">No countries selected</span>' }
+                      </p>
+                    </div>
+                    
+                    ${ product.delivery.cities.length !== 0 ?
+                `<div>
+                          <small>Delivery cities:</small>
+                          <p>
+                            ${ product.delivery.cities.map((city) => renderCity(city.name)).join('') }
+                          </p>
+                        </div>`
+                : '<span class="text-secondary">No cities selected</span>' }
+                `
+        };
+
+        const content = `
+                <div class="modal-header">
+                    <h5 class="modal-title">Product "${ product.name }"</h5>
+                    <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                      <small>Name:</small>
+                      <p>${ product.name }</p>
+                    </div>
+                    <div>
+                      <small>Email:</small>
+                      <p>${ product.email }</p>
+                    </div>
+                    <div>
+                      <small>Count:</small>
+                      <p>${ product.count }</p>
+                    </div>
+                    <div>
+                      <small>Price:</small>
+                      <p>${ product.count }</p>
+                    </div>
+                    
+                    ${ renderDelivery(product.delivery) }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary close-modal">Cancel</button>
+                </div>   
+            `;
+
+        modal(content);
     };
 
     const renderTable = (products, direction) => {
@@ -222,6 +290,9 @@ $(document).ready(function(){
                 renderTable(products, 'reverse')
             };
         });
+
+
+        $('.js-product-more-info').click((e) => productMoreInfo(e));
     };
 
     const SortByName = (a, b) => {
