@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Table</title>
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/custom.css" rel="stylesheet">
+</head>
+<body>
+    <section class="container head-menu">
+        <div class="row">
+            <!--search block-->
+            <div class="col-md-4 input-group mb-3">
+                <input type="text" class="form-control" placeholder="Enter product name..." id="search-input" >
+                <div>
+                    <button class="btn btn-outline-dark" type="button" id="search-button">Search</button>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-outline-dark" type="button" id="add-button">Add new</button>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <!--table-->
+        <table class="table table-bordered" id="myTable">
+            <thead class="border">
+            <tr>
+                <th scope="col" class="col-name">Name <i class="fas fa-caret-down float-right"></i></th>
+                <!--<i class="fas fa-caret-up"></i>-->
+                <th scope="col" class="col-price">Price</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <script id="template-product-item" type="text/template">
+                <tr class="product-row">
+                    <td scope="row">
+                        <div class='row justify-content-between no-gutters'>
+                            <span class="val-product" id='<%= id %>' > <%= name %></span>
+                            <span class='badge badge-secondary px-3 py-2 float-right'><%= count %></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='row justify-content-between no-gutters'><%= price %></div>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-info edit-button" type="button">Edit</button>
+                        <button class="btn btn-outline-danger delete-button" type="button">Delete</button>
+                    </td>
+                </tr>
+            </script>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <!--modal delete-->
+        <div class="delete-product-modal" id="deleteModal">
+            <div class="delete-modal-content text-center">
+                <h3>Are you sure to delete </h3>
+                <p class='delete-product-name'> </p>
+                <button type="button" class="btn btn-outline-danger" id="yes-button">Yes</button>
+                <button type="button" class="btn btn-outline-primary" id="no-button">No</button>
+            </div>
+        </div>
+    </section>
+    <section>
+        <!--modal edit/add-->
+        <div class="add-product-modal" id="addModal">
+            <div class='add-product-modal-content'>
+                <div class="product-modal-header">
+                    <h3>Product name</h3>
+                </div>
+                <p>Name:</p>
+                <input class="form-control " id='inputName' type="text" placeholder="Some product name" />
+                <p>supplier email:</p>
+                <input class="form-control " id='inputEmail' type="text" placeholder="rd.saratov@epam.com" />
+                <p>Count:</p>
+                <input class="form-control " id='inputCount' type="text" />
+                <p>Price:</p>
+                <input class="form-control " id="inputPrice" type="text" />
+                <p>Delivery:</p>
+                <select id="country-delivery">
+                    <option selected>Russia</option>
+                    <option>Belarus</option>
+                    <option>USA</option>
+                </select>
+                <div id="cities-select"></div>
+                <!--temp for select----->
+                <script type="text/template" id="delivery">
+                    <input type="checkbox"  id="select-all"> <label for="select-all" class='selectAll'>Select all</label> <br>
+                    <input type="checkbox" class="city" id="0"> <label for="0"><%= city1 %></label><br>
+                    <input type="checkbox" class="city" id="1"> <label for="1"><%= city2 %></label><br>
+                    <input type="checkbox" class="city" id="2"> <label for="2"><%= city3 %></label><br>
+                </script>
+                <!------------------>
+                <div class="modal-content-buttons justify-content-start">
+                    <button type="button" class="btn btn-outline-primary" id="save-button">Save changes</button>
+                    <button type="button" class="btn btn-outline-danger" id="cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/fontawesome-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.js"></script>
+    <script src="scripts/custom.js"></script>
+</body>
+</html>
