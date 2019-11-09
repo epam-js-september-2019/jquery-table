@@ -23,15 +23,11 @@ $(document).click(e => {
       modalDelete
         .find(".modal-window__message span")
         .html(`"${currentItemName}"`);
-      modalDelete.fadeIn();
-      overlay.addClass("active");
-      body.css("overflow", "hidden");
+      showModal(modalDelete);
       break;
 
     case target.hasClass("modal-window__close") || target.hasClass("overlay"):
-      modals.fadeOut();
-      overlay.removeClass("active");
-      body.css("overflow", "auto");
+      hideModal(modals);
       currentItemId = null;
       break;
 
@@ -42,23 +38,17 @@ $(document).click(e => {
         .find(".product__id")
         .html();
       putData(currentItemId);
-      modalEdit.fadeIn();
-      overlay.addClass("active");
-      body.css("overflow", "hidden");
+      showModal(modalEdit);
       break;
 
     case target.hasClass("modal__button-disagree") ||
       target.hasClass("modal__button-cancel"):
-      modals.fadeOut();
-      overlay.removeClass("active");
-      body.css("overflow", "auto");
+      hideModal(modals);
       currentItemId = null;
       break;
 
     case target.hasClass("modal__button-agree"):
-      modalDelete.fadeOut();
-      overlay.removeClass("active");
-      body.css("overflow", "auto");
+      hideModal(modalDelete);
       deleteData(currentItemId, updateData);
       break;
 
@@ -70,24 +60,17 @@ $(document).click(e => {
         .find(".product__id")
         .html();
       putData(currentItemId);
-      modalEdit.fadeIn();
-      overlay.addClass("active");
-      body.css("overflow", "hidden");
+      showModal(modalEdit);
       break;
 
     case target.hasClass("modal__button-save"):
       onSaveChanges(currentItemId, newProduct);
-      modals.fadeOut();
-      overlay.removeClass("active");
-      body.css("overflow", "auto");
       currentItemId = null;
       break;
 
     case target.hasClass("button-new"):
       modalEditDefault();
-      modalEdit.fadeIn();
-      overlay.addClass("active");
-      body.css("overflow", "hidden");
+      showModal(modalEdit);
       currentItemId = productsArray.length;
       newProduct = true;
       break;
@@ -114,8 +97,8 @@ function putData(id) {
     if (+item.id === +id) {
       modalEdit.find("h2").html(item["name"]);
       modalEdit.find("#product-name").val(item["name"]);
-      modalEdit.find("#email").val(item["email"]);
-      modalEdit.find("#count").val(item["count"]);
+      modalEdit.find("#product-email").val(item["email"]);
+      modalEdit.find("#product-count").val(item["count"]);
       modalEdit.find("#product-price").val("$" + item["price"]);
       modalEdit.find("#select").html("");
       let countries = [];
@@ -151,43 +134,66 @@ function setCities(c) {
 function onSaveChanges(id, newProduct) {
   let shouldRerender = false,
     changedName = modalEdit.find("#product-name").val(),
-    changedEmail = modalEdit.find("#email").val(),
-    changedCount = +modalEdit.find("#count").val(),
-    changedPrice = +modalEdit
+    changedEmail = modalEdit.find("#product-email").val(),
+    changedCount = +modalEdit.find("#product-count").val(),
+    changedPrice = 0;
+
+    if(newProduct){
+      changedPrice = +modalEdit.find("#product-price").val()
+    } else {
+      changedPrice = modalEdit
       .find("#product-price")
       .val()
       .split("")
-      .slice(1)
-      .join("");
+      .slice(1).join("");
+    }
+
   filteredArray = {};
 
   if (!newProduct) {
     [filteredArray] = productsArray.filter(item => +item.id === +id);
+    if (filteredArray.name !== name) {
+      changeArrayData("name", changedName, false);
+      shouldRerender = true;
+    }
+    if (filteredArray.email !== changedEmail) {
+      changeArrayData("email", changedEmail, false);
+      shouldRerender = true;
+    }
+    if (filteredArray.count !== changedCount) {
+      changeArrayData("count", changedCount, true);
+      shouldRerender = true;
+    }
+    if (filteredArray.price !== +changedPrice) {
+      changeArrayData("price", changedPrice, true);
+      shouldRerender = true;
+    }
   } else {
-    filteredArray["id"] = id;
+    filteredArray["id"] = +id;
     filteredArray["name"] = changedName;
     filteredArray["email"] = changedEmail;
     filteredArray["count"] = changedCount;
-    filteredArray["price"] = changedPrice;
-    productsArray.push(filteredArray);
+    filteredArray["price"] = +changedPrice;
+
+    $('#product-count').bind("paste",function(e) {
+      e.preventDefault();
+    });
+
+    if(validation(filteredArray)) {
+      hideModal(modals);
+      productsArray.push(filteredArray);
+      shouldRerender = true;
+    } else {
+      shouldRerender = false;
+      return false;
+    }
   }
 
-  if (filteredArray.name !== name) {
-    changeArrayData("name", changedName, false);
-    shouldRerender = true;
-  }
-  if (filteredArray.email !== changedEmail) {
-    changeArrayData("email", changedEmail, false);
-    shouldRerender = true;
-  }
-  if (filteredArray.count !== changedCount) {
-    changeArrayData("count", changedCount, true);
-    shouldRerender = true;
-  }
-  if (filteredArray.price !== changedPrice) {
-    changeArrayData("price", changedPrice, true);
-    shouldRerender = true;
-  }
+  if (shouldRerender) {
+    renderItems(productsArray);
+    localStorage.setItem("products", JSON.stringify(productsArray));
+    hideModal(modals);
+  } else false;
 
   function changeArrayData(key, value, number) {
     productsArray.map(item => {
@@ -200,17 +206,39 @@ function onSaveChanges(id, newProduct) {
       }
     });
   }
-
-  if (shouldRerender) {
-    renderItems(productsArray);
-    localStorage.setItem("products", JSON.stringify(productsArray));
-  } else false;
 }
 
 function modalEditDefault() {
   modalEdit.find("h2").html("Product name");
   modalEdit.find("#product-name").val("");
-  modalEdit.find("#email").val("");
-  modalEdit.find("#count").val("");
+  modalEdit.find("#product-email").val("");
+  modalEdit.find("#product-count").val("");
   modalEdit.find("#product-price").val("");
+  setDefaultCounties();
+}
+
+function showModal(modal){
+  modal.fadeIn();
+  overlay.addClass("active");
+  body.css("overflow", "hidden");
+}
+
+function hideModal(modal){
+  modal.fadeOut();
+  overlay.removeClass("active");
+  body.css("overflow", "auto");
+}
+
+function setDefaultCounties(){
+  modalEdit.find("#select").html("");
+  const countries = [];
+  deliveryCountries.map((item) => {
+      const [country] = Object.keys(item);
+      countries.push(country);
+  });
+  $.each(countries, function(i, item) {
+    let compiled = _.template("<option><%= item %></option>");
+    $("#select").append(compiled({ item }));
+  });
+  setCities(countries[0]);
 }

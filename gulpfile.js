@@ -12,8 +12,7 @@ const gulp = require("gulp"),
 	rename = require("gulp-rename"),
 	autoprefixer = require("autoprefixer"),
 	notify = require("gulp-notify"),
-  rsync = require("gulp-rsync"),
-  include = require('gulp-include');
+  rsync = require("gulp-rsync");
 
 gulp.task("browser-sync", function() {
 	browserSync({
@@ -29,11 +28,12 @@ gulp.task("styles", function() {
 	return gulp.src('src/'+syntax+'/**/*.'+syntax+'')
 	.pipe(sass({ outputStyle: 'expanded' }).on("error", notify.onError()))
 	.pipe(rename({ suffix: '.min', prefix : '' }))
-	.pipe(postcss([ autoprefixer({ grid: true, browsers: ['>1%'] }) ]))
+	.pipe(postcss([ autoprefixer({ grid: false, browsers: ['>1%'] }) ]))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
 	.pipe(gulp.dest('build/css'))
 	.pipe(browserSync.stream())
 });
+
 
 gulp.task('scripts', function() {
 	return gulp.src([
@@ -56,7 +56,6 @@ gulp.task("rsync", function() {
 			root: "build/",
 			hostname: "username@yousite.com",
 			destination: "yousite/public_html/",
-			// include: ['*.htaccess'], // Includes files to deploy
 			exclude: ["**/Thumbs.db", "**/*.DS_Store"], // Excludes files from deploy
 			recursive: true,
 			archive: true,

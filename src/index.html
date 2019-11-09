@@ -62,19 +62,22 @@
       <div class="form-group col-6">
         <label for="name">Name:<sup>*</sup></label>
         <input type="text" class="form-control" id="product-name" placeholder="Enter name of product">
-        <small id="name-error" class="form-text text-danger d-none">Name max length is 15 characters</small>
+        <small id="name-error" class="form-text text-danger d-none">Enter 5 to 15 characters name</small>
       </div>
       <div class="form-group col-6">
         <label for="email">Supplier email:<sup>*</sup></label>
-        <input type="text" class="form-control" id="email" placeholder="example@mail.com">
+        <input type="text" class="form-control" id="product-email" placeholder="example@mail.com">
+        <small id="email-error" class="form-text text-danger d-none">Please enter email</small>
       </div>
       <div class="form-group col-3">
         <label for="count">Count:<sup>*</sup></label>
-        <input type="text" class="form-control" id="count" placeholder="5">
+        <input type="text" class="form-control" id="product-count" placeholder="5">
+        <small id="count-error" class="form-text text-danger d-none">Please enter positive number</small>
       </div>
       <div class="form-group col-6">
         <label for="count">Price:<sup>*</sup></label>
         <input type="text" class="form-control" id="product-price" placeholder="&#36;1234.56">
+        <small id="price-error" class="form-text text-danger d-none">Please enter positive number</small>
       </div>
       <div class="form-group d-flex">
         <div class="form-group col-5">
