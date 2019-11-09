@@ -1,0 +1,34 @@
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, .7);
+}
+
+.modal--custom {
+    display: block;
+    min-width: 31.2rem;
+    background-color: #fff;
+    border-radius: .25rem;
+}
+
+.modal--danger {
+    border: 2px solid tomato!important;
+}
+
+.sort-direction {
+    transition: .3s;
+}
+
+option {
+    white-space: nowrap;
+}
