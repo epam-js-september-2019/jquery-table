@@ -1,6 +1,6 @@
 $(function () {
-    let regEmail = /[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]+/;
-    let reNumbers = /[0-9]+/;
+    const regEmail = /[a-zA-Z0-9_\.]+@[a-zA-Z]+\.[a-z]+/;
+    const reNumbers = /[0-9]+/;
     let isCorrect;
     let priceInput = $('#price');
 
