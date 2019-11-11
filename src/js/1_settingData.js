@@ -36,13 +36,14 @@ function renderItems(data) {
   $(container).html("");
   $.each(data, function(i, item) {
     const { id, name, count, price } = item;
+
     let row = `<tr>
 									<td class="product__id d-none">${id}</td>
 									<td class="product__name" colspan="2">${name}</td>
 									<td class="product__count text-right">
-										<span class="mr-1">${count}</span>
+										<span class="mr-1">${formatPrice(count)}</span>
 									</td>
-									<td class="product__price">&#36;${price}</td>
+									<td class="product__price">&#36;${formatPrice(price)}</td>
 										${buttons}
 				 					</tr>`;
     $(row).appendTo(container);

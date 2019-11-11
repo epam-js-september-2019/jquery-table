@@ -15,7 +15,11 @@ const searchHandler = () => {
 
   $("#search").change(e => {
     if (!$(e.target).val()) {
-      renderItems(productsArray);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(renderItems(productsArray));
+        }, 500);
+      });
     }
   });
 };
@@ -29,13 +33,21 @@ function search() {
 
   if (!value) {
     showModalWarning(modalWarning, overlay, "Please enter product name");
-    renderItems(productsArray);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(productsArray));
+      }, 500);
+    });
   } else {
     const result = productsArray.filter(
       item => item.name.toLowerCase() === value.toLowerCase()
     );
     if (result.length) {
-      renderItems(result);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(renderItems(result));
+        }, 500);
+      });
     } else {
       showModalWarning(
         modalWarning,

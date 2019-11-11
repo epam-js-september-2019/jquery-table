@@ -28,7 +28,11 @@ $(document).click(e => {
 
     case target.hasClass("modal-window__close") || target.hasClass("overlay"):
       hideModal(modals);
-      currentItemId = null;
+      deliveryToCountriesDefault();
+      setTimeout(() => {
+        modalEdit.removeClass("active");
+        removeReadonly();
+      }, 300);
       break;
 
     case target.hasClass("product__buttons-edit"):
@@ -37,6 +41,7 @@ $(document).click(e => {
         .closest("tr")
         .find(".product__id")
         .html();
+      modalEdit.attr("data-modal", currentItemId);
       putData(currentItemId);
       showModal(modalEdit);
       break;
@@ -44,7 +49,6 @@ $(document).click(e => {
     case target.hasClass("modal__button-disagree") ||
       target.hasClass("modal__button-cancel"):
       hideModal(modals);
-      currentItemId = null;
       break;
 
     case target.hasClass("modal__button-agree"):
@@ -60,17 +64,21 @@ $(document).click(e => {
         .find(".product__id")
         .html();
       putData(currentItemId);
+      modalEdit.attr("data-modal", currentItemId);
+      modalEdit.addClass("active");
+      addReadonly();
       showModal(modalEdit);
       break;
 
     case target.hasClass("modal__button-save"):
       onSaveChanges(currentItemId, newProduct);
-      currentItemId = null;
       break;
 
     case target.hasClass("button-new"):
       modalEditDefault();
       showModal(modalEdit);
+      selectAllHandler();
+      deliveryToCountriesDefault();
       currentItemId = productsArray.length;
       newProduct = true;
       break;
@@ -89,7 +97,12 @@ function updateData() {
     item.id = +index;
   });
   localStorage.setItem("products", JSON.stringify(productsArray));
-  renderItems(productsArray);
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(renderItems(productsArray));
+    }, 500);
+  });
 }
 
 function putData(id) {
@@ -99,7 +112,7 @@ function putData(id) {
       modalEdit.find("#product-name").val(item["name"]);
       modalEdit.find("#product-email").val(item["email"]);
       modalEdit.find("#product-count").val(item["count"]);
-      modalEdit.find("#product-price").val("$" + item["price"]);
+      modalEdit.find("#product-price").val("$" + formatPrice(item["price"]));
       modalEdit.find("#select").html("");
       let countries = [];
 
@@ -109,20 +122,37 @@ function putData(id) {
         let compiled = _.template("<option><%= country %></option>");
         $("#select").append(compiled({ country }));
       }
-      setCities(countries[0]);
+      setCities(countries[0], id);
     }
   });
 }
 
-function setCities(c) {
-  let [filteredArray] = deliveryCountries.filter(
-    item => Object.keys(item) == c
-  );
-  let [currentCities] = Object.values(filteredArray);
+function setCities(c, id) {
+  let currentCities = [];
+  if (!id) {
+    deliveryCountries.filter(item => {
+      if (item.country == c) {
+        currentCities.push(item.city1[0]);
+        currentCities.push(item.city2[0]);
+        currentCities.push(item.city3[0]);
+      }
+    });
+  } else {
+    for (let i = 0; i < productsArray[id].delivery.length; i++) {
+      if (productsArray[id].delivery[i].hasOwnProperty(c)) {
+        for (let j = 0; j < productsArray[id].delivery[i][c].length; j++) {
+          currentCities.push(productsArray[id].delivery[i][c][j]);
+        }
+      }
+    }
+  }
+
+  $("#selectAll").prop("checked", false);
   $("#checkboxes-group").html("");
   $.each(currentCities, function(i, item) {
     let row = `<div class="form-check pt-1">
-										<input class="form-check-input" type="checkbox" value="" id="city${i + 1}">
+										<input class="form-check-input" type="checkbox" value="${item}" id="city${i +
+      1}">
 										<label class="form-check-label" for="city${i + 1}">
 										${item}
 										</label>
@@ -138,24 +168,27 @@ function onSaveChanges(id, newProduct) {
     changedCount = +modalEdit.find("#product-count").val(),
     changedPrice = 0;
 
-    if(newProduct){
-      changedPrice = +modalEdit.find("#product-price").val()
-    } else {
-      changedPrice = modalEdit
+  if (newProduct) {
+    changedPrice = +modalEdit.find("#product-price").val();
+  } else {
+    changedPrice = modalEdit
       .find("#product-price")
       .val()
       .split("")
-      .slice(1).join("");
-    }
+      .slice(1)
+      .join("");
+  }
 
   filteredArray = {};
 
   if (!newProduct) {
     [filteredArray] = productsArray.filter(item => +item.id === +id);
+
     if (filteredArray.name !== name) {
       changeArrayData("name", changedName, false);
       shouldRerender = true;
     }
+
     if (filteredArray.email !== changedEmail) {
       changeArrayData("email", changedEmail, false);
       shouldRerender = true;
@@ -175,12 +208,20 @@ function onSaveChanges(id, newProduct) {
     filteredArray["count"] = changedCount;
     filteredArray["price"] = +changedPrice;
 
-    $('#product-count').bind("paste",function(e) {
+    $("#product-count").bind("paste", function(e) {
       e.preventDefault();
     });
 
-    if(validation(filteredArray)) {
+    if (validation(filteredArray)) {
       hideModal(modals);
+
+      for (let i = 0; i < deliveryToCountries.length; i++) {
+        if (Object.values(deliveryToCountries[i])[0].length < 1) {
+          deliveryToCountries.splice(i, 1);
+        }
+      }
+
+      filteredArray["delivery"] = deliveryToCountries;
       productsArray.push(filteredArray);
       shouldRerender = true;
     } else {
@@ -190,9 +231,13 @@ function onSaveChanges(id, newProduct) {
   }
 
   if (shouldRerender) {
-    renderItems(productsArray);
     localStorage.setItem("products", JSON.stringify(productsArray));
     hideModal(modals);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(productsArray));
+      }, 500);
+    });
   } else false;
 
   function changeArrayData(key, value, number) {
@@ -217,28 +262,36 @@ function modalEditDefault() {
   setDefaultCounties();
 }
 
-function showModal(modal){
+function showModal(modal) {
   modal.fadeIn();
   overlay.addClass("active");
   body.css("overflow", "hidden");
 }
 
-function hideModal(modal){
+function hideModal(modal) {
   modal.fadeOut();
   overlay.removeClass("active");
   body.css("overflow", "auto");
+  modalEdit.attr("data-modal", null);
 }
 
-function setDefaultCounties(){
+function setDefaultCounties() {
   modalEdit.find("#select").html("");
   const countries = [];
-  deliveryCountries.map((item) => {
-      const [country] = Object.keys(item);
-      countries.push(country);
+  deliveryCountries.map(item => {
+    countries.push(item.country);
   });
   $.each(countries, function(i, item) {
     let compiled = _.template("<option><%= item %></option>");
     $("#select").append(compiled({ item }));
   });
   setCities(countries[0]);
+}
+
+function addReadonly() {
+  $(".readonly").attr("readonly", true);
+}
+
+function removeReadonly() {
+  $(".readonly").attr("readonly", false);
 }

@@ -36,13 +36,14 @@ function renderItems(data) {
   $(container).html("");
   $.each(data, function(i, item) {
     const { id, name, count, price } = item;
+
     let row = `<tr>
 									<td class="product__id d-none">${id}</td>
 									<td class="product__name" colspan="2">${name}</td>
 									<td class="product__count text-right">
-										<span class="mr-1">${count}</span>
+										<span class="mr-1">${formatPrice(count)}</span>
 									</td>
-									<td class="product__price">&#36;${price}</td>
+									<td class="product__price">&#36;${formatPrice(price)}</td>
 										${buttons}
 				 					</tr>`;
     $(row).appendTo(container);
@@ -50,10 +51,26 @@ function renderItems(data) {
 }
 
 const deliveryCountries = [
-  { Russia: ['Saratov', 'Moscow', 'St. Petersburg'] },
-  { Belarus: ['Minsk', 'Brest', 'Vitebsk'] },
-  { USA: ['New York', 'Washington', 'Chicago'] }
+  {
+    country: "Russia",
+    city1: ["Saratov", "unchecked"],
+    city2: ["Moscow", "unchecked"],
+    city3: ["St. Petersburg", "unchecked"]
+  },
+  {
+    country: "Belarus",
+    city1: ["Minsk", "unchecked"],
+    city2: ["Brest", "unchecked"],
+    city3: ["Vitebsk", "unchecked"]
+  },
+  {
+    country: "USA",
+    city1: ["New York", "unchecked"],
+    city2: ["Washington", "unchecked"],
+    city3: ["Chicago", "unchecked"]
+  }
 ];
+
 let flagName = 0,
   flagPrice = 0,
   sorteredProducts = [];
@@ -120,6 +137,7 @@ const filterHandler = () => {
     }
   });
 };
+
 filterHandler();
 
 function clearParam() {
@@ -129,14 +147,45 @@ function clearParam() {
 
 function sorted(way, target, array) {
   if (way === "down") {
-    renderItems(array);
     target.removeClass("up");
     target.addClass("down");
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(array));
+      }, 300);
+    });
   } else if (way === "up") {
-    renderItems(sorteredProducts);
     target.removeClass("down");
     target.addClass("up");
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(sorteredProducts));
+      }, 300);
+    });
   }
+}
+
+function formatPrice(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+    decimalCount = Math.abs(decimalCount);
+    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+    const negativeSign = amount < 0 ? "-" : "";
+
+    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+    let j = (i.length > 3) ? i.length % 3 : 0;
+
+    return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+ };
+
+function priceHandler(){
+  $("#product-price").blur(function() {
+    if(numberValidation(+$("#product-price" ).val(), "#product-price", "#price-error")) {
+      $("#product-price" ).val("$" + formatPrice(+$("#product-price" ).val()))
+      return +$("#product-price" );
+    } else {
+      $("#product-price" ).val()
+    }
+  });
 }
 
 let modalDelete = $(".modal-window--delete"),
@@ -169,7 +218,11 @@ $(document).click(e => {
 
     case target.hasClass("modal-window__close") || target.hasClass("overlay"):
       hideModal(modals);
-      currentItemId = null;
+      deliveryToCountriesDefault();
+      setTimeout(() => {
+        modalEdit.removeClass("active");
+        removeReadonly();
+      }, 300);
       break;
 
     case target.hasClass("product__buttons-edit"):
@@ -178,6 +231,7 @@ $(document).click(e => {
         .closest("tr")
         .find(".product__id")
         .html();
+      modalEdit.attr("data-modal", currentItemId);
       putData(currentItemId);
       showModal(modalEdit);
       break;
@@ -185,7 +239,6 @@ $(document).click(e => {
     case target.hasClass("modal__button-disagree") ||
       target.hasClass("modal__button-cancel"):
       hideModal(modals);
-      currentItemId = null;
       break;
 
     case target.hasClass("modal__button-agree"):
@@ -201,17 +254,21 @@ $(document).click(e => {
         .find(".product__id")
         .html();
       putData(currentItemId);
+      modalEdit.attr("data-modal", currentItemId);
+      modalEdit.addClass("active");
+      addReadonly();
       showModal(modalEdit);
       break;
 
     case target.hasClass("modal__button-save"):
       onSaveChanges(currentItemId, newProduct);
-      currentItemId = null;
       break;
 
     case target.hasClass("button-new"):
       modalEditDefault();
       showModal(modalEdit);
+      selectAllHandler();
+      deliveryToCountriesDefault();
       currentItemId = productsArray.length;
       newProduct = true;
       break;
@@ -230,7 +287,12 @@ function updateData() {
     item.id = +index;
   });
   localStorage.setItem("products", JSON.stringify(productsArray));
-  renderItems(productsArray);
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(renderItems(productsArray));
+    }, 500);
+  });
 }
 
 function putData(id) {
@@ -240,7 +302,7 @@ function putData(id) {
       modalEdit.find("#product-name").val(item["name"]);
       modalEdit.find("#product-email").val(item["email"]);
       modalEdit.find("#product-count").val(item["count"]);
-      modalEdit.find("#product-price").val("$" + item["price"]);
+      modalEdit.find("#product-price").val("$" + formatPrice(item["price"]));
       modalEdit.find("#select").html("");
       let countries = [];
 
@@ -250,20 +312,37 @@ function putData(id) {
         let compiled = _.template("<option><%= country %></option>");
         $("#select").append(compiled({ country }));
       }
-      setCities(countries[0]);
+      setCities(countries[0], id);
     }
   });
 }
 
-function setCities(c) {
-  let [filteredArray] = deliveryCountries.filter(
-    item => Object.keys(item) == c
-  );
-  let [currentCities] = Object.values(filteredArray);
+function setCities(c, id) {
+  let currentCities = [];
+  if (!id) {
+    deliveryCountries.filter(item => {
+      if (item.country == c) {
+        currentCities.push(item.city1[0]);
+        currentCities.push(item.city2[0]);
+        currentCities.push(item.city3[0]);
+      }
+    });
+  } else {
+    for (let i = 0; i < productsArray[id].delivery.length; i++) {
+      if (productsArray[id].delivery[i].hasOwnProperty(c)) {
+        for (let j = 0; j < productsArray[id].delivery[i][c].length; j++) {
+          currentCities.push(productsArray[id].delivery[i][c][j]);
+        }
+      }
+    }
+  }
+
+  $("#selectAll").prop("checked", false);
   $("#checkboxes-group").html("");
   $.each(currentCities, function(i, item) {
     let row = `<div class="form-check pt-1">
-										<input class="form-check-input" type="checkbox" value="" id="city${i + 1}">
+										<input class="form-check-input" type="checkbox" value="${item}" id="city${i +
+      1}">
 										<label class="form-check-label" for="city${i + 1}">
 										${item}
 										</label>
@@ -279,24 +358,27 @@ function onSaveChanges(id, newProduct) {
     changedCount = +modalEdit.find("#product-count").val(),
     changedPrice = 0;
 
-    if(newProduct){
-      changedPrice = +modalEdit.find("#product-price").val()
-    } else {
-      changedPrice = modalEdit
+  if (newProduct) {
+    changedPrice = +modalEdit.find("#product-price").val();
+  } else {
+    changedPrice = modalEdit
       .find("#product-price")
       .val()
       .split("")
-      .slice(1).join("");
-    }
+      .slice(1)
+      .join("");
+  }
 
   filteredArray = {};
 
   if (!newProduct) {
     [filteredArray] = productsArray.filter(item => +item.id === +id);
+
     if (filteredArray.name !== name) {
       changeArrayData("name", changedName, false);
       shouldRerender = true;
     }
+
     if (filteredArray.email !== changedEmail) {
       changeArrayData("email", changedEmail, false);
       shouldRerender = true;
@@ -316,12 +398,20 @@ function onSaveChanges(id, newProduct) {
     filteredArray["count"] = changedCount;
     filteredArray["price"] = +changedPrice;
 
-    $('#product-count').bind("paste",function(e) {
+    $("#product-count").bind("paste", function(e) {
       e.preventDefault();
     });
 
-    if(validation(filteredArray)) {
+    if (validation(filteredArray)) {
       hideModal(modals);
+
+      for (let i = 0; i < deliveryToCountries.length; i++) {
+        if (Object.values(deliveryToCountries[i])[0].length < 1) {
+          deliveryToCountries.splice(i, 1);
+        }
+      }
+
+      filteredArray["delivery"] = deliveryToCountries;
       productsArray.push(filteredArray);
       shouldRerender = true;
     } else {
@@ -331,9 +421,13 @@ function onSaveChanges(id, newProduct) {
   }
 
   if (shouldRerender) {
-    renderItems(productsArray);
     localStorage.setItem("products", JSON.stringify(productsArray));
     hideModal(modals);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(productsArray));
+      }, 500);
+    });
   } else false;
 
   function changeArrayData(key, value, number) {
@@ -358,30 +452,38 @@ function modalEditDefault() {
   setDefaultCounties();
 }
 
-function showModal(modal){
+function showModal(modal) {
   modal.fadeIn();
   overlay.addClass("active");
   body.css("overflow", "hidden");
 }
 
-function hideModal(modal){
+function hideModal(modal) {
   modal.fadeOut();
   overlay.removeClass("active");
   body.css("overflow", "auto");
+  modalEdit.attr("data-modal", null);
 }
 
-function setDefaultCounties(){
+function setDefaultCounties() {
   modalEdit.find("#select").html("");
   const countries = [];
-  deliveryCountries.map((item) => {
-      const [country] = Object.keys(item);
-      countries.push(country);
+  deliveryCountries.map(item => {
+    countries.push(item.country);
   });
   $.each(countries, function(i, item) {
     let compiled = _.template("<option><%= item %></option>");
     $("#select").append(compiled({ item }));
   });
   setCities(countries[0]);
+}
+
+function addReadonly() {
+  $(".readonly").attr("readonly", true);
+}
+
+function removeReadonly() {
+  $(".readonly").attr("readonly", false);
 }
 
 const searchHandler = () => {
@@ -401,7 +503,11 @@ const searchHandler = () => {
 
   $("#search").change(e => {
     if (!$(e.target).val()) {
-      renderItems(productsArray);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(renderItems(productsArray));
+        }, 500);
+      });
     }
   });
 };
@@ -415,13 +521,21 @@ function search() {
 
   if (!value) {
     showModalWarning(modalWarning, overlay, "Please enter product name");
-    renderItems(productsArray);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(productsArray));
+      }, 500);
+    });
   } else {
     const result = productsArray.filter(
       item => item.name.toLowerCase() === value.toLowerCase()
     );
     if (result.length) {
-      renderItems(result);
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(renderItems(result));
+        }, 500);
+      });
     } else {
       showModalWarning(
         modalWarning,
@@ -439,85 +553,144 @@ function showModalWarning(modalWarning, overlay, message) {
   overlay.addClass("active");
 }
 
+let deliveryToCountries = [];
+
+const deliveryToCountriesDefault = () => {
+  deliveryToCountries = [{ Russia: [] }, { Belarus: [] }, { USA: [] }];
+};
+
+deliveryToCountriesDefault();
+
 const selectHandler = () => {
   $("#select").change(e => {
     let target = $(e.target),
-      value = target.val();
-    setCities(value);
+      value = target.val(),
+      id = modalEdit.attr("data-modal");
+    setCities(value, id);
+    inputsHandler();
+  });
+};
+
+const inputsHandler = () => {
+  $("#checkboxes-group input").change(function(e) {
+    let countryName = $("#select option:selected").html();
+    for (let i = 0; i < deliveryToCountries.length; i++) {
+      if (deliveryToCountries[i].hasOwnProperty(countryName)) {
+        deliveryToCountries[i][countryName].push($(e.target).val());
+      }
+    }
+    if (
+      $("#checkboxes-group input:checked").length ===
+      $("#checkboxes-group input").length
+    ) {
+      $("#selectAll").prop("checked", true);
+    } else {
+      $("#selectAll").prop("checked", false);
+    }
   });
 };
 
 selectHandler();
 
-function validation(array){
-  // nameValidation(array.name) ?
-  //   emailValidation(array.email) ? numberValidation(array.count, "#product-count", "#count-error") ?
-  //   numberValidation(array.price, "#product-price", "#price-error") ? true : false;
-  if(nameValidation(array.name)){
-    if(emailValidation(array.email)){
-      if(numberValidation(array.count, "#product-count", "#count-error")){
-        if(numberValidation(array.price, "#product-price", "#price-error")){
-          return true;
-        } else return false;
-      } else return false;
-    } else return false;
-  } else return false;
+function selectAllHandler() {
+  $("#selectAll").change(function() {
+    let boxes = [];
+    let countryName = $("#select option:selected").html();
+    if (this.checked) {
+      for (let i = 0; i < deliveryToCountries.length; i++) {
+        boxes = $("#checkboxes-group input");
+        if (deliveryToCountries[i].hasOwnProperty(countryName)) {
+          for (j = 0; j < boxes.length; j++) {
+            deliveryToCountries[i][countryName].push(boxes[j].value);
+          }
+        }
+      }
+      $("#checkboxes-group input").prop("checked", true);
+      boxes = [];
+    } else {
+      for (let i = 0; i < deliveryToCountries.length; i++) {
+        if (deliveryToCountries[i].hasOwnProperty(countryName)) {
+          deliveryToCountries[i][countryName] = [];
+        }
+      }
+      $("#checkboxes-group input").prop("checked", false);
+    }
+  });
+
+  inputsHandler();
 }
 
-function nameValidation(name){
-  if(/^\s+$/.test(name) || name.length === 0){
+function validation(array) {
+  return nameValidation(array.name) &&
+    emailValidation(array.email) &&
+    numberValidation(array.count, "#product-count", "#count-error") &&
+    numberValidation(array.price, "#product-price", "#price-error")
+    ? setFormatedPrice(array.price)
+    : false;
+}
+
+function nameValidation(name) {
+  if (/^\s+$/.test(name) || name.length === 0) {
     generateError("#product-name", "#name-error", "Name can not be empty");
     return false;
-
-  } else if(name.trim().length > 0 && name.trim().length < 5){
+  } else if (name.trim().length > 0 && name.trim().length < 5) {
     generateError("#product-name", "#name-error", "Enter min 5 characters");
     return false;
-
-  } else if(name.trim().length > 15){
+  } else if (name.trim().length > 15) {
     generateError("#product-name", "#name-error", "Enter max 15 characters");
     return false;
-
   } else {
     deleteError("#product-name", "#name-error");
     return true;
   }
 }
 
-function emailValidation(email){
+function emailValidation(email) {
   const pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 
   if (email.length === 0) {
     generateError("#product-email", "#email-error", "Please enter email");
     return false;
-
   } else if (pattern.test(email)) {
     deleteError("#product-email", "#email-error");
     return true;
-
   } else {
     generateError("#product-email", "#email-error", "Please enter email");
     return false;
   }
 }
 
-function numberValidation(count, field, fieldError){
-  if(typeof count !== "number" || count < 0 || count === 0 || isNaN(count)){
+function numberValidation(count, field, fieldError) {
+  if (typeof count !== "number" || count < 0 || count === 0 || isNaN(count)) {
     generateError(field, fieldError, "Enter positive number");
     return false;
-
   } else {
     deleteError(field, fieldError);
     return true;
   }
 }
 
-function generateError(field, fieldError, message){
+function generateError(field, fieldError, message) {
   modalEdit.find(field).addClass("error");
-  modalEdit.find(fieldError).removeClass("d-none").html(message);
-  modalEdit.find(field).val("").focus();
+  modalEdit
+    .find(fieldError)
+    .removeClass("d-none")
+    .html(message);
+  modalEdit
+    .find(field)
+    .val("")
+    .focus();
 }
 
-function deleteError(field, fieldError){
+function deleteError(field, fieldError) {
   modalEdit.find(field).removeClass("error");
-  modalEdit.find(fieldError).addClass("d-none").html("");
+  modalEdit
+    .find(fieldError)
+    .addClass("d-none")
+    .html("");
+}
+
+function setFormatedPrice(price) {
+  $("#product-price").val("$" + formatPrice(price));
+  return true;
 }

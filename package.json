@@ -1,14 +1,14 @@
 {
-  "name": "optimizedhtml",
-  "version": "4.0.0",
+  "name": "jquery-table",
+  "version": "1.0.0",
   "description": "simple gulp config based on OptimizedHTML4",
-  "main": "index.js",
+  "main": "scripts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fix-code": "prettier-eslint --write 'src/**/*.{js,jsx}' ",
     "fix-styles": "prettier-stylelint --write '/**/*.{css,scss}' "
   },
-  "author": "Me",
+  "author": "Gorodetskaya-Mariia",
   "license": "none",
   "devDependencies": {
     "autoprefixer": "^9.5.1",

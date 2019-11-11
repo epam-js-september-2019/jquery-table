@@ -64,6 +64,7 @@ const filterHandler = () => {
     }
   });
 };
+
 filterHandler();
 
 function clearParam() {
@@ -73,12 +74,20 @@ function clearParam() {
 
 function sorted(way, target, array) {
   if (way === "down") {
-    renderItems(array);
     target.removeClass("up");
     target.addClass("down");
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(array));
+      }, 300);
+    });
   } else if (way === "up") {
-    renderItems(sorteredProducts);
     target.removeClass("down");
     target.addClass("up");
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(renderItems(sorteredProducts));
+      }, 300);
+    });
   }
 }

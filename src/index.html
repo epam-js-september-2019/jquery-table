@@ -17,8 +17,8 @@
     <div class="input-group input-group-lg">
       <input type="text" class="form-control form-control-info mr-2" id="search" placeholder="Enter product name...">
       <div class="input-group-append">
-        <button class="button-search btn btn-outline-info mr-2" type="button">Search</button>
-        <button class="button-new btn btn-outline-info" type="button">Add new</button>
+        <button class="[ button-search ] btn btn-outline-info mr-2" type="button">Search</button>
+        <button class="[ button-new ] btn btn-outline-info" type="button">Add new</button>
       </div>
     </div>
 
@@ -28,15 +28,15 @@
           <th scope="col" class="d-none">Id</th>
           <th scope="col" colspan="2" class="product__name" data-sort="name">
             Name
-            <span class="table-info__icon d-block ml-auto mr-3"></span>
+            <span class="[ table-info__icon ] d-block ml-auto mr-3"></span>
           </th>
-          <th scope="col" class="product__count text-right">
+          <th scope="col" class=" [ product__count ] text-right">
             Count
-            <span class="table-info__icon d-block ml-auto mr-3"></span>
+            <span class="[ table-info__icon ] d-block ml-auto mr-3"></span>
           </th>
           <th scope="col" class="product__price" data-sort="price">
             Price
-            <span class="table-info__icon d-block ml-auto mr-3"></span>
+            <span class="[ table-info__icon ] d-block ml-auto mr-3"></span>
           </th>
           <th scope="col">Actions</th>
         </tr>
@@ -46,40 +46,40 @@
     </table>
   </div>
 
-  <section class="modal-window modal-window--delete text-center">
+  <section class="[ modal-window modal-window--delete ] text-center">
     <h2 class="mb-2 pt-4 pb-3">Are you sure?</h2>
-    <p class="modal-window__message p-3">Are you sure you want to delete
+    <p class="[ modal-window__message ] p-3">Are you sure you want to delete
       <span>product name</span>?
     </p>
-    <button type="button" class="modal__button-agree btn btn-outline-info mr-4 mb-3">Yes</button>
-    <button type="button" class="modal__button-disagree btn btn-outline-danger mb-3">No</button>
+    <button type="button" class="[ modal__button-agree ] btn btn-outline-info mr-4 mb-3">Yes</button>
+    <button type="button" class="[ modal__button-disagree ] btn btn-outline-danger mb-3">No</button>
     <button class="modal-window__close" type="button">&#215;</button>
   </section>
 
-  <section class="modal-window modal-window--edit p-4" data-modal="">
+  <section class="[ modal-window modal-window--edit ] p-4" data-modal="">
     <h2 class="mb-2 p-3 pt-4">Product name</h2>
     <form>
       <div class="form-group col-6">
         <label for="name">Name:<sup>*</sup></label>
-        <input type="text" class="form-control" id="product-name" placeholder="Enter name of product">
+        <input type="text" class="form-control [ readonly ]" id="product-name" placeholder="Enter name of product">
         <small id="name-error" class="form-text text-danger d-none">Enter 5 to 15 characters name</small>
       </div>
       <div class="form-group col-6">
         <label for="email">Supplier email:<sup>*</sup></label>
-        <input type="text" class="form-control" id="product-email" placeholder="example@mail.com">
+        <input type="text" class="form-control [ readonly ]" id="product-email" placeholder="example@mail.com">
         <small id="email-error" class="form-text text-danger d-none">Please enter email</small>
       </div>
       <div class="form-group col-3">
         <label for="count">Count:<sup>*</sup></label>
-        <input type="text" class="form-control" id="product-count" placeholder="5">
+        <input type="text" class="form-control [ readonly ]" id="product-count" placeholder="5">
         <small id="count-error" class="form-text text-danger d-none">Please enter positive number</small>
       </div>
       <div class="form-group col-6">
-        <label for="count">Price:<sup>*</sup></label>
-        <input type="text" class="form-control" id="product-price" placeholder="&#36;1234.56">
+        <label for="product-price">Price:<sup>*</sup></label>
+        <input type="text" class="form-control [ readonly ]" id="product-price" placeholder="&#36;1234.56">
         <small id="price-error" class="form-text text-danger d-none">Please enter positive number</small>
       </div>
-      <div class="form-group d-flex">
+      <div class="form-group d-flex [ form-group-delivery ]">
         <div class="form-group col-5">
           <label class="mb-1" for="select">Delivery:</label>
           <select class="form-control" id="select"></select>
@@ -95,14 +95,14 @@
         </div>
       </div>
     </form>
-    <button type="button" class="modal__button-save btn btn-outline-info mr-5 mb-3">Save changes</button>
-    <button type="button" class="modal__button-cancel btn btn-outline-danger mb-3">Cancel</button>
+    <button type="button" class="[ modal__button-save ] btn btn-outline-info mr-5 mb-3">Save changes</button>
+    <button type="button" class="[ modal__button-cancel ] btn btn-outline-danger mb-3">Cancel</button>
     <button class="modal-window__close" type="button">&#215;</button>
   </section>
 
-  <section class="modal-window modal-window--warning text-center">
+  <section class="[ modal-window modal-window--warning ] text-center">
     <h2 class="mb-2 pt-4 pb-3">Warning!</h2>
-    <p class="modal-window__message p-3">Please enter
+    <p class="[ modal-window__message ] p-3">Please enter
       product name
     </p>
     <button class="modal-window__close" type="button">&#215;</button>
