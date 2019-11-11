@@ -1,5 +1,5 @@
-## Functions
+In the project directory, you can run:
 
-## Deadline 07.11 EOD
+## npm install
 
-#### Description of the task can be found in uploaded pdf
+## gulp
