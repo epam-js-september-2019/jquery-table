@@ -1,0 +1,25 @@
+.table-info__icon {
+	position: absolute;
+	content: "";
+	top: 17px;
+	right: 10px;
+	width: 0;
+  height: 0;
+	cursor: pointer;
+	opacity: 0;
+	transition: transform, opacity, 0.3s;
+}
+
+.down > .table-info__icon {
+	opacity: 1;
+	border: 8px solid transparent;
+	border-top: 10px solid #212529;
+}
+
+.up > .table-info__icon {
+	top: 9px;
+	border: 8px solid transparent;
+	border-top: 10px solid #212529;
+	opacity: 1;
+	transform: rotate(180deg);
+}
