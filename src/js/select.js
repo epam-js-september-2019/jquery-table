@@ -1,5 +1,3 @@
-let deliveryToCountries = [];
-
 const deliveryToCountriesDefault = () => {
   deliveryToCountries = [{ Russia: [] }, { Belarus: [] }, { USA: [] }];
 };

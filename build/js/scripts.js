@@ -219,6 +219,7 @@ $(document).click(e => {
     case target.hasClass("modal-window__close") || target.hasClass("overlay"):
       hideModal(modals);
       deliveryToCountriesDefault();
+      $(".form-group-delivery").children().removeClass("d-none");
       setTimeout(() => {
         modalEdit.removeClass("active");
         removeReadonly();
@@ -426,10 +427,10 @@ function onSaveChanges(id, newProduct) {
     if (validation(filteredArray)) {
       hideModal(modals);
       let array = [];
-      for (let i = 0; i < deliveryToCountries.length; i++) {
+       for (let i = 0; i < deliveryToCountries.length; i++) {
         let c = Object.values(deliveryToCountries[i])[0];
         if (c.length > 0) {
-          array.push(deliveryToCountries[i][c]);
+          array.push(deliveryToCountries[i]);
         }
       }
       deliveryToCountries = array;
@@ -578,8 +579,6 @@ function showModalWarning(modalWarning, overlay, message) {
   modalWarning.fadeIn();
   overlay.addClass("active");
 }
-
-let deliveryToCountries = [];
 
 const deliveryToCountriesDefault = () => {
   deliveryToCountries = [{ Russia: [] }, { Belarus: [] }, { USA: [] }];
