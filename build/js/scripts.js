@@ -238,6 +238,7 @@ $(document).click(e => {
 
     case target.hasClass("modal__button-disagree") ||
       target.hasClass("modal__button-cancel"):
+      deliveryToCountriesDefault();
       hideModal(modals);
       break;
 
@@ -267,8 +268,9 @@ $(document).click(e => {
     case target.hasClass("button-new"):
       modalEditDefault();
       showModal(modalEdit);
-      selectAllHandler();
       deliveryToCountriesDefault();
+      selectAllHandler();
+      inputsHandler();
       currentItemId = productsArray.length;
       newProduct = true;
       break;
@@ -276,7 +278,10 @@ $(document).click(e => {
 });
 
 function deleteData(id, callback) {
-  productsArray.splice(id, 1);
+  let productsArray1 = productsArray.filter(function(item) {
+    return item.id != id;
+  });
+  productsArray = productsArray1;
   setTimeout(() => {
     callback();
   }, 500);
@@ -305,14 +310,19 @@ function putData(id) {
       modalEdit.find("#product-price").val("$" + formatPrice(item["price"]));
       modalEdit.find("#select").html("");
       let countries = [];
-
-      for (var item in productsArray[id].delivery) {
-        let [country] = Object.keys(productsArray[id].delivery[item]);
-        countries.push(country);
-        let compiled = _.template("<option><%= country %></option>");
-        $("#select").append(compiled({ country }));
+      const delivery = $(".form-group-delivery").children();
+      if (productsArray[id].delivery.length) {
+        delivery.removeClass("d-none");
+        for (var item in productsArray[id].delivery) {
+          let [country] = Object.keys(productsArray[id].delivery[item]);
+          countries.push(country);
+          let compiled = _.template("<option><%= country %></option>");
+          $("#select").append(compiled({ country }));
+        }
+        setCities(countries[0], id);
+      } else {
+        delivery.addClass("d-none");
       }
-      setCities(countries[0], id);
     }
   });
 }
@@ -364,32 +374,43 @@ function onSaveChanges(id, newProduct) {
     changedPrice = modalEdit
       .find("#product-price")
       .val()
-      .split("")
-      .slice(1)
-      .join("");
+      .replace(/,/g, "")
+      .split("");
+    if (changedPrice[0] === "$") {
+      changedPrice = changedPrice.slice(1).join("");
+    } else {
+      changedPrice = changedPrice.join("");
+    }
   }
 
   filteredArray = {};
 
   if (!newProduct) {
     [filteredArray] = productsArray.filter(item => +item.id === +id);
-
-    if (filteredArray.name !== name) {
-      changeArrayData("name", changedName, false);
-      shouldRerender = true;
+    if (filteredArray.name !== changedName) {
+      if (nameValidation(changedName)) {
+        changeArrayData("name", changedName, false);
+        shouldRerender = true;
+      } else return false;
     }
 
     if (filteredArray.email !== changedEmail) {
-      changeArrayData("email", changedEmail, false);
-      shouldRerender = true;
+      if (emailValidation(changedEmail)) {
+        changeArrayData("email", changedEmail, false);
+        shouldRerender = true;
+      } else return false;
     }
     if (filteredArray.count !== changedCount) {
-      changeArrayData("count", changedCount, true);
-      shouldRerender = true;
+      if (numberValidation(changedCount, "#product-count", "#count-error")) {
+        changeArrayData("count", changedCount, true);
+        shouldRerender = true;
+      } else return false;
     }
     if (filteredArray.price !== +changedPrice) {
-      changeArrayData("price", changedPrice, true);
-      shouldRerender = true;
+      if (numberValidation(+changedPrice, "#product-price", "#price-error")) {
+        changeArrayData("price", +changedPrice, true);
+        shouldRerender = true;
+      } else return false;
     }
   } else {
     filteredArray["id"] = +id;
@@ -404,13 +425,14 @@ function onSaveChanges(id, newProduct) {
 
     if (validation(filteredArray)) {
       hideModal(modals);
-
+      let array = [];
       for (let i = 0; i < deliveryToCountries.length; i++) {
-        if (Object.values(deliveryToCountries[i])[0].length < 1) {
-          deliveryToCountries.splice(i, 1);
+        let c = Object.values(deliveryToCountries[i])[0];
+        if (c.length > 0) {
+          array.push(deliveryToCountries[i][c]);
         }
       }
-
+      deliveryToCountries = array;
       filteredArray["delivery"] = deliveryToCountries;
       productsArray.push(filteredArray);
       shouldRerender = true;
@@ -419,7 +441,6 @@ function onSaveChanges(id, newProduct) {
       return false;
     }
   }
-
   if (shouldRerender) {
     localStorage.setItem("products", JSON.stringify(productsArray));
     hideModal(modals);
@@ -428,7 +449,12 @@ function onSaveChanges(id, newProduct) {
         resolve(renderItems(productsArray));
       }, 500);
     });
-  } else false;
+  } else {
+    hideModal(modalEdit);
+  }
+
+  deleteError("#product-name", "#name-error");
+  deleteError("#product-email", "#email-error");
 
   function changeArrayData(key, value, number) {
     productsArray.map(item => {
@@ -594,19 +620,21 @@ selectHandler();
 
 function selectAllHandler() {
   $("#selectAll").change(function() {
-    let boxes = [];
+    let boxes = $("#checkboxes-group input");
     let countryName = $("#select option:selected").html();
+
     if (this.checked) {
+      $("#checkboxes-group input").prop("checked", true);
       for (let i = 0; i < deliveryToCountries.length; i++) {
-        boxes = $("#checkboxes-group input");
-        if (deliveryToCountries[i].hasOwnProperty(countryName)) {
-          for (j = 0; j < boxes.length; j++) {
+        if (
+          deliveryToCountries[i].hasOwnProperty(countryName) &&
+          deliveryToCountries[i][countryName].length < 3
+        ) {
+          for (let j = 0; j < boxes.length; j++) {
             deliveryToCountries[i][countryName].push(boxes[j].value);
           }
         }
       }
-      $("#checkboxes-group input").prop("checked", true);
-      boxes = [];
     } else {
       for (let i = 0; i < deliveryToCountries.length; i++) {
         if (deliveryToCountries[i].hasOwnProperty(countryName)) {
@@ -616,8 +644,6 @@ function selectAllHandler() {
       $("#checkboxes-group input").prop("checked", false);
     }
   });
-
-  inputsHandler();
 }
 
 function validation(array) {
