@@ -1,0 +1,54 @@
+body{
+    background: Skyblue;
+    font-size: 18px;
+}
+.container {
+    margin-top: 32px;
+    width: 800px;
+    height: 600px;
+}
+button{
+    height: 32px;
+    width:124px;  
+}
+input{
+    height: 32px;    
+}
+p{
+    margin: 0;
+}
+.hideMail {
+    display:none;
+}
+.addWindow, .modalDelete, .editWindow, .productInfo, .addModalBack, .infoModalBack, .editModalBack, .deleteModalBack{
+    border-radius: 10px;
+    position: absolute;
+    display: none;
+    top: 24%;
+    right: 38%;
+    width: 320px;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);   
+}
+.modalDelete{
+    text-align: center;
+}
+.addWindow  p{
+    text-align: left;
+}
+small{
+    margin-top: 0px;
+    margin-left: 4px;
+    color: red;
+}
+.addModalBack, .infoModalBack, .editModalBack, .deleteModalBack {
+    width: 100%; 
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;  
+    background-color: rgba(0, 0, 0, 0.616);  
+}
