@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>JQuery</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="main.js"></script>
+    </head>
+    <body>
+    
+
+    <div class="container">
+        
+        <div class="d-flex">
+        
+            <div class="p-2">
+                <input type="search" class="form-control inputSearch" placeholder = "Enter product name...">
+            </div>
+            
+            <div class="p-2">
+                <button type="button" class="btn btn-primary sBut" >Search</button>
+            </div>
+            
+            <div class="ml-auto p-2">
+                <button type="button" class="btn btn-primary open ">Add</button>
+            </div>
+            
+            
+        </div>
+        <table id="table" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Count</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        <div class="addModalBack">
+            <div  class="addWindow">
+                <h2>Add product</h2>
+                <p>Name:</p>
+                <input type="text" class="form-control productName" placeholder="Product name*"><br>
+                <p>Supplier mail:</p>
+                <input type="text" class="form-control eMail" placeholder="yourmail@mail.com*"><br>
+                <p>Count:</p>
+                <input type="text" class="form-control productCount" placeholder="Count*"><br>
+                <p>Price:</p>
+                <input type="text" class="form-control productPrice" placeholder="Price*"><br> 
+                <div class="d-flex justify-content-around">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success send">Save</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editModalBack">
+            <div class="editWindow">
+                <p><b>Edit product</b></p>
+                <form action="">
+                    <p>Name:</p>
+                    <input type="text" class="form-control productNameEdit" placeholder="Наимен товара*"><br>
+                    <p>Supplier mail:</p>
+                    <input type="text" class="form-control producteMailEdit" placeholder="yourmail@mail.com"><br>
+                    <p>Count:</p>
+                    <input type="text" class="form-control productCountEdit" placeholder="Count"><br>
+                    <p>Price:</p>
+                    <input type="text" class="form-control productPriceEdit" placeholder="Price*"><br> 
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-success sendEdit">Save changes</button>
+                        <button type="button" class="btn btn-danger cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="infoModalBack">
+            <div class ="productInfo">
+                <p><b>Product info</b></p>
+                <form action="">
+                    <p>Name:</p>
+                    <input type="text" class="form-control productNameShow"  placeholder="Наимен товара*" readonly><br>
+                    <p>Count:</p>
+                    <input type="text" class="form-control productCountShow"  placeholder="Наимен товара*" readonly><br>
+                    <p>Price:</p>
+                    <input type="text" class="form-control productPriceShow"  placeholder="Наимен товара*" readonly><br>
+                    <p>Mail:</p>
+                    <input type="text" class="form-control productMailShow"  placeholder="Наимен товара*" readonly><br>
+                    <div class="d-flex justify-content-around">    
+                        <button type="button" class="btn btn-danger cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="deleteModalBack">
+            <div class="modalDelete">
+               <p><b>Are you sure?</b></p>
+               <br>
+                <form action="">
+                    <div class="d-flex justify-content-around">
+                        <button type="button" class="btn btn-success confirm">Yes</button>
+                        <button type="button" class="btn btn-danger cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+    </body>
+</html>
