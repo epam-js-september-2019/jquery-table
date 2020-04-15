@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery-table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap&subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="d-flex flex-column justify-content-center container product-list mt-5">
+        <h1 class="visually-hidden">Список продуктов</h1>
+        <div class="d-flex container form-group product-list__form p-0 col-10 mx-auto">
+            <input class="col-4 form-control product-list__search" type="search" aria-label="Enter product name" id="search">
+            <button class="col-2 product-list__search-button btn btn-primary ml-2" type="button" id="search-button">Search</button>
+            <button class="col-2 product-list__add-button btn btn-success ml-auto" type="button">Add new</button>
+        </div>
+        <table class="table table-bordered product-list__table col-10 mx-auto">
+            <thead class="thead-light">
+                <tr class="flex-fill">
+                    <th>
+                        <a class="header-link" href="#" id="name-link">Name</a>
+                        <span class="float-right" id="sort-symbol">↓</span>
+                    </th>
+                    <th class="flex-fill">
+                        <a href="#" class="price-link">Price</a>
+                        <span class="float-right" id="sort-symbol-price">↓</span>
+                    </th>
+                    <th class="flex-fill">Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </section>
+    <div class="info-container">
+    </div>
+    <div class="popup">
+        <p class="popup__header">Are you sure?</p>
+        <p class="popup__text">Are you sure want to delete <span id="product"></span>?</p>
+        <div class="popup__button-container">
+            <button class="popup__button popup__button--yes" type="button">Yes</button>
+            <button class="popup__button popup__button--no" type="button">No</button>
+        </div>
+    </div>
+    <form class="product-form col-5 my-5 flex-column position-absolute container border border-primary px-5 py-4 shadow-lg bg-white">
+        <h3 class="product-form__title border-bottom border-primary">Product Name</h3>
+        <label class="py-1 w-50 m-0" for="name">Name:*
+            <input class="form-control form-required" type="text" id="name">
+        </label>
+        <p class="warning-message warning-message--name m-0">Name length 5 to 15 characters</p>
+        <label class="py-1 w-50 m-0" for="email">Email:*
+            <input class="form-control form-required" type="text" id="email">
+        </label>
+        <p class="warning-message warning-message--email m-0">Invalid email form</p>
+        <label class="py-1 w-25 m-0" for="count">Count:*
+            <input class="form-control form-required" type="text" id="count">
+        </label>
+        <p class="warning-message warning-message--count m-0">Invalid count</p>
+        <label class="py-1 w-50 m-0" for="price">Price:*
+            <input class="form-control form-required" type="text" id="price">
+        </label>
+        <p class="warning-message warning-message--price m-0">Invalid price</p>
+        <label class="w-25 mr-5">Delivery</label>
+        <div class="m-0 d-flex delivery">
+            <select class="form-control mr-5 w-25" id="country">
+                <option value="Russia" selected>Russia</option>
+                <option value="Belarus">Belarus</option>
+                <option value="USA">USA</option>
+            </select>
+            <div class="form-check d-flex flex-column flex-shrink-1 border pl-5 py-2 w-50">
+                <label class="form-check-label product-form__select-all" for="selectAll">
+                    <input class="form-check-input" type="checkbox" value="" id="selectAll">Select All
+                </label>
+                <div class="d-flex flex-column" id="russia">
+                    <label class="form-check-label" for="saratov">
+                        <input class="form-check-input" type="checkbox" value="" id="saratov" data-city="Saratov" data="Russia">
+                        Saratov
+                    </label>
+                    <label class="form-check-label" for="moscow">
+                        <input class="form-check-input" type="checkbox" value="" id="moscow" data-city="Moscow" data="Russia">
+                        Moscow
+                    </label>
+                    <label class="form-check-label" for="petersburg">
+                        <input class="form-check-input" type="checkbox" value="" id="petersburg" data-city="St. Petersburg" data="Russia">
+                        St. Petersburg
+                    </label>
+                </div>
+                <div class="flex-column d-none" id="usa">
+                    <label class="form-check-label" for="los-angeles" data="USA">
+                        <input class="form-check-input" type="checkbox" value=""  id="los-angeles" data-city="Los Angeles" data="USA">
+                        Los Angeles
+                    </label>
+                    <label class="form-check-label" for="new-york">
+                        <input class="form-check-input" type="checkbox" value="" id='new-york' data-city="New York" data="USA">
+                        New York
+                    </label>
+                    <label class="form-check-label" for="ostin">
+                        <input class="form-check-input" type="checkbox" value="" id="ostin" data-city="Ostin" data="USA">
+                        Ostin
+                    </label>
+                </div>
+                <div class="flex-column d-none" id="belarus">
+                    <label class="form-check-label" for="mogilev" id="belarus">
+                        <input class="form-check-input" type="checkbox" value="" id="mogilev" data-city="Mogilev" data="Belarus">
+                        Mogilev
+                    </label>
+                    <label class="form-check-label" for="minsk">
+                        <input class="form-check-input" type="checkbox" value="" id="minsk" data-city="Minsk" data="Belarus">
+                        Minsk
+                    </label>
+                    <label class="form-check-label" for="bobruisk">
+                        <input class="form-check-input" type="checkbox" value="" id="bobruisk" data-city="Bobruisk" data="Belarus">
+                        Bobruisk
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="product-form__save btn btn-success mr-4" type="button">Save changes</button>
+            <button class="product-form__cancel btn btn-primary" type="button">Cancel</button>
+        </div>
+    </form>
+    <div class="overlay"></div>
+    <script src="script/jquery.js"></script>
+    <script src="script/util.js"></script>
+    <script src="script/select.js"></script>
+    <script src="script/form.js"></script>
+    <script src="script/product.js"></script>
+    <script src="script/popup.js"></script>
+    <script src="script/filter.js"></script>
+    <script src="script/sort.js"></script>
+    <script src="script/formActivate.js"></script>
+</body>
+</html>

@@ -1,5 +1,8 @@
-## Functions
+## deploy link
+    
+## https://koshcheevpa.github.io/jquery-table/
 
-## Deadline 07.11 EOD
 
-#### Description of the task can be found in uploaded pdf
+#### Код разделен на отдельные js модули, каждый из которых выполняет свою функцию.
+#### Связь между модулями осущеcтвляется путем передачи нужных элементов в объект window.%filename% = {...}.
+#### В задании в большей степени был использован функционал предоставляемый jquery (до этого мне незнакомый :) )

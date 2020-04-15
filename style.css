@@ -1,0 +1,131 @@
+.visually-hidden {
+    display: none;
+}
+body {
+    font-family: Roboto;
+    font-weight: 400;
+}
+
+
+.popup {
+    display: none;
+    position: absolute;
+    margin: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 450px;
+    padding: 25px;
+    top: calc(50% - 125px);
+    left: calc(50% - 164px);
+    font-family: Roboto;
+    background-color: white;
+    border: 1px solid cornflowerblue;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.popup__header {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 700;
+}
+
+.popup__text {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+}
+
+.popup__button {
+    color: white;
+    font-weight: 700;
+    padding: 8px 30px;
+    margin: 10px;
+    border: none;
+}
+
+.popup__button--yes {
+    background-color: #28a745;
+}
+
+.popup__button--yes:hover {
+    box-shadow: 0 0 7px 2px #28a705;
+}
+
+.popup__button--no {
+    background-color: #dc3545;
+}
+
+.popup__button--no:hover {
+    box-shadow: 0 0 7px 2px #dc3505;
+}
+
+.popup--show {
+    display: flex;
+}
+
+.popup--hidden {
+    display: none;
+}
+
+.product-form__select-all:after {
+    content: '';
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 1px;
+    right:20px;
+    background-color: lightgray;
+}
+
+.popup__header {
+    width: 100%;
+    padding-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid cornflowerblue;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #000;
+    opacity: .3;
+    z-index: 5;
+}
+
+.product-form {
+    display: none;
+    top: calc(50% - 356px);
+    left: calc(50% - 286px);
+    z-index: 15;
+}
+
+.product-info {
+    display: none;
+    top: calc(50% - 125px);
+    left: calc(50% - 170px);
+    z-index: 15;
+}
+
+.overlay--show {
+    display: block;
+}
+
+.product-form--show,
+.product-info--show{
+    display: flex;
+}
+
+.warning-message {
+    display: none;
+    color: red;
+}
+
+.button-edit,
+.button-delete {
+    width: 47%;
+}
